@@ -1,6 +1,7 @@
 package com.vit.mychat.di;
 
-import com.vit.vitapp.VitApplication;
+
+import com.vit.mychat.MyChatApplication;
 
 import javax.inject.Singleton;
 
@@ -11,12 +12,9 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Singleton
 @Component(modules = {
         AndroidSupportInjectionModule.class,
-        AppModule.class,
-        NetworkModule.class,
-        RepositoryModule.class,
-        DatabaseModule.class})
-public interface AppComponent extends AndroidInjector<VitApplication> {
+        AppModule.class})
+public interface AppComponent extends AndroidInjector<MyChatApplication> {
     @Component.Builder
-    abstract class Builder extends AndroidInjector.Builder<VitApplication> {
+    abstract class Builder extends AndroidInjector.Builder<MyChatApplication> {
     }
 }
