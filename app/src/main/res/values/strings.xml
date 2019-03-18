@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">My Chat</string>
+
+    <string name="chat">Chat</string>
+    <string name="friends">Friends</string>
+    <string name="bot">Bot</string>
+
 </resources>

@@ -20,6 +20,8 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         setContentView(getLayoutId());
         ButterKnife.bind(this);
 
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
         initView();
 
     }
