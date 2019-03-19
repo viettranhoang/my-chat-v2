@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/image_avatar"
-            android:layout_width="@dimen/_36dp"
-            android:layout_height="@dimen/_36dp"
+            android:layout_width="@dimen/toolbar_image_avatar_size"
+            android:layout_height="@dimen/toolbar_image_avatar_size"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_5dp" />
@@ -23,59 +23,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/padding"
+            android:layout_marginLeft="@dimen/window_margin"
             android:layout_toRightOf="@id/image_avatar"
             android:text="@string/chat"
             android:textSize="@dimen/_22sp"
+            android:textColor="?android:textColorPrimary"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/image_camera"
-            android:layout_width="@dimen/_34dp"
-            android:layout_height="@dimen/_34dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_18dp"
+            style="@style/ToolbarMenuItem"
             android:layout_toLeftOf="@id/image_create"
-            android:background="@drawable/shape_oval_gray"
-            android:padding="@dimen/_7dp"
-            android:src="@drawable/ic_camera_black"
-            android:visibility="invisible" />
+            android:src="@drawable/ic_camera_black"/>
 
         <ImageView
             android:id="@+id/image_create"
-            android:layout_width="@dimen/_34dp"
-            android:layout_height="@dimen/_34dp"
+            style="@style/ToolbarMenuItem"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding"
-            android:background="@drawable/shape_oval_gray"
-            android:padding="@dimen/_7dp"
-            android:src="@drawable/ic_create_black"
-            android:visibility="invisible" />
+            android:src="@drawable/ic_create_black"/>
 
         <ImageView
             android:id="@+id/image_contacts"
-            android:layout_width="@dimen/_34dp"
-            android:layout_height="@dimen/_34dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding"
+            style="@style/ToolbarMenuItem"
             android:layout_toLeftOf="@id/image_add_friends"
-            android:background="@drawable/shape_oval_gray"
-            android:padding="@dimen/_7dp"
-            android:src="@drawable/ic_contacts"
-            android:visibility="invisible" />
+            android:src="@drawable/ic_contacts"/>
 
         <ImageView
             android:id="@+id/image_add_friends"
-            android:layout_width="@dimen/_34dp"
-            android:layout_height="@dimen/_34dp"
+            style="@style/ToolbarMenuItem"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_18dp"
-            android:background="@drawable/shape_oval_gray"
-            android:padding="@dimen/_7dp"
-            android:src="@drawable/ic_add_friends"
-            android:visibility="invisible" />
+            android:src="@drawable/ic_add_friends" />
 
     </RelativeLayout>
 

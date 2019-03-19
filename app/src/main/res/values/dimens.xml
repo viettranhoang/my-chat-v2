@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="padding">@dimen/_20dp</dimen>
+    <dimen name="window_margin">@dimen/_20dp</dimen>
+    
+    <dimen name="toolbar_image_item_size">@dimen/_34dp</dimen>
+    <dimen name="toolbar_image_item_padding">@dimen/_7dp</dimen>
+    <dimen name="toolbar_image_avatar_size">@dimen/_36dp</dimen>
+
 
 </resources>
