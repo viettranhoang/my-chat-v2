@@ -13,6 +13,7 @@ import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.friends.FriendsFragment;
+import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.util.GlideApp;
 
 import butterknife.BindView;
@@ -50,6 +51,8 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         initToolbar();
         initBottomNavigationView();
+
+
     }
 
     private void initBottomNavigationView() {
@@ -98,6 +101,8 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.image_avatar)
     void onClickAvatar() {
         Toast.makeText(this, "avatar", Toast.LENGTH_SHORT).show();
+
+        ProfileActivity.moveProfileActivity(this);
     }
 
     @OnClick(R.id.image_create)
