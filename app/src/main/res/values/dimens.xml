@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="window_margin">@dimen/_20dp</dimen>
+    <dimen name="window_margin">@dimen/_18dp</dimen>
     <dimen name="window_text_size">@dimen/_12sp</dimen>
     
     <dimen name="toolbar_image_item_size">@dimen/_34dp</dimen>
     <dimen name="toolbar_image_item_padding">@dimen/_7dp</dimen>
     <dimen name="toolbar_image_avatar_size">@dimen/_36dp</dimen>
-    <dimen name="toolbar_text_size">@dimen/_22dp</dimen>
+
+
+    //profile activity
+    <dimen name="profile_image_cover_height">@dimen/_230dp</dimen>
+    <dimen name="profile_image_avatar_size">@dimen/_180dp</dimen>
+    <dimen name="profile_image_avatar_margin_top">@dimen/_140dp</dimen>
+    <dimen name="profile_image_avatar_padding">@dimen/_4dp</dimen>
+    <dimen name="profile_image_item_size">@dimen/_46dp</dimen>
+    <dimen name="profile_margin">@dimen/_28dp</dimen>
 
 
 </resources>

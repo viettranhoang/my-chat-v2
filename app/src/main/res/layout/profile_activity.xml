@@ -1,146 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/window_margin">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/image_background"
             android:layout_width="match_parent"
-            android:layout_height="720dp">
+            android:layout_height="@dimen/profile_image_cover_height"
+            android:layout_marginLeft="@dimen/window_margin"
+            android:layout_marginRight="@dimen/window_margin" />
 
-            <ImageView
-                android:id="@+id/image_background"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:scaleType="centerCrop" />
+        <ImageView
+            android:id="@+id/image_avatar"
+            android:layout_width="@dimen/profile_image_avatar_size"
+            android:layout_height="@dimen/profile_image_avatar_size"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/profile_image_avatar_margin_top"
+            android:background="@drawable/shape_oval_while"
+            android:padding="@dimen/profile_image_avatar_padding" />
 
-            <ImageView
-                android:id="@+id/image_avatar"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="140dp"
-                android:background="@drawable/round_border_while"
-                android:padding="6dp" />
+        <TextView
+            android:id="@+id/text_name"
+            style="@style/TextHeadline1"
+            android:layout_below="@id/image_avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_38dp"
+            android:text="Vũ Thị Hồng Hạnh" />
 
+        <TextView
+            android:id="@+id/text_status"
+            style="@style/TextContent"
+            android:layout_below="@id/text_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_24dp"
+            android:text="Ngon, bổ, rẻ, ăn tạm" />
+
+        <LinearLayout
+            android:id="@+id/linear_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_status"
+            android:layout_marginTop="@dimen/_44dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/window_margin"
+            android:weightSum="3">
 
             <LinearLayout
-                android:id="@+id/linear_bottom"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="30dp"
-                android:weightSum="4">
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-                <RelativeLayout
-                    android:id="@+id/relative_add_person"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/ic_add_person"
+                    style="@style/ProfileImageItem"
+                    android:padding="@dimen/_9dp"
+                    android:src="@drawable/ic_add_friends" />
 
-                    <ImageView
-                        android:id="@+id/ic_add_person"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/round_border_while"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_person_add" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ic_add_person"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:text="Thêm bạn bè" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/relative_followr"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/ic_follow_black"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/round_border_while"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_follow_black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ic_follow_black"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:text="Thêm bạn bè" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/relative_messenger"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/ic_tinnhan"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/round_border_while"
-                        android:padding="9dp"
-                        android:src="@drawable/tinnhan" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ic_tinnhan"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:text="Thêm bạn bè" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/relative_more"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/ic_more"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/round_border_while"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_more" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ic_more"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:text="Thêm bạn bè" />
-                </RelativeLayout>
-
+                <TextView
+                    style="@style/TextItem"
+                    android:text="Thêm bạn bè" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/ic_tinnhan"
+                    style="@style/ProfileImageItem"
+                    android:padding="@dimen/_12dp"
+                    android:src="@drawable/ic_mess" />
 
+                <TextView
+                    style="@style/TextItem"
+                    android:text="Nhắn tin" />
+            </LinearLayout>
 
-    </ScrollView>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-</RelativeLayout>
+                <ImageView
+                    android:id="@+id/ic_follow_black"
+                    style="@style/ProfileImageItem"
+                    android:padding="@dimen/_9dp"
+                    android:src="@drawable/ic_call_black" />
+
+                <TextView
+                    style="@style/TextItem"
+                    android:text="Gọi" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

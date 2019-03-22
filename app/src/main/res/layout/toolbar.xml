@@ -20,33 +20,29 @@
 
         <TextView
             android:id="@+id/text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TextHeadline2"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/window_margin"
             android:layout_toRightOf="@id/image_avatar"
-            android:text="@string/chat"
-            android:textSize="@dimen/toolbar_text_size"
-            android:textColor="?android:textColorPrimary"
-            android:textStyle="bold" />
+            android:text="@string/chat" />
 
         <ImageView
             android:id="@+id/image_camera"
             style="@style/ToolbarMenuItem"
             android:layout_toLeftOf="@id/image_create"
-            android:src="@drawable/ic_camera_black"/>
+            android:src="@drawable/ic_camera_black" />
 
         <ImageView
             android:id="@+id/image_create"
             style="@style/ToolbarMenuItem"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_create_black"/>
+            android:src="@drawable/ic_create_black" />
 
         <ImageView
             android:id="@+id/image_contacts"
             style="@style/ToolbarMenuItem"
             android:layout_toLeftOf="@id/image_add_friends"
-            android:src="@drawable/ic_contacts"/>
+            android:src="@drawable/ic_contacts" />
 
         <ImageView
             android:id="@+id/image_add_friends"

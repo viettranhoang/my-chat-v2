@@ -7,7 +7,38 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimary">@color/black87</item>
+    </style>
+
+    <style name="TextHeadline1">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/_30sp</item>
+    </style>
+
+    <style name="TextHeadline2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/_24sp</item>
+    </style>
+
+    <style name="TextContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textSize">@dimen/_18sp</item>
+    </style>
+
+    <style name="TextItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:alpha">0.87</item>
+        <item name="android:textSize">@dimen/_14sp</item>
     </style>
     
     <style name="ToolbarMenuItem">
@@ -18,6 +49,14 @@
         <item name="android:padding">@dimen/toolbar_image_item_padding</item>
         <item name="android:visibility">invisible</item>
         <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="ProfileImageItem">
+        <item name="android:layout_width">@dimen/profile_image_item_size</item>
+        <item name="android:layout_height">@dimen/profile_image_item_size</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:background">@drawable/round_corner_gray</item>
+        <item name="android:layout_marginBottom">@dimen/_8dp</item>
     </style>
 
 </resources>
