@@ -15,7 +15,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?android:textColorPrimary</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/_30sp</item>
+        <item name="android:textSize">@dimen/text_heading_1</item>
     </style>
 
     <style name="TextHeadline2">
@@ -44,7 +44,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_content_size</item>
+        <item name="android:textSize">@dimen/text_body</item>
         <item name="android:textStyle">bold</item>
     </style>
     
