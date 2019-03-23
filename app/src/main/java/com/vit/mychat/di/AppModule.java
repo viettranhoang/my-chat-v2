@@ -5,6 +5,8 @@ import android.app.Application;
 import com.vit.mychat.MyChatApplication;
 import com.vit.mychat.ui.MainActivity;
 import com.vit.mychat.ui.MainActivityModule;
+import com.vit.mychat.ui.login.LoginActivity;
+import com.vit.mychat.ui.login.LoginModule;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.profile.ProfileModule;
 
@@ -27,4 +29,7 @@ public abstract class AppModule {
 
     @ContributesAndroidInjector(modules = ProfileModule.class)
     abstract ProfileActivity profileActivityInjector();
+
+    @ContributesAndroidInjector(modules = LoginModule.class)
+    abstract LoginActivity loginActivityInjector();
 }
