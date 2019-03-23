@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_avatar"
+            android:layout_width="@dimen/chat_image_avatar_size"
+            android:layout_height="@dimen/chat_image_avatar_size" />
+
+
+        <ImageView
+            android:id="@+id/image_online"
+            android:layout_alignRight="@+id/image_avatar"
+            android:layout_alignBottom="@+id/image_avatar"
+            android:layout_width="@dimen/chat_image_online_size"
+            android:background="@drawable/shape_oval_while"
+            android:layout_height="@dimen/chat_image_online_size" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/window_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text_name"
+            android:text="Vu Hanh"
+            android:textStyle="bold"
+            style="@style/TextTitle"/>
+        <TextView
+            android:id="@+id/text_mesage"
+            android:text="Yeu bom nhat "
+            android:layout_below="@+id/text_name"
+            style="@style/TextBody"/>
+
+        <TextView
+            android:id="@+id/text_time_seen"
+            android:text="14:45"
+            android:layout_below="@+id/text_name"
+            android:layout_marginLeft="@dimen/text_body"
+            android:layout_toRightOf="@+id/text_mesage"
+            style="@style/TextBody" />
+
+        <ImageView
+            android:id="@+id/image_seen"
+            android:layout_alignParentRight="true"
+            android:layout_alignRight="@+id/text_mesage"
+            android:layout_alignBottom="@+id/text_time_seen"
+            android:layout_marginRight="@dimen/chat_margin"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_oval_while"
+            android:layout_width="@dimen/chat_image_seen_size"
+            android:src="@drawable/ic_online_seen"
+            android:visibility="gone"
+            android:layout_height="@dimen/chat_image_seen_size" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -129,7 +129,7 @@ public class MainActivity extends BaseActivity {
     private void initToolbar() {
 
         GlideApp.with(this)
-                .load("http://gnemart.com/wp-content/uploads/2018/10/gau-bong-quobee-1.jpg")
+                .load("https://i.ytimg.com/vi/o1bL0Qe_yoU/hqdefault.jpg")
                 .circleCrop()
                 .into(mImageAvatar);
     }

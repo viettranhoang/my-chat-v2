@@ -28,4 +28,12 @@
     <dimen name="login_image_social_padding">@dimen/_12dp</dimen>
 
 
+    //chat
+    <dimen name="chat_image_avatar_size">@dimen/_70dp</dimen>
+    <dimen name="chat_image_online_size">@dimen/_20dp</dimen>
+    <dimen name="chat_image_seen_size">@dimen/_16dp</dimen>
+    <dimen name="chat_margin">@dimen/_10dp</dimen>
+
+
+
 </resources>

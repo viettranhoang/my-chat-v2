@@ -8,7 +8,10 @@ import android.view.View;
 import com.vit.mychat.R;
 import com.vit.mychat.ui.base.BaseFragment;
 
+import butterknife.BindView;
+
 public class ChatFragment extends BaseFragment {
+ 
 
     @Override
     public int getLayoutId() {
