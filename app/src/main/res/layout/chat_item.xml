@@ -5,7 +5,6 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -22,8 +21,7 @@
             android:layout_height="@dimen/chat_image_online_size"
             android:layout_alignRight="@+id/image_avatar"
             android:layout_alignBottom="@+id/image_avatar"
-            android:background="@drawable/shape_oval_while" />
-
+            android:background="@drawable/shape_oval_green" />
     </RelativeLayout>
 
     <RelativeLayout
