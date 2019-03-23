@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.login.LoginActivity"
+    android:layout_marginLeft="@dimen/window_margin"
+    android:layout_marginRight="@dimen/window_margin">
 
-</android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_above="@id/button_creat_account"
+        android:layout_marginBottom="@dimen/login_margin_botton"
+        style="@style/ButtonMain"
+        android:background="@drawable/round_corner_gray"
+        android:textColor="@color/gray"
+        android:text="ĐĂNG NHẬP" />
+
+
+    <Button
+        android:id="@+id/button_creat_account"
+        android:layout_above="@id/text_forget_password"
+        android:layout_marginBottom="@dimen/login_margin_botton"
+        style="@style/ButtonMain"
+        android:background="@drawable/round_corner_green"
+        android:text="TẠO TÀI KHOẢN MỚI" />
+    <TextView
+        style="@style/TextContent"
+        android:text="QUÊN MẬT KHẨU "
+        android:layout_alignParentBottom="true"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/login_margin_botton"
+        android:id="@+id/text_forget_password"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
