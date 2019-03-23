@@ -10,7 +10,6 @@ import android.view.View;
 import com.vit.mychat.R;
 import com.vit.mychat.ui.base.BaseFragment;
 import com.vit.mychat.ui.chat.adapter.ChatAdapter;
-import com.vit.mychat.util.GlideApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 
 public class ChatFragment extends BaseFragment {
- 
+
     @BindView(R.id.list_mess)
     RecyclerView mRcvChat;
 

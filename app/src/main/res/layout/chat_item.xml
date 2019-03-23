@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:layout_height="wrap_content">
+    android:orientation="horizontal">
 
 
     <RelativeLayout
@@ -19,49 +18,51 @@
 
         <ImageView
             android:id="@+id/image_online"
+            android:layout_width="@dimen/chat_image_online_size"
+            android:layout_height="@dimen/chat_image_online_size"
             android:layout_alignRight="@+id/image_avatar"
             android:layout_alignBottom="@+id/image_avatar"
-            android:layout_width="@dimen/chat_image_online_size"
-            android:background="@drawable/shape_oval_while"
-            android:layout_height="@dimen/chat_image_online_size" />
+            android:background="@drawable/shape_oval_while" />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginLeft="@dimen/window_margin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/window_margin">
+
         <TextView
             android:id="@+id/text_name"
+            style="@style/TextTitle"
             android:text="Vu Hanh"
-            android:textStyle="bold"
-            style="@style/TextTitle"/>
+            android:textStyle="bold" />
+
         <TextView
-            android:id="@+id/text_mesage"
-            android:text="Yeu bom nhat "
+            android:id="@+id/text_message"
+            style="@style/TextBody"
             android:layout_below="@+id/text_name"
-            style="@style/TextBody"/>
+            android:text="Yeu bom nhat " />
 
         <TextView
             android:id="@+id/text_time_seen"
-            android:text="14:45"
+            style="@style/TextBody"
             android:layout_below="@+id/text_name"
             android:layout_marginLeft="@dimen/text_body"
-            android:layout_toRightOf="@+id/text_mesage"
-            style="@style/TextBody" />
+            android:layout_toRightOf="@+id/text_message"
+            android:text="14:45" />
 
         <ImageView
             android:id="@+id/image_seen"
-            android:layout_alignParentRight="true"
-            android:layout_alignRight="@+id/text_mesage"
-            android:layout_alignBottom="@+id/text_time_seen"
-            android:layout_marginRight="@dimen/chat_margin"
-            android:layout_centerVertical="true"
-            android:background="@drawable/shape_oval_while"
             android:layout_width="@dimen/chat_image_seen_size"
+            android:layout_height="@dimen/chat_image_seen_size"
+            android:layout_alignRight="@+id/text_message"
+            android:layout_alignBottom="@+id/text_time_seen"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/chat_margin"
+            android:background="@drawable/shape_oval_while"
             android:src="@drawable/ic_online_seen"
-            android:visibility="gone"
-            android:layout_height="@dimen/chat_image_seen_size" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 

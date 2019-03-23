@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.vit.mychat.R;
 import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.ui.chat.Chat;
 import com.vit.mychat.util.GlideApp;
@@ -90,7 +90,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                 mImageOnline.setVisibility(View.INVISIBLE);
             }
 
-            Glide.with(itemView.getContext())
+            GlideApp.with(itemView.getContext())
                     .load(R.drawable.ic_online_seen)
                     .centerCrop()
                     .into(mImageSeen);
