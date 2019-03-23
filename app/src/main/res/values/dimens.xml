@@ -19,5 +19,8 @@
     <dimen name="profile_margin">@dimen/_28dp</dimen>
 
     <dimen name="login_margin_botton">@dimen/_20dp</dimen>
+    <dimen name="login_image_social_size">@dimen/_45dp</dimen>
+    <dimen name="login_image_social_padding">@dimen/_12dp</dimen>
+
 
 </resources>

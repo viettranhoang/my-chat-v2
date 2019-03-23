@@ -7,6 +7,32 @@
     tools:context=".ui.login.LoginActivity"
     android:layout_marginLeft="@dimen/window_margin"
     android:layout_marginRight="@dimen/window_margin">
+    <RelativeLayout
+        android:layout_above="@id/input_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/image_messenger"
+            android:layout_width="@dimen/_180dp"
+            android:layout_height="@dimen/_180dp"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số điện thoại hoặc email"
+        android:layout_marginBottom="@dimen/login_margin_botton"
+        android:layout_above="@+id/input_password"
+        android:id="@+id/input_info"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mật khẩu"
+        android:id="@+id/input_password"
+        android:inputType="textPassword"
+        android:layout_above="@+id/button_login"
+        android:layout_marginBottom="@dimen/login_margin_botton"/>
 
 
     <Button
@@ -15,17 +41,47 @@
         android:layout_marginBottom="@dimen/login_margin_botton"
         style="@style/ButtonMain"
         android:background="@drawable/round_corner_gray"
-        android:textColor="@color/gray"
+        android:textStyle="bold"
+        android:textColor="@color/black20"
         android:text="ĐĂNG NHẬP" />
 
 
     <Button
         android:id="@+id/button_creat_account"
-        android:layout_above="@id/text_forget_password"
+        android:layout_above="@id/layout_linean"
         android:layout_marginBottom="@dimen/login_margin_botton"
         style="@style/ButtonMain"
         android:background="@drawable/round_corner_green"
         android:text="TẠO TÀI KHOẢN MỚI" />
+    <LinearLayout
+        android:id="@+id/layout_linean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/text_forget_password"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/login_margin_botton">
+        <ImageView
+            android:layout_width="@dimen/login_image_social_size"
+            android:layout_height="@dimen/login_image_social_size"
+            android:id="@+id/ic_facebook"
+            android:src="@drawable/ic_facebook"
+            android:layout_marginRight="@dimen/_9dp"
+            android:background="@drawable/round_border_gray"
+            android:padding="@dimen/login_image_social_padding"/>
+        <ImageView
+            android:layout_width="@dimen/login_image_social_size"
+            android:layout_height="@dimen/login_image_social_size"
+            android:id="@+id/ic_google"
+            android:src="@drawable/ic_google"
+            android:layout_marginLeft="@dimen/_9dp"
+            android:background="@drawable/round_border_gray"
+            android:padding="@dimen/login_image_social_padding"/>
+
+
+    </LinearLayout>
+
+
     <TextView
         style="@style/TextContent"
         android:text="QUÊN MẬT KHẨU "
