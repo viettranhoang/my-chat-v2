@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/text_status"
-            style="@style/TextContent"
+            style="@style/TextBody"
             android:layout_below="@id/text_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_24dp"
@@ -65,7 +65,7 @@
                     android:src="@drawable/ic_add_friends" />
 
                 <TextView
-                    style="@style/TextItem"
+                    style="@style/TextMin"
                     android:text="Thêm bạn bè" />
             </LinearLayout>
 
@@ -83,7 +83,7 @@
                     android:src="@drawable/ic_mess" />
 
                 <TextView
-                    style="@style/TextItem"
+                    style="@style/TextMin"
                     android:text="Nhắn tin" />
             </LinearLayout>
 
@@ -101,7 +101,7 @@
                     android:src="@drawable/ic_call_black" />
 
                 <TextView
-                    style="@style/TextItem"
+                    style="@style/TextMin"
                     android:text="Gọi" />
             </LinearLayout>
         </LinearLayout>

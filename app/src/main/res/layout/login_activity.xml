@@ -83,7 +83,7 @@
 
 
     <TextView
-        style="@style/TextContent"
+        style="@style/TextBody"
         android:text="QUÊN MẬT KHẨU "
         android:layout_alignParentBottom="true"
         android:textStyle="bold"

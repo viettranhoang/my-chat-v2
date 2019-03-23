@@ -10,34 +10,29 @@
         <item name="android:textColorPrimary">@color/black87</item>
     </style>
 
-    <style name="TextHeadline1">
+    <style name="TextTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textSize">@dimen/text_title</item>
+    </style>
+
+    <style name="TextHeadline1" parent="TextTitle">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/text_heading_1</item>
+        <item name="android:textSize">@dimen/text_headline_1</item>
     </style>
 
-    <style name="TextHeadline2">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?android:textColorPrimary</item>
+    <style name="TextHeadline2" parent="TextTitle">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/_24sp</item>
+        <item name="android:textSize">@dimen/text_headline_2</item>
     </style>
 
-    <style name="TextContent">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?android:textColorPrimary</item>
-        <item name="android:textSize">@dimen/_14sp</item>
+    <style name="TextBody" parent="TextTitle">
+        <item name="android:textSize">@dimen/text_body</item>
     </style>
 
-    <style name="TextItem">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?android:textColorPrimary</item>
-        <item name="android:textSize">@dimen/_14sp</item>
+    <style name="TextMin" parent="TextTitle">
+        <item name="android:textSize">@dimen/text_min</item>
     </style>
 
     <style name="ButtonMain">
