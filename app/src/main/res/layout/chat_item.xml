@@ -3,6 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:paddingLeft="@dimen/window_margin"
+    android:paddingRight="@dimen/window_margin"
+    android:paddingTop="@dimen/chat_margin"
+    android:paddingBottom="@dimen/chat_margin"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -31,15 +35,17 @@
 
         <TextView
             android:id="@+id/text_name"
-            style="@style/TextTitle"
+            style="@style/TextBody"
             android:text="Vu Hanh"
+            android:textSize="@dimen/text_input"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_message"
             style="@style/TextBody"
             android:layout_below="@+id/text_name"
-            android:text="Yeu bom nhat " />
+            android:text="Yeu bom nhat "
+            android:textColor="@color/black40" />
 
         <TextView
             android:id="@+id/text_time_seen"
@@ -47,19 +53,18 @@
             android:layout_below="@+id/text_name"
             android:layout_marginLeft="@dimen/text_body"
             android:layout_toRightOf="@+id/text_message"
-            android:text="14:45" />
+            android:text="14:45"
+            android:textColor="@color/black40" />
 
         <ImageView
             android:id="@+id/image_seen"
-            android:layout_width="@dimen/chat_image_seen_size"
-            android:layout_height="@dimen/chat_image_seen_size"
+            android:layout_width="@dimen/_10dp"
+            android:layout_height="@dimen/_10dp"
             android:layout_alignRight="@+id/text_message"
             android:layout_alignBottom="@+id/text_time_seen"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/chat_margin"
-            android:background="@drawable/shape_oval_while"
-            android:src="@drawable/ic_online_seen"
+            android:src="@drawable/shape_oval_blue"
             android:visibility="gone" />
 
     </RelativeLayout>

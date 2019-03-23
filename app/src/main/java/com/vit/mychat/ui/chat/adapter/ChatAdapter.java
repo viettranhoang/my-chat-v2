@@ -91,7 +91,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             }
 
             GlideApp.with(itemView.getContext())
-                    .load(R.drawable.ic_online_seen)
+                    .load(R.drawable.shape_oval_blue)
                     .centerCrop()
                     .into(mImageSeen);
             if(chatList.getSeen()==  false){
