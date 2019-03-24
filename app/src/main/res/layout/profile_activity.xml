@@ -26,7 +26,8 @@
 
         <TextView
             android:id="@+id/text_name"
-            style="@style/TextHeadline1"
+            style="@style/TextTitle"
+            android:textSize="@dimen/text_headline_1"
             android:layout_below="@id/image_avatar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_38dp"
@@ -34,7 +35,8 @@
 
         <TextView
             android:id="@+id/text_status"
-            style="@style/TextBody"
+            style="@style/TextTitle"
+            android:textSize="@dimen/text_input"
             android:layout_below="@id/text_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_24dp"
@@ -45,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_status"
-            android:layout_marginTop="@dimen/_44dp"
+            android:layout_marginTop="@dimen/_60dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/window_margin"
@@ -65,7 +67,8 @@
                     android:src="@drawable/ic_add_friends" />
 
                 <TextView
-                    style="@style/TextMin"
+                    style="@style/TextTitle"
+                    android:textSize="@dimen/text_min"
                     android:text="Thêm bạn bè" />
             </LinearLayout>
 
@@ -77,13 +80,14 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/ic_tinnhan"
+                    android:id="@+id/image_message"
                     style="@style/ProfileImageItem"
                     android:padding="@dimen/_12dp"
                     android:src="@drawable/ic_mess" />
 
                 <TextView
-                    style="@style/TextMin"
+                    style="@style/TextTitle"
+                    android:textSize="@dimen/text_min"
                     android:text="Nhắn tin" />
             </LinearLayout>
 
@@ -101,7 +105,8 @@
                     android:src="@drawable/ic_call_black" />
 
                 <TextView
-                    style="@style/TextMin"
+                    style="@style/TextTitle"
+                    android:textSize="@dimen/text_min"
                     android:text="Gọi" />
             </LinearLayout>
         </LinearLayout>

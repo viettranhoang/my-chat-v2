@@ -48,16 +48,15 @@ public class ChatFragment extends BaseFragment {
 
     private List<Chat> creatListMessage() {
         List<Chat> listChat = new ArrayList<>();
-        listChat.add(new Chat("kim le", "https://gaubongonline.vn/wp-content/uploads/2018/10/qoobee-2.jpg", false, "", "hanh ham", true));
-        listChat.add(new Chat("kim le", "https://gaubongonline.vn/wp-content/uploads/2018/10/qoobee-2.jpg", false, "", "hanh ham", true));
-        listChat.add(new Chat("kim le", "https://gaubongonline.vn/wp-content/uploads/2018/10/qoobee-2.jpg", false, "", "hanh ham", true));
-        listChat.add(new Chat("ham", "https://i.pinimg.com/236x/e5/dc/47/e5dc47a1477c10bded824a2337cdaa01--character-design.jpg", true, "", "do con nhợn ", false));
-        listChat.add(new Chat("ham", "https://i.pinimg.com/236x/e5/dc/47/e5dc47a1477c10bded824a2337cdaa01--character-design.jpg", true, "", "do con nhợn ", false));
-        listChat.add(new Chat("viet", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", false, "", "dfgadjapfk;dgogfvdnbakdas ", true));
-        listChat.add(new Chat("viet", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", false, "", "dfgadjapfk;dgogfvdnbakdas ", true));
-        listChat.add(new Chat("viet", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", false, "", "dfgadjapfk;dgogfvdnbakdas ", true));
-        listChat.add(new Chat("hanh vu", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", true, "", "sfjkalafihf ", true));
-        listChat.add(new Chat("hanh vu", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", true, "", "sfjkalafihf ", true));
+        listChat.add(new Chat("Vũ Hạnh", "https://gaubongonline.vn/wp-content/uploads/2018/10/qoobee-2.jpg", false, "", "Tối nay ăn cơm nhà tớ nhé", true));
+        listChat.add(new Chat("Vũ Hạnh", "https://gaubongonline.vn/wp-content/uploads/2018/10/qoobee-2.jpg", false, "", "Tối nay ăn cơm nhà tớ nhé", true));
+        listChat.add(new Chat("Vũ Hạnh", "https://gaubongonline.vn/wp-content/uploads/2018/10/qoobee-2.jpg", false, "", "Tối nay ăn cơm nhà tớ nhé", true));
+        listChat.add(new Chat("Trần Hoàng Việt", "http://gnemart.com/wp-content/uploads/2018/10/gau-bong-quobee-1.jpg", true, "", "Ok cậu", false));
+        listChat.add(new Chat("Trần Hoàng Việt", "http://gnemart.com/wp-content/uploads/2018/10/gau-bong-quobee-1.jpg", true, "", "Ok cậu ", false));
+        listChat.add(new Chat("Trần Hoàng Việt", "http://gnemart.com/wp-content/uploads/2018/10/gau-bong-quobee-1.jpg", true, "", "Ok cậu ", false));
+        listChat.add(new Chat("Kim Lê", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", true, "", "Nay học bài gì nhỉ ", true));
+        listChat.add(new Chat("Kim Lê", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", true, "", "Nay học bài gì nhỉ", true));
+        listChat.add(new Chat("Kim Lê", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", true, "", "Nay học bài gì nhỉ", true));
         return listChat;
     }
 }

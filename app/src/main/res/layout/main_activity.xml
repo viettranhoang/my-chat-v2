@@ -8,24 +8,28 @@
         android:id="@+id/main_toolbar"
         layout="@layout/toolbar" />
 
-
-    <ScrollView
-        android:layout_marginTop="@dimen/_5dp"
+    <View android:layout_width="match_parent"
+        android:layout_height="@dimen/_2dp"
+        android:layout_below="@id/main_toolbar"
+        android:background="@drawable/round_toolbar"/>
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/view_bottom_navigation"
         android:layout_below="@id/main_toolbar">
 
         <LinearLayout
+            android:layout_marginTop="@dimen/_8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:layout_marginTop="@dimen/_5dp"
                 android:id="@+id/text_search"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_43dp"
                 android:layout_marginLeft="@dimen/window_margin"
+                android:layout_marginTop="@dimen/_5dp"
                 android:layout_marginRight="@dimen/window_margin"
                 android:background="@drawable/round_corner_gray"
                 android:drawableLeft="@drawable/ic_search"
@@ -36,11 +40,12 @@
 
             <FrameLayout
                 android:id="@+id/layout_fragment"
+                android:layout_marginTop="@dimen/_8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/view_bottom_navigation"

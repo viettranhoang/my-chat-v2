@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize">
-
 
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <ImageView
             android:id="@+id/image_avatar"
@@ -20,11 +19,12 @@
 
         <TextView
             android:id="@+id/text_title"
-            style="@style/TextHeadline2"
+            style="@style/TextTitle"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/window_margin"
             android:layout_toRightOf="@id/image_avatar"
-            android:text="@string/chat" />
+            android:text="@string/chat"
+            android:textSize="@dimen/text_headline_2" />
 
         <ImageView
             android:id="@+id/image_camera"

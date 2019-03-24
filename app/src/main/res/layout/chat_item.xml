@@ -5,8 +5,8 @@
     android:gravity="center"
     android:paddingLeft="@dimen/window_margin"
     android:paddingRight="@dimen/window_margin"
-    android:paddingTop="@dimen/chat_margin"
-    android:paddingBottom="@dimen/chat_margin"
+    android:paddingTop="@dimen/chat_padding"
+    android:paddingBottom="@dimen/chat_padding"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -25,7 +25,7 @@
             android:layout_height="@dimen/chat_image_online_size"
             android:layout_alignRight="@+id/image_avatar"
             android:layout_alignBottom="@+id/image_avatar"
-            android:background="@drawable/shape_oval_green" />
+            android:background="@drawable/shape_oval_border_green" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -35,21 +35,25 @@
 
         <TextView
             android:id="@+id/text_name"
-            style="@style/TextBody"
+            style="@style/TextTitle"
             android:text="Vu Hanh"
-            android:textSize="@dimen/text_input"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-medium"
+            android:textSize="@dimen/text_input"/>
 
         <TextView
             android:id="@+id/text_message"
-            style="@style/TextBody"
+            style="@style/TextTitle"
+            android:textSize="@dimen/text_body"
+            android:fontFamily="sans-serif"
             android:layout_below="@+id/text_name"
             android:text="Yeu bom nhat "
             android:textColor="@color/black40" />
 
         <TextView
             android:id="@+id/text_time_seen"
-            style="@style/TextBody"
+            style="@style/TextTitle"
+            android:textSize="@dimen/text_body"
+            android:fontFamily="sans-serif"
             android:layout_below="@+id/text_name"
             android:layout_marginLeft="@dimen/text_body"
             android:layout_toRightOf="@+id/text_message"
@@ -58,14 +62,12 @@
 
         <ImageView
             android:id="@+id/image_seen"
-            android:layout_width="@dimen/_10dp"
-            android:layout_height="@dimen/_10dp"
-            android:layout_alignRight="@+id/text_message"
-            android:layout_alignBottom="@+id/text_time_seen"
+            android:layout_width="@dimen/chat_image_seen_size"
+            android:layout_height="@dimen/chat_image_seen_size"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/shape_oval_blue"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
     </RelativeLayout>
 

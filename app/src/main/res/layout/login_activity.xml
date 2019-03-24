@@ -87,11 +87,12 @@
 
     <TextView
         android:id="@+id/text_forget_password"
-        style="@style/TextBody"
+        style="@style/TextTitle"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/login_margin_botton"
         android:text="QUÊN MẬT KHẨU "
-        android:textStyle="bold" />
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_body" />
 
 </RelativeLayout>

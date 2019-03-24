@@ -22,18 +22,17 @@
     <dimen name="profile_image_item_size">@dimen/_46dp</dimen>
     <dimen name="profile_margin">@dimen/_28dp</dimen>
 
+    //login
     <dimen name="login_margin_botton">@dimen/_20dp</dimen>
     <dimen name="login_image_social_size">@dimen/_45dp</dimen>
     <dimen name="login_image_social_padding">@dimen/_12dp</dimen>
     <dimen name="login_image_messenger">@dimen/_150dp</dimen>
 
-
     //chat
-    <dimen name="chat_image_avatar_size">@dimen/_50dp</dimen>
-    <dimen name="chat_image_online_size">@dimen/_16dp</dimen>
-    <dimen name="chat_image_seen_size">@dimen/_16dp</dimen>
-    <dimen name="chat_margin">@dimen/_6dp</dimen>
-    <dimen name="chat_margintop">@dimen/_15dp</dimen>
+    <dimen name="chat_image_avatar_size">@dimen/_56dp</dimen>
+    <dimen name="chat_image_online_size">@dimen/_18dp</dimen>
+    <dimen name="chat_image_seen_size">@dimen/_14dp</dimen>
+    <dimen name="chat_padding">@dimen/_8dp</dimen>
 
 
 

@@ -18,22 +18,21 @@ import com.vit.mychat.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
     private List<Chat> mChatList = new ArrayList<>();
 
-
-    public ChatAdapter(List<Chat> mChatList){
-        this.mChatList= mChatList;
+    public ChatAdapter(List<Chat> mChatList) {
+        this.mChatList = mChatList;
     }
-
 
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.chat_item,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.chat_item, viewGroup, false);
         return new ChatViewHolder(view);
     }
 
@@ -67,6 +66,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         @BindView(R.id.image_seen)
         ImageView mImageSeen;
 
+        @BindColor(R.color.black87)
+        int mBlack87;
+
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -83,10 +85,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
             // messlist
             mTextTimeSeen.setText(Utils.getCurrentTime());
-            if(chatList.getOnline()){
+            if (chatList.getOnline()) {
                 mImageOnline.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 mImageOnline.setVisibility(View.INVISIBLE);
             }
 
@@ -94,21 +95,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                     .load(R.drawable.shape_oval_blue)
                     .centerCrop()
                     .into(mImageSeen);
-            if(chatList.getSeen()==  false){
+            mTextLastMessage.setText(chatList.getLastMessage());
+            if (chatList.getSeen() == false) {
                 mImageSeen.setVisibility(View.VISIBLE);
                 mTextName.setText(chatList.getName());
-                mTextName.setTypeface(mTextName.getTypeface(), Typeface.BOLD);
-                mTextLastMessage.setText(chatList.getLastMessage());
-                mTextLastMessage.setTypeface(mTextLastMessage.getTypeface(), Typeface.BOLD);
+                mTextName.setTypeface(mTextName.getTypeface(), Typeface.DEFAULT_BOLD.getStyle());
+                mTextLastMessage.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                mTextLastMessage.setTextColor(mBlack87);
 
-            }
-
-            else{
+            } else {
                 mImageSeen.setVisibility(View.GONE);
                 mTextName.setText(chatList.getName());
-                mTextLastMessage.setText(chatList.getLastMessage());
-
-
             }
         }
     }
