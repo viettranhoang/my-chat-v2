@@ -30,8 +30,7 @@
             android:textSize="@dimen/text_headline_1"
             android:layout_below="@id/image_avatar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_38dp"
-            android:text="Vũ Thị Hồng Hạnh" />
+            android:layout_marginTop="@dimen/_38dp"/>
 
         <TextView
             android:id="@+id/text_status"
@@ -39,8 +38,7 @@
             android:textSize="@dimen/text_input"
             android:layout_below="@id/text_name"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_24dp"
-            android:text="Ngon, bổ, rẻ, ăn tạm" />
+            android:layout_marginTop="@dimen/_24dp"/>
 
         <LinearLayout
             android:id="@+id/linear_bottom"

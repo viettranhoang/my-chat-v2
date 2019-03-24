@@ -41,7 +41,7 @@
         <item name="android:layout_width">@dimen/profile_image_item_size</item>
         <item name="android:layout_height">@dimen/profile_image_item_size</item>
         <item name="android:layout_centerInParent">true</item>
-        <item name="android:background">@drawable/round_corner_gray</item>
+        <item name="android:background">@drawable/shape_oval_gray</item>
         <item name="android:layout_marginBottom">@dimen/_8dp</item>
     </style>
 
