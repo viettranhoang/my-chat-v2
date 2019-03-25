@@ -51,6 +51,7 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         initToolbar();
         initBottomNavigationView();
+
     }
 
     private void initBottomNavigationView() {
