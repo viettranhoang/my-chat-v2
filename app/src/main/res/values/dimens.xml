@@ -38,10 +38,11 @@
 
     //friend
     <dimen name="friend_image_avatar_news_size">@dimen/_45dp</dimen>
-    <dimen name="friend_image_avatar_online_size">@dimen/_56dp</dimen>
+    <dimen name="friend_image_avatar_news_padding">@dimen/_7dp</dimen>
+    <dimen name="friend_image_avatar_online_size">@dimen/_52dp</dimen>
     <dimen name="friend_image_online_size">@dimen/_18dp</dimen>
-    <dimen name="friend_image_online_width">@dimen/_160dp</dimen>
-    <dimen name="friend_image_online_height">@dimen/_200dp</dimen>
+    <dimen name="friend_layout_news_height">@dimen/_206dp</dimen>
+    <dimen name="friend_layout_news_margin">@dimen/_4dp</dimen>
 
 
 

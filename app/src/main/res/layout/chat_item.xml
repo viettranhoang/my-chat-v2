@@ -5,8 +5,7 @@
     android:gravity="center"
     android:paddingLeft="@dimen/window_margin"
     android:paddingRight="@dimen/window_margin"
-    android:paddingTop="@dimen/chat_padding"
-    android:paddingBottom="@dimen/chat_padding"
+    android:paddingBottom="@dimen/window_margin"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -21,11 +20,9 @@
 
         <ImageView
             android:id="@+id/image_online"
-            android:layout_width="@dimen/chat_image_online_size"
-            android:layout_height="@dimen/chat_image_online_size"
+            style="@style/ImageOnline"
             android:layout_alignRight="@+id/image_avatar"
-            android:layout_alignBottom="@+id/image_avatar"
-            android:background="@drawable/shape_oval_border_green" />
+            android:layout_alignBottom="@+id/image_avatar"/>
     </RelativeLayout>
 
     <RelativeLayout

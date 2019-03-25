@@ -45,5 +45,11 @@
         <item name="android:layout_marginBottom">@dimen/_8dp</item>
     </style>
 
+    <style name="ImageOnline">
+        <item name="android:layout_width">@dimen/chat_image_online_size</item>
+        <item name="android:layout_height">@dimen/chat_image_online_size</item>
+        <item name="android:background">@drawable/shape_oval_border_green</item>
+    </style>
+
 
 </resources>

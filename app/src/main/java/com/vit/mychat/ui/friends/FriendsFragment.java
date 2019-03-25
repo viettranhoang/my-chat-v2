@@ -53,11 +53,11 @@ public class FriendsFragment extends BaseFragment {
     }
     private List<Friend> creatListFriendOnline() {
         List<Friend> listFriendOnline = new ArrayList<>();
-        listFriendOnline.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg", "kim Le", true, ""));
-        listFriendOnline.add(new Friend("https://i.pinimg.com/originals/f4/22/36/f422363e23bb12a9b5100b4c22c6b85a.jpg", "Vu hanh", false, ""));
-        listFriendOnline.add(new Friend("https://thuthuattienich.com/wp-content/uploads/2017/06/anh-dai-dien-facebook-cho-meo-de-thuong-2.jpg", "Ngoc Cham", true, ""));
-        listFriendOnline.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg", "Con cho" , true, ""));
-        listFriendOnline.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg", "Anh trai", true, ""));
+        listFriendOnline.add(new Friend("https://cdn.shopify.com/s/files/1/2508/1836/products/QooBee-Plush-Toys-03_2000x.jpg", "Việt", true, ""));
+        listFriendOnline.add(new Friend("https://i.pinimg.com/originals/f4/22/36/f422363e23bb12a9b5100b4c22c6b85a.jpg", "Hạnh", false, ""));
+        listFriendOnline.add(new Friend("https://thuthuattienich.com/wp-content/uploads/2017/06/anh-dai-dien-facebook-cho-meo-de-thuong-2.jpg", "Kim Lê", true, ""));
+        listFriendOnline.add(new Friend("https://cdn.shopify.com/s/files/1/2508/1836/products/QooBee-Plush-Toys-03_2000x.jpg", "Đức" , true, ""));
+        listFriendOnline.add(new Friend("https://cdn.shopify.com/s/files/1/2508/1836/products/QooBee-Plush-Toys-03_2000x.jpg", "Anh trai", true, ""));
         listFriendOnline.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg", "Heo beo", true, ""));
 
         return listFriendOnline;

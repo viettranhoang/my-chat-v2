@@ -43,7 +43,7 @@
         style="@style/ButtonMain"
         android:layout_above="@id/button_creat_account"
         android:layout_marginBottom="@dimen/login_margin_botton"
-        android:background="@drawable/round_corner_gray"
+        android:background="@drawable/round_corner_gray_20"
         android:text="ĐĂNG NHẬP"
         android:textColor="@color/black20"
         android:textStyle="bold" />

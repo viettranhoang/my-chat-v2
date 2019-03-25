@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/friend_image_online_width"
-    android:layout_height="@dimen/friend_image_online_height"
-    android:layout_margin="@dimen/_5dp">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/friend_layout_news_height"
+    android:layout_margin="@dimen/friend_layout_news_margin">
+
     <ImageView
+        android:id="@+id/image_friend_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@color/green"
-        android:id="@+id/image_friend_news"/>
+        android:src="@color/gray" />
+
     <ImageView
+        android:id="@+id/image_avatar_news"
         android:layout_width="@dimen/friend_image_avatar_news_size"
         android:layout_height="@dimen/friend_image_avatar_news_size"
         android:layout_above="@+id/text_name"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/shape_oval_blue"
-        android:padding="@dimen/_5dp"
-        android:id="@+id/image_avatar_news"/>
+        android:background="@drawable/round_border_blue_black"
+        android:padding="@dimen/_6dp" />
+
     <TextView
-        android:layout_marginBottom="@dimen/_14dp"
+        android:id="@+id/text_name"
+        style="@style/TextTitle"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_name"
-        android:textColor="@color/white92"
-        android:textSize="@dimen/_15dp"
-        android:text="kim le"/>
-
-
-
+        android:layout_marginBottom="@dimen/_14dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_body" />
 </RelativeLayout>

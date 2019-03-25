@@ -29,7 +29,7 @@ public class FriendOnlineAdapter extends RecyclerView.Adapter<FriendOnlineAdapte
     @NonNull
     @Override
     public FriendOnlineViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_online, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_online_item, viewGroup, false);
         return new FriendOnlineViewHolder(view);
     }
 
