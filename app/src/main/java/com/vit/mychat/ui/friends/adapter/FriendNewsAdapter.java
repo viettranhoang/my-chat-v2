@@ -1,5 +1,6 @@
 package com.vit.mychat.ui.friends.adapter;
 
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.vit.mychat.util.RoundedCornersTransformation;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 
 public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.FriendNewsViewHolder> {
@@ -53,6 +55,9 @@ public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.F
         @BindView(R.id.text_name)
         TextView mTextName;
 
+        @BindColor(R.color.white92)
+        int mWhite92;
+
         public FriendNewsViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -63,12 +68,14 @@ public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.F
             GlideApp.with(itemView.getContext())
                     .load(friend.getNews())
                     .centerCrop()
-                    .transform(new RoundedCornersTransformation(30, 0, RoundedCornersTransformation.CornerType.ALL))
+                    .transform(new RoundedCornersTransformation(50, 0, RoundedCornersTransformation.CornerType.ALL))
                     .into(mImageFriendNews);
             GlideApp.with(itemView.getContext())
                     .load(friend.getAvatar())
                     .circleCrop()
                     .into(mImageAvatar);
+            mTextName.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+            mTextName.setTextColor(mWhite92);
             mTextName.setText(friend.getName());
         }
 
