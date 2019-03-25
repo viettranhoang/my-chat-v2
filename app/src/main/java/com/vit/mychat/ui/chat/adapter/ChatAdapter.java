@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.vit.mychat.R;
 import com.vit.mychat.ui.base.BaseViewHolder;
-import com.vit.mychat.ui.chat.Chat;
+import com.vit.mychat.data.model.Chat;
 import com.vit.mychat.util.GlideApp;
 import com.vit.mychat.util.Utils;
 

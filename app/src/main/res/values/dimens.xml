@@ -36,6 +36,13 @@
     <dimen name="chat_image_seen_size">@dimen/_14dp</dimen>
     <dimen name="chat_padding">@dimen/_8dp</dimen>
 
+    //friend
+    <dimen name="friend_image_avatar_news_size">@dimen/_45dp</dimen>
+    <dimen name="friend_image_avatar_online_size">@dimen/_56dp</dimen>
+    <dimen name="friend_image_online_size">@dimen/_18dp</dimen>
+    <dimen name="friend_image_online_width">@dimen/_162dp</dimen>
+    <dimen name="friend_image_online_height">@dimen/_200dp</dimen>
+
 
 
 </resources>

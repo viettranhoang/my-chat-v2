@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.vit.mychat.R;
+import com.vit.mychat.data.model.Chat;
 import com.vit.mychat.ui.base.BaseFragment;
 import com.vit.mychat.ui.chat.adapter.ChatAdapter;
 

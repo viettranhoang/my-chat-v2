@@ -1,4 +1,4 @@
-package com.vit.mychat.ui.chat;
+package com.vit.mychat.data.model;
 
 public class Chat {
     private String name;
