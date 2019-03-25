@@ -34,6 +34,8 @@ dependencies {
     // Firebase
     implementation "com.google.firebase:firebase-core:$rootProject.firebaseCore"
     implementation "com.google.firebase:firebase-database:$rootProject.firebaseDatabase"
+    implementation "com.google.firebase:firebase-auth:$rootProject.firebaseAuth"
+    implementation "com.google.android.gms:play-services-auth:$rootProject.googleAuth"
 
     // ButterKnife
     implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"

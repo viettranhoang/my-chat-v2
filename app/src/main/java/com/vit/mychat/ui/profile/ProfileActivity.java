@@ -19,6 +19,7 @@ import com.vit.mychat.util.GlideApp;
 import com.vit.mychat.util.RoundedCornersTransformation;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ProfileActivity extends BaseActivity {
 
@@ -64,6 +65,15 @@ public class ProfileActivity extends BaseActivity {
                 showToast(databaseError.getMessage());
             }
         });
+    }
+
+    @OnClick(R.id.image_edit_cover)
+    void onClickEditCover() {
+
+    }
+
+    @OnClick(R.id.image_edit_avatar)
+    void onClickEditAvatar() {
 
     }
 

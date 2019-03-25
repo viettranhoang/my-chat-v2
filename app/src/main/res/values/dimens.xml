@@ -21,6 +21,8 @@
     <dimen name="profile_image_avatar_padding">@dimen/_4dp</dimen>
     <dimen name="profile_image_item_size">@dimen/_46dp</dimen>
     <dimen name="profile_margin">@dimen/_28dp</dimen>
+    <dimen name="profile_image_camera_size">@dimen/_40dp</dimen>
+    <dimen name="profile_image_camera_margin">@dimen/_10dp</dimen>
 
     //login
     <dimen name="login_margin_botton">@dimen/_20dp</dimen>

@@ -11,6 +11,8 @@ import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.message.MessageModule;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.profile.ProfileModule;
+import com.vit.mychat.ui.register.RegisterActivity;
+import com.vit.mychat.ui.register.RegisterModule;
 
 import javax.inject.Singleton;
 
@@ -37,5 +39,9 @@ public abstract class AppModule {
 
     @ContributesAndroidInjector(modules = MessageModule.class)
     abstract MessageActivity messageActivityInjector();
+
+    @ContributesAndroidInjector(modules = RegisterModule.class)
+    abstract RegisterActivity registerActivityInjector();
+
 
 }

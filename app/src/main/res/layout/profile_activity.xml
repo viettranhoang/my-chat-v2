@@ -16,6 +16,20 @@
             android:layout_marginRight="@dimen/window_margin" />
 
         <ImageView
+            android:id="@+id/image_edit_cover"
+            android:layout_alignRight="@id/image_background"
+            android:layout_alignBottom="@id/image_background"
+            android:layout_margin="@dimen/profile_image_camera_margin"
+            android:src="@drawable/ic_camera_black"
+            android:background="@drawable/round_corner_gray_6"
+            android:paddingLeft="@dimen/_10dp"
+            android:paddingRight="@dimen/_10dp"
+            android:paddingTop="@dimen/_3dp"
+            android:paddingBottom="@dimen/_3dp"
+            android:layout_width="@dimen/profile_image_camera_size"
+            android:layout_height="@dimen/_32dp" />
+
+        <ImageView
             android:id="@+id/image_avatar"
             android:layout_width="@dimen/profile_image_avatar_size"
             android:layout_height="@dimen/profile_image_avatar_size"
@@ -23,6 +37,17 @@
             android:layout_marginTop="@dimen/profile_image_avatar_margin_top"
             android:background="@drawable/shape_oval_while"
             android:padding="@dimen/profile_image_avatar_padding" />
+
+        <ImageView
+            android:id="@+id/image_edit_avatar"
+            android:layout_alignRight="@id/image_avatar"
+            android:layout_alignBottom="@id/image_avatar"
+            android:src="@drawable/ic_camera_black"
+            android:padding="@dimen/_10dp"
+            android:layout_margin="@dimen/profile_image_camera_margin"
+            android:background="@drawable/shape_oval_gray"
+            android:layout_width="@dimen/profile_image_camera_size"
+            android:layout_height="@dimen/profile_image_camera_size" />
 
         <TextView
             android:id="@+id/text_name"

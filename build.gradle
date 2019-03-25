@@ -58,4 +58,6 @@ ext {
 
     firebaseCore = '16.0.8'
     firebaseDatabase = '16.1.0'
+    firebaseAuth = '16.1.0'
+    googleAuth = '16.0.1'
 }
