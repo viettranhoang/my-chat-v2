@@ -20,6 +20,16 @@ import java.util.List;
 import butterknife.BindView;
 
 public class FriendsFragment extends BaseFragment {
+
+    public static final String TAG = FriendsFragment.class.getSimpleName();
+
+    public static FriendsFragment newInstance() {
+        FriendsFragment fragment = new FriendsFragment();
+        Bundle bundle = new Bundle();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     private FriendNewsAdapter mFriendNewsAdapter;
     private FriendOnlineAdapter mFriendOnlineAdapter;
     @BindView(R.id.list_friend_news)

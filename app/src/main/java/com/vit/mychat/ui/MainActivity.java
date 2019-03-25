@@ -1,8 +1,11 @@
 package com.vit.mychat.ui;
 
+import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +23,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
+
+    @BindView(R.id.view_scroll_main)
+    NestedScrollView mViewScrollMain;
 
     @BindView(R.id.view_bottom_navigation)
     BottomNavigationView mViewBottomNavigation;
@@ -42,6 +48,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.text_title)
     TextView mTextTitle;
 
+    private FragmentManager fragmentManager;
+    private Handler fragmentHandler;
+
     @Override
     protected int getLayoutId() {
         return R.layout.main_activity;
@@ -52,49 +61,6 @@ public class MainActivity extends BaseActivity {
         initToolbar();
         initBottomNavigationView();
 
-    }
-
-    private void initBottomNavigationView() {
-
-        mViewBottomNavigation.setOnNavigationItemSelectedListener(item -> {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.menu_chat:
-                    fragment = new ChatFragment();
-                    loadFragment(fragment);
-
-                    mTextTitle.setText(getString(R.string.chat));
-                    mImageContacts.setVisibility(View.INVISIBLE);
-                    mImageAddFriends.setVisibility(View.INVISIBLE);
-                    mImageCamera.setVisibility(View.VISIBLE);
-                    mImageCreate.setVisibility(View.VISIBLE);
-                    return true;
-                case R.id.menu_friends:
-                    fragment = new FriendsFragment();
-                    loadFragment(fragment);
-
-                    mTextTitle.setText(getString(R.string.friends));
-                    mImageContacts.setVisibility(View.VISIBLE);
-                    mImageAddFriends.setVisibility(View.VISIBLE);
-                    mImageCamera.setVisibility(View.INVISIBLE);
-                    mImageCreate.setVisibility(View.INVISIBLE);
-
-                    return true;
-                case R.id.menu_bot:
-                    fragment = new BotFragment();
-                    loadFragment(fragment);
-
-                    mTextTitle.setText(getString(R.string.bot));
-                    mImageContacts.setVisibility(View.INVISIBLE);
-                    mImageAddFriends.setVisibility(View.INVISIBLE);
-                    mImageCamera.setVisibility(View.INVISIBLE);
-                    mImageCreate.setVisibility(View.INVISIBLE);
-
-                    return true;
-            }
-            return false;
-        });
-        mViewBottomNavigation.setSelectedItemId(R.id.menu_chat);
     }
 
     @OnClick(R.id.image_avatar)
@@ -132,11 +98,71 @@ public class MainActivity extends BaseActivity {
                 .into(mImageAvatar);
     }
 
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.layout_fragment, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    private void initBottomNavigationView() {
+        fragmentManager = getSupportFragmentManager();
+        fragmentHandler = new Handler();
+
+        mViewBottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_chat:
+                    switchFragment(ChatFragment.newInstance(), ChatFragment.TAG, false, false);
+                    setUpScreen(R.string.chat, View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.VISIBLE);
+                    return true;
+
+                case R.id.menu_friends:
+                    switchFragment(FriendsFragment.newInstance(), FriendsFragment.TAG, false, false);
+                    setUpScreen(R.string.friends, View.VISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
+                    return true;
+
+                case R.id.menu_bot:
+                    switchFragment(BotFragment.newInstance(), BotFragment.TAG, false, false);
+                    setUpScreen(R.string.bot, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
+                    return true;
+            }
+            return false;
+        });
+        mViewBottomNavigation.setSelectedItemId(R.id.menu_chat);
+
+    }
+
+    private void setUpScreen(int title, int contact, int addFriends, int camera, int create) {
+        mTextTitle.setText(getString(title));
+        mImageContacts.setVisibility(contact);
+        mImageAddFriends.setVisibility(addFriends);
+        mImageCamera.setVisibility(camera);
+        mImageCreate.setVisibility(create);
+        mViewScrollMain.post(() -> mViewScrollMain.scrollTo(0, 0));
+    }
+
+    public void switchFragment(Fragment fragment, String tag, boolean addToBackStack, boolean clearBackStack) {
+        fragmentHandler.post(new RunFragment(fragment, tag, addToBackStack, clearBackStack));
+    }
+
+    private class RunFragment implements Runnable {
+        Fragment bf;
+        String tag;
+        boolean addToBackStack;
+        boolean clearBackStack;
+
+        RunFragment(Fragment bf, String tag, boolean addToBackStack, boolean clearBackStack) {
+            this.bf = bf;
+            this.tag = tag;
+            this.addToBackStack = addToBackStack;
+            this.clearBackStack = clearBackStack;
+        }
+
+        public void run() {
+            if (clearBackStack) {
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.layout_fragment, bf, tag);
+            if (addToBackStack) {
+                ft.addToBackStack(null);
+            }
+            ft.commit();
+        }
     }
 
 }

@@ -19,6 +19,15 @@ import butterknife.BindView;
 
 public class ChatFragment extends BaseFragment {
 
+    public static final String TAG = ChatFragment.class.getSimpleName();
+
+    public static ChatFragment newInstance() {
+        ChatFragment fragment = new ChatFragment();
+        Bundle bundle = new Bundle();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @BindView(R.id.list_mess)
     RecyclerView mRcvChat;
 

@@ -8,20 +8,23 @@
         android:id="@+id/main_toolbar"
         layout="@layout/toolbar" />
 
-    <View android:layout_width="match_parent"
+    <View
+        android:layout_width="match_parent"
         android:layout_height="@dimen/_2dp"
         android:layout_below="@id/main_toolbar"
-        android:background="@drawable/round_toolbar"/>
+        android:background="@drawable/round_toolbar" />
+
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/view_scroll_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/view_bottom_navigation"
         android:layout_below="@id/main_toolbar">
 
         <LinearLayout
-            android:layout_marginTop="@dimen/_8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8dp"
             android:orientation="vertical">
 
             <TextView
@@ -40,9 +43,11 @@
 
             <FrameLayout
                 android:id="@+id/layout_fragment"
-                android:layout_marginTop="@dimen/window_margin"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/window_margin" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
