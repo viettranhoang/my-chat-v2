@@ -31,7 +31,7 @@ public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.F
     @NonNull
     @Override
     public FriendNewsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_news, viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_news_item, viewGroup,false);
         return new FriendNewsViewHolder(view);
     }
 
