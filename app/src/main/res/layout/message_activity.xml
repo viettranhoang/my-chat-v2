@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context=".ui.message.MessageActivity">
-
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/relative_view"
@@ -25,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10dp"
-            android:layout_toRightOf="@+id/ic_back">
+            android:layout_toRightOf="@+id/image_back">
 
             <ImageView
                 android:id="@+id/image_avatar"
@@ -49,7 +45,7 @@
 
 
         <ImageView
-            android:id="@+id/ic_back"
+            android:id="@+id/image_back"
             style="@style/MessengerImageItem"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/_9dp"
@@ -81,24 +77,25 @@
 
 
         <ImageView
-            android:id="@+id/ic_call"
+            android:id="@+id/image_call"
             style="@style/MessengerImageItem"
             android:layout_marginLeft="@dimen/_12dp"
             android:layout_marginRight="@dimen/_13dp"
-            android:layout_toLeftOf="@+id/ic_call_video"
+            android:layout_toLeftOf="@+id/image_call_video"
+            android:tint="@color/blue"
             android:src="@drawable/ic_call" />
 
 
         <ImageView
-            android:id="@+id/ic_call_video"
+            android:id="@+id/image_call_video"
             style="@style/MessengerImageItem"
             android:layout_marginLeft="@dimen/_12dp"
             android:layout_marginRight="@dimen/_13dp"
-            android:layout_toLeftOf="@+id/ic_more"
+            android:layout_toLeftOf="@+id/image_more"
             android:src="@drawable/ic_video_call" />
 
         <ImageView
-            android:id="@+id/ic_more"
+            android:id="@+id/image_more"
             style="@style/MessengerImageItem"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/_10dp"
@@ -113,25 +110,22 @@
         android:id="@+id/list_mess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/layout_view"
-        android:layout_alignTop="@+id/layout_view1"
+        android:layout_above="@+id/view_line_bottom"
+        android:layout_alignTop="@+id/view_line_top"
         android:layout_marginLeft="@dimen/_5dp"
         android:layout_marginRight="@dimen/_5dp" />
 
     <View
-        android:id="@+id/layout_view"
-        style="@style/MessengerRecyclerView"
-        android:layout_above="@+id/layout_send"
-        android:alpha="0.1" />
+        android:id="@+id/view_line_bottom"
+        style="@style/Line"
+        android:layout_above="@+id/layout_send" />
 
     <View
-        android:id="@+id/layout_view1"
-        style="@style/MessengerRecyclerView"
-        android:layout_below="@+id/relative_view"
-        android:alpha="0.1" />
+        android:id="@+id/view_line_top"
+        style="@style/Line"
+        android:layout_below="@+id/relative_view" />
 
     <RelativeLayout
-
         android:id="@+id/layout_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -142,31 +136,31 @@
 
 
         <ImageView
-            android:id="@+id/ic_camera"
+            android:id="@+id/image_camera"
             style="@style/MessengerImageItem"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/_7dp"
             android:layout_marginBottom="@dimen/_13dp"
+            android:tint="@color/blue"
             android:src="@drawable/ic_camera" />
 
         <ImageView
-            android:id="@+id/ic_picture"
+            android:id="@+id/image_picture"
             style="@style/MessengerImageItem"
             android:layout_marginLeft="@dimen/_15dp"
             android:layout_marginBottom="@dimen/_13dp"
-            android:layout_toRightOf="@+id/ic_camera"
+            android:layout_toRightOf="@+id/image_camera"
             android:src="@drawable/ic_photo" />
 
         <ImageView
-            android:id="@+id/ic_mic"
+            android:id="@+id/image_mic"
             style="@style/MessengerImageItem"
             android:layout_marginLeft="@dimen/_15dp"
             android:layout_marginBottom="@dimen/_13dp"
-            android:layout_toRightOf="@+id/ic_picture"
+            android:layout_toRightOf="@+id/image_picture"
             android:src="@drawable/ic_mic" />
 
         <EditText
-
             android:id="@+id/input_text"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_36dp"
@@ -174,18 +168,16 @@
             android:layout_marginTop="@dimen/_5dp"
             android:layout_marginRight="@dimen/_15dp"
             android:layout_marginBottom="@dimen/_9dp"
-            android:layout_toLeftOf="@id/ic_icon"
-            android:layout_toRightOf="@id/ic_mic"
+            android:layout_toLeftOf="@id/image_icon"
+            android:layout_toRightOf="@id/image_mic"
             android:background="@drawable/round_corner_gray_18"
-            android:drawableRight="@drawable/ic_icon"
+            android:drawableRight="@drawable/ic_smile"
             android:hint="Aa"
             android:paddingLeft="@dimen/_10dp"
-            android:paddingRight="@dimen/_10dp"
-
-            />
+            android:paddingRight="@dimen/_10dp" />
 
         <ImageView
-            android:id="@+id/ic_icon"
+            android:id="@+id/image_icon"
             style="@style/MessengerImageItem"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/_7dp"

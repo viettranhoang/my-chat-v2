@@ -30,7 +30,7 @@
             android:id="@+id/image_camera"
             style="@style/ToolbarMenuItem"
             android:layout_toLeftOf="@id/image_create"
-            android:src="@drawable/ic_camera_black" />
+            android:src="@drawable/ic_camera" />
 
         <ImageView
             android:id="@+id/image_create"

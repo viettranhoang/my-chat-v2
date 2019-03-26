@@ -34,28 +34,28 @@ public class MessageActivity extends BaseActivity {
     @BindView(R.id.image_avatar)
     ImageView mImageAvatar;
 
-    @BindView(R.id.ic_call)
+    @BindView(R.id.image_call)
     ImageView mImageCall;
 
-    @BindView(R.id.ic_call_video)
+    @BindView(R.id.image_call_video)
     ImageView mImageCallVideo;
 
-    @BindView(R.id.ic_more)
+    @BindView(R.id.image_more)
     ImageView mImageMore;
 
-    @BindView(R.id.ic_camera)
+    @BindView(R.id.image_camera)
     ImageView mImageCamera;
 
-    @BindView(R.id.ic_picture)
+    @BindView(R.id.image_picture)
     ImageView mImagePicture;
 
-    @BindView(R.id.ic_mic)
+    @BindView(R.id.image_mic)
     ImageView mImageMic;
 
     @BindView(R.id.input_text)
     EditText mInputText;
 
-    @BindView(R.id.ic_icon)
+    @BindView(R.id.image_icon)
     ImageView mImageIcon;
 
     @BindView(R.id.image_online)
@@ -64,7 +64,7 @@ public class MessageActivity extends BaseActivity {
     @BindView(R.id.text_status)
     TextView mTextSttatus;
 
-    @BindView(R.id.ic_back)
+    @BindView(R.id.image_back)
     ImageView mImageBack;
 
 

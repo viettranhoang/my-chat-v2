@@ -20,7 +20,7 @@
             android:layout_alignRight="@id/image_background"
             android:layout_alignBottom="@id/image_background"
             android:layout_margin="@dimen/profile_image_camera_margin"
-            android:src="@drawable/ic_camera_black"
+            android:src="@drawable/ic_camera"
             android:background="@drawable/round_corner_gray_6"
             android:paddingLeft="@dimen/_10dp"
             android:paddingRight="@dimen/_10dp"
@@ -42,7 +42,7 @@
             android:id="@+id/image_edit_avatar"
             android:layout_alignRight="@id/image_avatar"
             android:layout_alignBottom="@id/image_avatar"
-            android:src="@drawable/ic_camera_black"
+            android:src="@drawable/ic_camera"
             android:padding="@dimen/_10dp"
             android:layout_margin="@dimen/profile_image_camera_margin"
             android:background="@drawable/shape_oval_gray"
@@ -125,7 +125,7 @@
                     android:id="@+id/ic_follow_black"
                     style="@style/ProfileImageItem"
                     android:padding="@dimen/_9dp"
-                    android:src="@drawable/ic_call_black" />
+                    android:src="@drawable/ic_call" />
 
                 <TextView
                     style="@style/TextTitle"
