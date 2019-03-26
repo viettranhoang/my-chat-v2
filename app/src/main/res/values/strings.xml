@@ -6,4 +6,11 @@
     <string name="bot">Bot</string>
 
     <string name="tim_kiem">Tìm kiếm</string>
+    
+    // Login
+    <string name="dang_nhap">Đăng nhập</string>
+    <string name="tao_tai_khoan">Tạo tài khoản</string>
+    <string name="email">Email</string>
+    <string name="mat_khau">Mật khẩu</string>
+    <string name="quen_mat_khau">Quên mật khẩu</string>
 </resources>

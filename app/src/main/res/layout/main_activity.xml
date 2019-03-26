@@ -34,7 +34,7 @@
                 android:layout_marginLeft="@dimen/window_margin"
                 android:layout_marginTop="@dimen/_5dp"
                 android:layout_marginRight="@dimen/window_margin"
-                android:background="@drawable/round_corner_gray_20"
+                android:background="@drawable/round_corner_gray_16"
                 android:drawableLeft="@drawable/ic_search"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/_10dp"

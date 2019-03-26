@@ -1,73 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/window_margin"
     android:layout_marginRight="@dimen/window_margin"
-    tools:context=".ui.login.LoginActivity">
+    android:gravity="center_horizontal"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/input_info">
-
-        <ImageView
-            android:id="@+id/image_messenger"
-            android:layout_width="@dimen/login_image_messenger"
-            android:layout_height="@dimen/login_image_messenger"
-            android:layout_centerInParent="true" />
-
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/image_messenger"
+        android:layout_marginTop="@dimen/_70dp"
+        android:layout_marginBottom="@dimen/_100dp"
+        android:layout_width="@dimen/login_image_messenger"
+        android:layout_height="@dimen/login_image_messenger"/>
 
     <EditText
-        android:id="@+id/input_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/input_password"
-        android:layout_marginBottom="@dimen/login_margin_botton"
-        android:hint="Số điện thoại hoặc email" />
+        android:id="@+id/input_email"
+        style="@style/EditText"
+        android:layout_marginTop="@dimen/window_margin"
+        android:layout_marginBottom="@dimen/window_margin"
+        android:hint="@string/email" />
+
+    <View
+        android:id="@+id/view_line"
+        style="@style/Line"
+        android:layout_marginBottom="@dimen/window_margin" />
 
     <EditText
         android:id="@+id/input_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_login"
-        android:layout_marginBottom="@dimen/login_margin_botton"
-        android:hint="Mật khẩu"
+        style="@style/EditText"
+        android:layout_marginBottom="@dimen/window_margin"
+        android:hint="@string/mat_khau"
         android:inputType="textPassword" />
 
 
     <Button
         android:id="@+id/button_login"
         style="@style/ButtonMain"
-        android:layout_above="@id/button_creat_account"
-        android:layout_marginBottom="@dimen/login_margin_botton"
-        android:background="@drawable/round_corner_gray_20"
-        android:text="ĐĂNG NHẬP"
-        android:textColor="@color/black20"
-        android:textStyle="bold" />
+        android:layout_marginTop="@dimen/login_margin"
+        android:layout_marginBottom="@dimen/login_margin"
+        android:background="@drawable/round_corner_gray_16"
+        android:text="@string/dang_nhap"
+        android:textColor="@color/black20" />
 
 
     <Button
         android:id="@+id/button_creat_account"
         style="@style/ButtonMain"
-        android:layout_above="@id/layout_linean"
-        android:layout_marginBottom="@dimen/login_margin_botton"
+        android:layout_marginBottom="@dimen/login_margin"
         android:background="@drawable/round_corner_green"
-        android:text="TẠO TÀI KHOẢN MỚI" />
+        android:text="@string/tao_tai_khoan" />
 
     <LinearLayout
         android:id="@+id/layout_linean"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/text_forget_password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/login_margin_botton"
+        android:layout_marginBottom="@dimen/login_margin"
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/ic_facebook"
+            android:id="@+id/button_facebook"
             android:layout_width="@dimen/login_image_social_size"
             android:layout_height="@dimen/login_image_social_size"
             android:layout_marginRight="@dimen/_9dp"
@@ -76,7 +69,7 @@
             android:src="@drawable/ic_facebook" />
 
         <ImageView
-            android:id="@+id/ic_google"
+            android:id="@+id/button_google"
             android:layout_width="@dimen/login_image_social_size"
             android:layout_height="@dimen/login_image_social_size"
             android:layout_marginLeft="@dimen/_9dp"
@@ -88,11 +81,9 @@
     <TextView
         android:id="@+id/text_forget_password"
         style="@style/TextTitle"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/login_margin_botton"
-        android:text="QUÊN MẬT KHẨU "
+        android:layout_marginBottom="@dimen/login_margin"
+        android:text="@string/quen_mat_khau"
         android:textAllCaps="true"
-        android:textSize="@dimen/text_body" />
+        android:textSize="@dimen/text_min" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -16,6 +16,7 @@ import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.friends.FriendsFragment;
+import com.vit.mychat.ui.login.LoginActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.util.GlideApp;
 
@@ -73,6 +74,7 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.image_create)
     void onClickCreate() {
         Toast.makeText(this, "create", Toast.LENGTH_SHORT).show();
+        LoginActivity.moveLoginActivity(this);
     }
 
     @OnClick(R.id.image_camera)

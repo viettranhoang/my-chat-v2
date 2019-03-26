@@ -18,7 +18,6 @@ import com.vit.mychat.util.RoundedCornersTransformation;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindColor;
 import butterknife.BindView;
 
 public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.FriendNewsViewHolder> {
@@ -55,9 +54,6 @@ public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.F
         @BindView(R.id.text_name)
         TextView mTextName;
 
-        @BindColor(R.color.white92)
-        int mWhite92;
-
         public FriendNewsViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -75,7 +71,6 @@ public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.F
                     .circleCrop()
                     .into(mImageAvatar);
             mTextName.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-            mTextName.setTextColor(mWhite92);
             mTextName.setText(friend.getName());
         }
 
