@@ -60,22 +60,28 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/button_facebook"
+            android:id="@+id/image_facebook"
             android:layout_width="@dimen/login_image_social_size"
             android:layout_height="@dimen/login_image_social_size"
             android:layout_marginRight="@dimen/_9dp"
             android:background="@drawable/round_border_gray"
             android:padding="@dimen/login_image_social_padding"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
             android:src="@drawable/ic_facebook" />
 
         <ImageView
-            android:id="@+id/button_google"
+            android:id="@+id/image_google"
             android:layout_width="@dimen/login_image_social_size"
             android:layout_height="@dimen/login_image_social_size"
             android:layout_marginLeft="@dimen/_9dp"
             android:background="@drawable/round_border_gray"
             android:padding="@dimen/login_image_social_padding"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
             android:src="@drawable/ic_google" />
+
+
     </LinearLayout>
 
     <TextView

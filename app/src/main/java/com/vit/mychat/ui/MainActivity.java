@@ -62,13 +62,12 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         initToolbar();
         initBottomNavigationView();
-        MessageActivity.moveMessageActivity(this);
+
     }
 
     @OnClick(R.id.image_avatar)
     void onClickAvatar() {
         Toast.makeText(this, "avatar", Toast.LENGTH_SHORT).show();
-
         ProfileActivity.moveProfileActivity(this);
     }
 
@@ -81,6 +80,7 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.image_camera)
     void onClickCamera() {
         Toast.makeText(this, "camera", Toast.LENGTH_SHORT).show();
+        MessageActivity.moveMessageActivity(this);
     }
 
     @OnClick(R.id.image_add_friends)
