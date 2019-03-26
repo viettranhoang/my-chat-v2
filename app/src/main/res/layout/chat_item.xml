@@ -35,7 +35,8 @@
             style="@style/TextTitle"
             android:text="Vu Hanh"
             android:fontFamily="sans-serif-medium"
-            android:textSize="@dimen/text_input"/>
+            android:textSize="@dimen/text_input"
+            />
 
         <TextView
             android:id="@+id/text_message"
@@ -44,7 +45,8 @@
             android:fontFamily="sans-serif"
             android:layout_below="@+id/text_name"
             android:text="Yeu bom nhat "
-            android:textColor="@color/black40" />
+            android:textColor="@color/black40"
+            />
 
         <TextView
             android:id="@+id/text_time_seen"

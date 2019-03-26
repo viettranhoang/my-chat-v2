@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10dp"
+    android:layout_marginLeft="@dimen/_2dp"
+    android:layout_marginRight="@dimen/window_margin"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/image_avatar"
+        android:layout_marginLeft="@dimen/_2dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_width="@dimen/message_image_avatar_size"
+        android:layout_height="@dimen/message_image_avatar_size"
+        android:background="@drawable/shape_oval_while"
+        android:layout_alignBottom="@+id/text_message"
+        />
+
+
+
+        <TextView
+            android:id="@+id/text_time"
+            android:text="12:45"
+            style="@style/TextTitle"
+            android:textSize="@dimen/text_min"
+            android:textColor="@color/black40"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/_2dp"
+            android:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/text_message"
+            style="@style/TextTitle"
+            android:fontFamily="sans-serif"
+            android:textSize="@dimen/text_input"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_12dp"
+            android:layout_toRightOf="@+id/image_avatar"
+            android:paddingLeft="@dimen/_12dp"
+            android:layout_marginTop="@dimen/_18dp"
+            android:paddingRight="@dimen/_10dp"
+            android:paddingBottom="@dimen/_10dp"
+            android:paddingTop="@dimen/_10dp"
+            android:text="Hello I loveksnafjkalfmasl;fkbakjasfnlsdnfkbsakfbskfkabfnlaskfnsdbfs,afmaslfansdk  "
+            android:background="@drawable/round_corner_gray_18"
+            />
+
+        <TextView
+            android:id="@+id/text_seen"
+            style="@style/TextTitle"
+            android:textSize="@dimen/text_min"
+            android:textColor="@color/black40"
+            android:layout_marginLeft="@dimen/_17dp"
+            android:text="da xem"
+            android:layout_alignLeft="@+id/text_message"
+            android:layout_below="@+id/text_message"
+            android:visibility="visible" />
+
+
+</RelativeLayout>
+
+

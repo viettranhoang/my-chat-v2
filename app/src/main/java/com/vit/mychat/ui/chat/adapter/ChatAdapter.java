@@ -26,6 +26,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     private List<Chat> mChatList = new ArrayList<>();
 
     public ChatAdapter(List<Chat> mChatList) {
+
         this.mChatList = mChatList;
     }
 
@@ -70,6 +71,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         int mBlack87;
 
         public ChatViewHolder(@NonNull View itemView) {
+
+
             super(itemView);
             ButterKnife.bind(this, itemView);
 

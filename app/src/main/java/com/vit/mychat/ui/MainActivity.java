@@ -17,6 +17,7 @@ import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.friends.FriendsFragment;
 import com.vit.mychat.ui.login.LoginActivity;
+import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.util.GlideApp;
 
@@ -61,7 +62,7 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         initToolbar();
         initBottomNavigationView();
-
+        MessageActivity.moveMessageActivity(this);
     }
 
     @OnClick(R.id.image_avatar)

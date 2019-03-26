@@ -1,9 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".ui.message.MessageActivity">
 
-</android.support.constraint.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/_5dp"
+        android:layout_marginTop="@dimen/_7dp"
+        android:layout_marginRight="@dimen/_7dp"
+        android:layout_marginBottom="@dimen/_3dp">
+
+
+        <RelativeLayout
+            android:id="@+id/relative_view1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:layout_toRightOf="@+id/ic_back">
+
+            <ImageView
+                android:id="@+id/image_avatar"
+                android:layout_width="@dimen/message_image_avatar_size"
+                android:layout_height="@dimen/message_image_avatar_size"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/shape_oval_while"
+                android:padding="3dp" />
+
+            <ImageView
+                android:id="@+id/image_online"
+                android:layout_width="@dimen/message_image_online_size"
+                android:layout_height="@dimen/message_image_online_size"
+                android:layout_alignRight="@+id/image_avatar"
+                android:layout_alignBottom="@+id/image_avatar"
+                android:background="@drawable/shape_oval_border_green"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/ic_back"
+            style="@style/MessengerImageItem"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/_9dp"
+            android:src="@drawable/ic_back" />
+
+
+        <TextView
+            android:id="@+id/text_name"
+            style="@style/TextTitle"
+            android:layout_marginLeft="@dimen/_7dp"
+            android:layout_marginRight="@dimen/_7dp"
+            android:layout_toRightOf="@+id/relative_view1"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Vũ Hạnh"
+            android:textSize="@dimen/text_input" />
+
+        <TextView
+            android:id="@+id/text_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_name"
+            android:layout_alignBottom="@+id/relative_view1"
+            android:layout_marginLeft="@dimen/_7dp"
+            android:layout_toRightOf="@+id/relative_view1"
+            android:text="Đang hoạt động"
+            android:textSize="@dimen/text_min"
+            android:visibility="visible" />
+
+
+        <ImageView
+            android:id="@+id/ic_call"
+            style="@style/MessengerImageItem"
+            android:layout_marginLeft="@dimen/_12dp"
+            android:layout_marginRight="@dimen/_13dp"
+            android:layout_toLeftOf="@+id/ic_call_video"
+            android:src="@drawable/ic_call" />
+
+
+        <ImageView
+            android:id="@+id/ic_call_video"
+            style="@style/MessengerImageItem"
+            android:layout_marginLeft="@dimen/_12dp"
+            android:layout_marginRight="@dimen/_13dp"
+            android:layout_toLeftOf="@+id/ic_more"
+            android:src="@drawable/ic_video_call" />
+
+        <ImageView
+            android:id="@+id/ic_more"
+            style="@style/MessengerImageItem"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:layout_marginRight="@dimen/_11dp"
+            android:src="@drawable/ic_more" />
+
+
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_mess"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_view"
+        android:layout_alignTop="@+id/layout_view1"
+        android:layout_marginLeft="@dimen/_5dp"
+        android:layout_marginRight="@dimen/_5dp" />
+
+    <View
+        android:id="@+id/layout_view"
+        style="@style/MessengerRecyclerView"
+        android:layout_above="@+id/layout_send"
+        android:alpha="0.1" />
+
+    <View
+        android:id="@+id/layout_view1"
+        style="@style/MessengerRecyclerView"
+        android:layout_below="@+id/relative_view"
+        android:alpha="0.1" />
+
+    <RelativeLayout
+
+        android:id="@+id/layout_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/_7dp"
+        android:layout_marginRight="@dimen/_7dp"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/ic_camera"
+            style="@style/MessengerImageItem"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/_7dp"
+            android:layout_marginBottom="@dimen/_13dp"
+            android:src="@drawable/ic_camera" />
+
+        <ImageView
+            android:id="@+id/ic_picture"
+            style="@style/MessengerImageItem"
+            android:layout_marginLeft="@dimen/_15dp"
+            android:layout_marginBottom="@dimen/_13dp"
+            android:layout_toRightOf="@+id/ic_camera"
+            android:src="@drawable/ic_photo" />
+
+        <ImageView
+            android:id="@+id/ic_mic"
+            style="@style/MessengerImageItem"
+            android:layout_marginLeft="@dimen/_15dp"
+            android:layout_marginBottom="@dimen/_13dp"
+            android:layout_toRightOf="@+id/ic_picture"
+            android:src="@drawable/ic_mic" />
+
+        <EditText
+
+            android:id="@+id/input_text"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_36dp"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_5dp"
+            android:layout_marginRight="@dimen/_15dp"
+            android:layout_marginBottom="@dimen/_9dp"
+            android:layout_toLeftOf="@id/ic_icon"
+            android:layout_toRightOf="@id/ic_mic"
+            android:background="@drawable/round_corner_gray_18"
+            android:drawableRight="@drawable/ic_icon"
+            android:hint="Aa"
+            android:paddingLeft="@dimen/_10dp"
+            android:paddingRight="@dimen/_10dp"
+
+            />
+
+        <ImageView
+            android:id="@+id/ic_icon"
+            style="@style/MessengerImageItem"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/_7dp"
+            android:layout_marginRight="@dimen/_6dp"
+            android:src="@drawable/ic_like" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

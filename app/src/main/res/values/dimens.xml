@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="window_margin">@dimen/_18dp</dimen>
-
     <dimen name="text_headline_1">@dimen/_30sp</dimen>
     <dimen name="text_headline_2">@dimen/_24sp</dimen>
     <dimen name="text_title">@dimen/_20sp</dimen>
@@ -43,6 +42,12 @@
     <dimen name="friend_image_online_size">@dimen/_18dp</dimen>
     <dimen name="friend_layout_news_height">@dimen/_206dp</dimen>
     <dimen name="friend_layout_news_margin">@dimen/_4dp</dimen>
+
+
+    // messenger
+    <dimen name="message_image_avatar_size">@dimen/_38dp</dimen>
+    <dimen name="message_image_item_size">@dimen/_24dp</dimen>
+    <dimen name="message_image_online_size">@dimen/_16dp</dimen>
 
 
 
