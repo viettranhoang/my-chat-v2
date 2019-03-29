@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_10dp"
     android:layout_marginLeft="@dimen/_2dp"
-    android:layout_marginRight="@dimen/window_margin"
+    android:layout_marginRight="@dimen/margin_primary"
     android:orientation="horizontal">
 
     <ImageView
@@ -36,9 +36,9 @@
             android:fontFamily="sans-serif"
             android:textSize="@dimen/text_input"
             android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/_12dp"
+            android:layout_marginLeft="@dimen/margin_secondary"
             android:layout_toRightOf="@+id/image_avatar"
-            android:paddingLeft="@dimen/_12dp"
+            android:paddingLeft="@dimen/margin_secondary"
             android:layout_marginTop="@dimen/_18dp"
             android:paddingRight="@dimen/_10dp"
             android:paddingBottom="@dimen/_10dp"

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="4dp"
+    android:background="?attr/colorPrimary"
+    app:contentInsetStartWithNavigation="0dp"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_avatar"
+            android:layout_width="@dimen/message_image_avatar_size"
+            android:layout_height="@dimen/message_image_avatar_size"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_oval_while"
+            android:padding="3dp" />
+
+        <ImageView
+            android:id="@+id/image_online"
+            android:layout_width="@dimen/message_image_online_size"
+            android:layout_height="@dimen/message_image_online_size"
+            android:layout_alignRight="@+id/image_avatar"
+            android:layout_alignBottom="@+id/image_avatar"
+            android:background="@drawable/shape_oval_border_green" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/image_avatar"
+            android:layout_marginLeft="@dimen/margin_secondary"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_name"
+                style="@style/TextTitle"
+                android:text="Vũ Hạnh"
+                android:textSize="@dimen/text_input" />
+
+            <TextView
+                android:id="@+id/text_online"
+                style="@style/TextTitle"
+                android:fontFamily="sans-serif"
+                android:text="Đang hoạt động"
+                android:textColor="@color/black40"
+                android:textSize="@dimen/text_min" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.Toolbar>

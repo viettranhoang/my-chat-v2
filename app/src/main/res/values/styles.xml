@@ -1,14 +1,14 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowActionBar">false</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/gray</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:textColorPrimary">@color/black87</item>
+        <item name="colorControlNormal">@color/blue</item>
     </style>
 
     <style name="TextTitle">
@@ -42,7 +42,7 @@
     <style name="ToolbarMenuItem">
         <item name="android:layout_width">@dimen/toolbar_image_item_size</item>
         <item name="android:layout_height">@dimen/toolbar_image_item_size</item>
-        <item name="android:layout_marginRight">@dimen/window_margin</item>
+        <item name="android:layout_marginRight">@dimen/margin_primary</item>
         <item name="android:background">@drawable/shape_oval_gray</item>
         <item name="android:padding">@dimen/toolbar_image_item_padding</item>
         <item name="android:visibility">invisible</item>

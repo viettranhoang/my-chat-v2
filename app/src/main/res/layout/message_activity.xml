@@ -1,117 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/relative_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/_5dp"
-        android:layout_marginTop="@dimen/_7dp"
-        android:layout_marginRight="@dimen/_7dp"
-        android:layout_marginBottom="@dimen/_3dp">
-
-
-        <RelativeLayout
-            android:id="@+id/relative_view1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10dp"
-            android:layout_toRightOf="@+id/image_back">
-
-            <ImageView
-                android:id="@+id/image_avatar"
-                android:layout_width="@dimen/message_image_avatar_size"
-                android:layout_height="@dimen/message_image_avatar_size"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/shape_oval_while"
-                android:padding="3dp" />
-
-            <ImageView
-                android:id="@+id/image_online"
-                android:layout_width="@dimen/message_image_online_size"
-                android:layout_height="@dimen/message_image_online_size"
-                android:layout_alignRight="@+id/image_avatar"
-                android:layout_alignBottom="@+id/image_avatar"
-                android:background="@drawable/shape_oval_border_green"
-                android:visibility="visible" />
-
-        </RelativeLayout>
-
-
-        <ImageView
-            android:id="@+id/image_back"
-            style="@style/MessengerImageItem"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/_9dp"
-            android:src="@drawable/ic_back" />
-
-
-        <TextView
-            android:id="@+id/text_name"
-            style="@style/TextTitle"
-            android:layout_marginLeft="@dimen/_7dp"
-            android:layout_marginRight="@dimen/_7dp"
-            android:layout_toRightOf="@+id/relative_view1"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:text="Vũ Hạnh"
-            android:textSize="@dimen/text_input" />
-
-        <TextView
-            android:id="@+id/text_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_name"
-            android:layout_alignBottom="@+id/relative_view1"
-            android:layout_marginLeft="@dimen/_7dp"
-            android:layout_toRightOf="@+id/relative_view1"
-            android:text="Đang hoạt động"
-            android:textSize="@dimen/text_min"
-            android:visibility="visible" />
-
-
-        <ImageView
-            android:id="@+id/image_call"
-            style="@style/MessengerImageItem"
-            android:layout_marginLeft="@dimen/_12dp"
-            android:layout_marginRight="@dimen/_13dp"
-            android:layout_toLeftOf="@+id/image_call_video"
-            android:tint="@color/blue"
-            android:src="@drawable/ic_call" />
-
-
-        <ImageView
-            android:id="@+id/image_call_video"
-            style="@style/MessengerImageItem"
-            android:layout_marginLeft="@dimen/_12dp"
-            android:layout_marginRight="@dimen/_13dp"
-            android:layout_toLeftOf="@+id/image_more"
-            android:src="@drawable/ic_video_call" />
-
-        <ImageView
-            android:id="@+id/image_more"
-            style="@style/MessengerImageItem"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginRight="@dimen/_11dp"
-            android:src="@drawable/ic_more" />
-
-
-    </RelativeLayout>
-
+    <include
+        android:id="@+id/toolbar_message"
+        layout="@layout/message_toolbar"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_mess"
+        android:layout_below="@id/toolbar_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/view_line_bottom"
-        android:layout_alignTop="@+id/view_line_top"
         android:layout_marginLeft="@dimen/_5dp"
         android:layout_marginRight="@dimen/_5dp" />
 
@@ -120,10 +23,6 @@
         style="@style/Line"
         android:layout_above="@+id/layout_send" />
 
-    <View
-        android:id="@+id/view_line_top"
-        style="@style/Line"
-        android:layout_below="@+id/relative_view" />
 
     <RelativeLayout
         android:id="@+id/layout_send"
@@ -141,8 +40,8 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/_7dp"
             android:layout_marginBottom="@dimen/_13dp"
-            android:tint="@color/blue"
-            android:src="@drawable/ic_camera" />
+            android:src="@drawable/ic_camera"
+            android:tint="@color/blue" />
 
         <ImageView
             android:id="@+id/image_picture"

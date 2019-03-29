@@ -6,7 +6,7 @@
 
     <include
         android:id="@+id/main_toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/main_toolbar" />
 
     <View
         android:layout_width="match_parent"
@@ -31,9 +31,9 @@
                 android:id="@+id/text_search"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_43dp"
-                android:layout_marginLeft="@dimen/window_margin"
+                android:layout_marginLeft="@dimen/margin_primary"
                 android:layout_marginTop="@dimen/_5dp"
-                android:layout_marginRight="@dimen/window_margin"
+                android:layout_marginRight="@dimen/margin_primary"
                 android:background="@drawable/round_corner_gray_16"
                 android:drawableLeft="@drawable/ic_search"
                 android:gravity="center_vertical"
@@ -47,7 +47,7 @@
                 android:focusableInTouchMode="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/window_margin" />
+                android:layout_marginTop="@dimen/margin_primary" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

@@ -21,7 +21,7 @@
             android:id="@+id/text_title"
             style="@style/TextTitle"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/window_margin"
+            android:layout_marginLeft="@dimen/margin_primary"
             android:layout_toRightOf="@id/image_avatar"
             android:text="@string/chat"
             android:textSize="@dimen/text_headline_2" />

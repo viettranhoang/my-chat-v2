@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/friend_layout_news_margin"
-    android:layout_marginRight="@dimen/window_margin">
+    android:layout_marginRight="@dimen/margin_primary">
 
     <ImageView
         android:id="@+id/image_avatar_online"

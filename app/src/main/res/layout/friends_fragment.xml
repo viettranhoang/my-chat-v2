@@ -6,14 +6,14 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/window_margin"
+        android:layout_marginLeft="@dimen/margin_primary"
         android:id="@+id/list_friend_online"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/window_margin"
-        android:layout_marginLeft="@dimen/window_margin"
-        android:layout_marginRight="@dimen/window_margin"
+        android:layout_marginTop="@dimen/margin_primary"
+        android:layout_marginLeft="@dimen/margin_primary"
+        android:layout_marginRight="@dimen/margin_primary"
         android:id="@+id/list_friend_news"/>
 </LinearLayout>

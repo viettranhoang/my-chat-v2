@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:paddingLeft="@dimen/window_margin"
-    android:paddingRight="@dimen/window_margin"
-    android:paddingBottom="@dimen/window_margin"
+    android:paddingLeft="@dimen/margin_primary"
+    android:paddingRight="@dimen/margin_primary"
+    android:paddingBottom="@dimen/margin_primary"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -28,7 +28,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/window_margin">
+        android:layout_marginLeft="@dimen/margin_primary">
 
         <TextView
             android:id="@+id/text_name"

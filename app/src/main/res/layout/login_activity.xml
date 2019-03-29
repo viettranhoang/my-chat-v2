@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/window_margin"
-    android:layout_marginRight="@dimen/window_margin"
+    android:layout_marginLeft="@dimen/margin_primary"
+    android:layout_marginRight="@dimen/margin_primary"
     android:gravity="center_horizontal"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
@@ -18,19 +18,19 @@
     <EditText
         android:id="@+id/input_email"
         style="@style/EditText"
-        android:layout_marginTop="@dimen/window_margin"
-        android:layout_marginBottom="@dimen/window_margin"
+        android:layout_marginTop="@dimen/margin_primary"
+        android:layout_marginBottom="@dimen/margin_primary"
         android:hint="@string/email" />
 
     <View
         android:id="@+id/view_line"
         style="@style/Line"
-        android:layout_marginBottom="@dimen/window_margin" />
+        android:layout_marginBottom="@dimen/margin_primary" />
 
     <EditText
         android:id="@+id/input_password"
         style="@style/EditText"
-        android:layout_marginBottom="@dimen/window_margin"
+        android:layout_marginBottom="@dimen/margin_primary"
         android:hint="@string/mat_khau"
         android:inputType="textPassword" />
 
