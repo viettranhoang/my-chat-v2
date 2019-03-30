@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/margin_primary"
     android:layout_marginRight="@dimen/margin_primary"
     android:gravity="center_horizontal"
@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/image_messenger"
         android:layout_marginTop="@dimen/_70dp"
-        android:layout_marginBottom="@dimen/_100dp"
+        android:layout_marginBottom="@dimen/_70dp"
         android:layout_width="@dimen/login_image_messenger"
         android:layout_height="@dimen/login_image_messenger"/>
 
@@ -66,7 +66,7 @@
             android:layout_marginRight="@dimen/_9dp"
             android:background="@drawable/round_border_gray"
             android:padding="@dimen/login_image_social_padding"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:foreground="@drawable/ripple_effect"
             android:clickable="true"
             android:src="@drawable/ic_facebook" />
 
@@ -77,7 +77,7 @@
             android:layout_marginLeft="@dimen/_9dp"
             android:background="@drawable/round_border_gray"
             android:padding="@dimen/login_image_social_padding"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:foreground="@drawable/ripple_effect"
             android:clickable="true"
             android:src="@drawable/ic_google" />
 
