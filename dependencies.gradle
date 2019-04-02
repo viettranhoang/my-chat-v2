@@ -1,0 +1,127 @@
+allprojects {
+    repositories {
+        jcenter()
+        google()
+        maven { url "https://jitpack.io" }
+    }
+    afterEvaluate {
+        tasks.withType(JavaCompile.class) {
+            options.compilerArgs << "-Xmaxerrs" << "500"
+        }
+    }
+}
+
+ext {
+    androidBuildToolsVersion = "28.0.0"
+    androidMinSdkVersion = 21
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
+
+    androidSupportVersion = '28.0.0'
+    roomVersion = '1.1.1'
+    lifecycleVersion = '1.1.1'
+    butterKnifeVersion = '8.8.1'
+    rxJavaVersion = '2.2.3'
+    rxAndroidVersion = '2.1.0'
+    rxBindingVersion = '2.0.0'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    glideVersion = '4.8.0'
+    retrofitVersion = '2.5.0'
+    okHttp3Version = '3.11.0'
+    daggerVersion = '2.19'
+    multidexVersion = '1.0.3'
+    keyboardVisibilityVersion = '2.2.1'
+    autoDimensionVersion = '1.0.4'
+    firebaseCoreVersion = '16.0.8'
+    firebaseDatabaseVersion = '16.1.0'
+    firebaseAuthVersion = '16.1.0'
+    googleAuthVersion = '16.0.1'
+
+    junitVersion = '4.12'
+    powermockVersion = '2.0.0'
+    robolectricVersion = '4.1'
+    mockitoVersion = '2.+'
+    testJsonVersion = '20140107'
+    testRunnerVersion = '1.0.2'
+    espressoCoreVersion = '3.0.2'
+
+
+    domainDependencies = [
+            rx2Java        : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}"
+    ]
+
+    dataDependencies = [
+            rx2Java        : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}"
+    ]
+
+    cacheDependencies = [
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            room           : "android.arch.persistence.room:runtime:${roomVersion}",
+            roomProcessor  : "android.arch.persistence.room:compiler:${roomVersion}",
+            roomRx2        : "android.arch.persistence.room:rxjava2:${roomVersion}"
+    ]
+
+    remoteDependencies = [
+            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}",
+            retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitConverterGson: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retrofitRx2          : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            okhttp3Logging       : "com.squareup.okhttp3:logging-interceptor:${okHttp3Version}",
+            firebaseCore : "com.google.firebase:firebase-core:${firebaseCoreVersion}",
+            firebaseDatabase : "com.google.firebase:firebase-database:${firebaseDatabaseVersion}",
+            firebaseAuth : "com.google.firebase:firebase-auth:${firebaseAuthVersion}",
+            googleAuth : "com.google.android.gms:play-services-auth:${googleAuthVersion}"
+    ]
+
+    presentationDependencies = [
+            rx2Java            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject        : "javax.inject:javax.inject:${javaxInjectVersion}",
+            lifecycleExtensions: "android.arch.lifecycle:extensions:${lifecycleVersion}",
+            lifecycleRuntime   : "android.arch.lifecycle:runtime:${lifecycleVersion}",
+            lifecycleProcessor : "android.arch.lifecycle:compiler:${lifecycleVersion}"
+    ]
+
+    uiDependencies = [
+            appCompatV7           : "com.android.support:appcompat-v7:${androidSupportVersion}",
+            recyclerView          : "com.android.support:recyclerview-v7:${androidSupportVersion}",
+            rx2Java               : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rx2Android            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            butterknife           : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterknifeProcessor  : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            dagger                : "com.google.dagger:dagger:${daggerVersion}",
+            daggerAndroid         : "com.google.dagger:dagger-android:${daggerVersion}",
+            daggerAndroidSupport  : "com.google.dagger:dagger-android-support:${daggerVersion}",
+            daggerProcessor       : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${daggerVersion}",
+            lifecycleExtensions   : "android.arch.lifecycle:extensions:${lifecycleVersion}",
+            lifecycleProcessor    : "android.arch.lifecycle:compiler:${lifecycleVersion}",
+            roomRx2               : "android.arch.persistence.room:rxjava2:${roomVersion}",
+            glide                 : "com.github.bumptech.glide:glide:${glideVersion}",
+            glideProcessor        : "com.github.bumptech.glide:compiler:${glideVersion}",
+            multiDex              : "com.android.support:multidex:${multidexVersion}",
+            rxBinding             : "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}",
+            keyboardVisibility    : "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:${keyboardVisibilityVersion}",
+            autoDimension         : "com.github.hantrungkien:AutoDimension:${autoDimensionVersion}",
+            supportDesign         : "com.android.support:design:${androidSupportVersion}"
+    ]
+
+    testDependencies = [
+            junit                 : "junit:junit:${junitVersion}",
+            mockitoCore           : "org.mockito:mockito-core:${mockitoVersion}",
+            robolectric           : "org.robolectric:robolectric:${robolectricVersion}",
+            testJson              : "org.json:json:${testJsonVersion}",
+            powermockMockito2     : "org.powermock:powermock-api-mockito2:${powermockVersion}",
+            powermockCore         : "org.powermock:powermock-core:${powermockVersion}",
+            powermockJunit        : "org.powermock:powermock-module-junit4:${powermockVersion}",
+            testRunner            : "com.android.support.test:runner:${testRunnerVersion}",
+            espressoCore          : "com.android.support.test.espresso:espresso-core:${espressoCoreVersion}"
+    ]
+}

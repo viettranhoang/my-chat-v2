@@ -15,49 +15,8 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://jitpack.io" }
-        
-    }
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-
-ext {
-    androidSupportVersion = '28.0.0'
-
-    roomVersion = '1.1.1'
-    archLifecycleVersion = '1.1.1'
-
-    butterKnifeVersion = '8.8.1'
-
-    rxJavaVersion = '2.2.3'
-    rxAndroidVersion = '2.1.0'
-    rxBindingVersion = '2.0.0'
-
-    glideVersion = '4.8.0'
-
-    retrofitVersion = '2.5.0'
-    okhttpVersion = '3.11.0'
-
-    daggerVersion = '2.19'
-
-    autoDimension = '1.0.4'
-
-    junit = '4.12'
-    powerMock = '2.0.0'
-    robolectric = '4.1'
-    mockito = '2.+'
-    testJson = '20140107'
-
-    firebaseCore = '16.0.8'
-    firebaseDatabase = '16.1.0'
-    firebaseAuth = '16.1.0'
-    googleAuth = '16.0.1'
-}
+apply from: 'dependencies.gradle'

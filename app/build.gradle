@@ -2,95 +2,79 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 28
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+
     defaultConfig {
         applicationId "com.vit.mychat"
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
         versionCode 1
         versionName "1.0"
+        multiDexEnabled = true
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.android.support:appcompat-v7:$rootProject.androidSupportVersion"
-    implementation "com.android.support:design:$rootProject.androidSupportVersion"
+
+    def uiDependencies = rootProject.ext.uiDependencies
+    def testDependencies = rootProject.ext.testDependencies
+
+    implementation uiDependencies.appCompatV7
+    implementation uiDependencies.recyclerView
+    implementation uiDependencies.rx2Java
+    implementation uiDependencies.rx2Android
+    implementation uiDependencies.butterknife
+    annotationProcessor uiDependencies.butterknifeProcessor
+    implementation uiDependencies.daggerAndroid
+    implementation uiDependencies.daggerAndroidSupport
+    annotationProcessor uiDependencies.daggerProcessor
+    annotationProcessor uiDependencies.daggerAndroidProcessor
+    implementation uiDependencies.lifecycleExtensions
+    annotationProcessor uiDependencies.lifecycleProcessor
+    implementation uiDependencies.roomRx2
+    implementation uiDependencies.multiDex
+    implementation uiDependencies.glide
+    annotationProcessor uiDependencies.glideProcessor
+    implementation uiDependencies.rxBinding
+    implementation uiDependencies.keyboardVisibility
+    implementation uiDependencies.autoDimension
+    implementation uiDependencies.supportDesign
+
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.mockitoCore
+    testImplementation testDependencies.robolectric
+    testImplementation testDependencies.testJson
+    testImplementation testDependencies.powermockMockito2
+    testImplementation testDependencies.powermockCore
+    testImplementation testDependencies.powermockJunit
+    androidTestImplementation testDependencies.testRunner
+    androidTestImplementation testDependencies.espressoCore
+
+// Firebase
+    implementation "com.google.firebase:firebase-core:$rootProject.firebaseCoreVersion"
+    implementation "com.google.firebase:firebase-database:$rootProject.firebaseDatabaseVersion"
+    implementation "com.google.firebase:firebase-auth:$rootProject.firebaseAuthVersion"
+    implementation "com.google.android.gms:play-services-auth:$rootProject.googleAuthVersion"
+
 
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-
-    // Firebase
-    implementation "com.google.firebase:firebase-core:$rootProject.firebaseCore"
-    implementation "com.google.firebase:firebase-database:$rootProject.firebaseDatabase"
-    implementation "com.google.firebase:firebase-auth:$rootProject.firebaseAuth"
-    implementation "com.google.android.gms:play-services-auth:$rootProject.googleAuth"
-
-    // ButterKnife
-    implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
-
-    // RxJava
-    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
-
-    // RxBinding
-    implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rxBindingVersion"
-
-    // Glide
-    implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
-    annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
-
-    // Retrofit and OkHttp
-    // OkHttp interceptors for logging
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofitVersion"
-    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
-    implementation "com.squareup.okhttp3:okhttp-urlconnection:$rootProject.okhttpVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
-
-    // Room components
-    implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
-    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
-    androidTestImplementation "android.arch.persistence.room:testing:$rootProject.roomVersion"
-    implementation "android.arch.persistence.room:rxjava2:$rootProject.roomVersion"
-
-    // Lifecycle components
-    implementation "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
-
-    // Dagger2
-    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
-    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
-
-    // AutoDimension
-    implementation "com.github.hantrungkien:AutoDimension:$autoDimension"
-
-    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.2.1'
-
-    // Test
-    testImplementation "junit:junit:$junit"
-    testImplementation "org.mockito:mockito-core:$mockito"
-    testImplementation "org.robolectric:robolectric:$robolectric"
-    testImplementation "org.json:json:$testJson"
-    testImplementation "org.powermock:powermock-api-mockito2:$powerMock"
-    testImplementation "org.powermock:powermock-core:$powerMock"
-    testImplementation "org.powermock:powermock-module-junit4:$powerMock"
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
