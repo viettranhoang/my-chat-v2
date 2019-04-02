@@ -12,6 +12,7 @@
     <string name="tao_tai_khoan">Tạo tài khoản</string>
     <string name="email">Email</string>
     <string name="mat_khau">Mật khẩu</string>
+    <string name="xac_nhan_mat_khau">Xác nhận mật khẩu</string>
     <string name="quen_mat_khau">Quên mật khẩu</string>
 
     // Message

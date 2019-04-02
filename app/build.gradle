@@ -81,6 +81,8 @@ dependencies {
     // AutoDimension
     implementation "com.github.hantrungkien:AutoDimension:$autoDimension"
 
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.2.1'
+
     // Test
     testImplementation "junit:junit:$junit"
     testImplementation "org.mockito:mockito-core:$mockito"

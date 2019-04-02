@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/margin_primary"
     android:layout_marginRight="@dimen/margin_primary"
-    android:gravity="center_horizontal"
     android:focusableInTouchMode="true"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/image_messenger"
-        android:layout_marginTop="@dimen/_70dp"
-        android:layout_marginBottom="@dimen/_70dp"
         android:layout_width="@dimen/login_image_messenger"
-        android:layout_height="@dimen/login_image_messenger"/>
+        android:layout_height="@dimen/login_image_messenger"
+        android:layout_marginTop="@dimen/_70dp"
+        android:layout_marginBottom="@dimen/_70dp" />
 
     <EditText
         android:id="@+id/input_email"
         style="@style/EditText"
-        android:layout_marginTop="@dimen/margin_primary"
-        android:layout_marginBottom="@dimen/margin_primary"
-        android:hint="@string/email" />
+        android:hint="@string/email"
+        android:paddingTop="@dimen/margin_primary"
+        android:paddingBottom="@dimen/margin_primary" />
 
-    <View
-        android:id="@+id/view_line"
-        style="@style/Line"
-        android:layout_marginBottom="@dimen/margin_primary" />
+    <View style="@style/Line" />
 
     <EditText
         android:id="@+id/input_password"
         style="@style/EditText"
-        android:layout_marginBottom="@dimen/margin_primary"
         android:hint="@string/mat_khau"
         android:inputType="textPassword" />
 
+    <View
+        android:id="@+id/view_line"
+        style="@style/Line"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/input_password_confirm"
+        style="@style/EditText"
+        android:hint="@string/xac_nhan_mat_khau"
+        android:inputType="textPassword"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/button_login"
         style="@style/ButtonMain"
-        android:layout_marginTop="@dimen/login_margin"
-        android:layout_marginBottom="@dimen/login_margin"
+        android:layout_marginTop="@dimen/_8dp"
         android:background="@drawable/round_corner_gray_16"
         android:text="@string/dang_nhap"
         android:textColor="@color/black20" />
 
-
     <Button
         android:id="@+id/button_creat_account"
         style="@style/ButtonMain"
-        android:layout_marginBottom="@dimen/login_margin"
+        android:layout_marginTop="@dimen/margin_secondary"
+        android:layout_marginBottom="@dimen/margin_secondary"
         android:background="@drawable/round_corner_green"
         android:text="@string/tao_tai_khoan" />
 
@@ -56,7 +63,7 @@
         android:id="@+id/layout_linean"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/login_margin"
+        android:layout_marginBottom="@dimen/margin_secondary"
         android:orientation="horizontal">
 
         <ImageView
@@ -65,9 +72,9 @@
             android:layout_height="@dimen/login_image_social_size"
             android:layout_marginRight="@dimen/_9dp"
             android:background="@drawable/round_border_gray"
-            android:padding="@dimen/login_image_social_padding"
-            android:foreground="@drawable/ripple_effect"
             android:clickable="true"
+            android:foreground="@drawable/ripple_effect"
+            android:padding="@dimen/login_image_social_padding"
             android:src="@drawable/ic_facebook" />
 
         <ImageView
@@ -76,9 +83,9 @@
             android:layout_height="@dimen/login_image_social_size"
             android:layout_marginLeft="@dimen/_9dp"
             android:background="@drawable/round_border_gray"
-            android:padding="@dimen/login_image_social_padding"
-            android:foreground="@drawable/ripple_effect"
             android:clickable="true"
+            android:foreground="@drawable/ripple_effect"
+            android:padding="@dimen/login_image_social_padding"
             android:src="@drawable/ic_google" />
 
 
@@ -87,7 +94,7 @@
     <TextView
         android:id="@+id/text_forget_password"
         style="@style/TextTitle"
-        android:layout_marginBottom="@dimen/login_margin"
+        android:layout_marginBottom="@dimen/margin_secondary"
         android:text="@string/quen_mat_khau"
         android:textAllCaps="true"
         android:textSize="@dimen/text_min" />

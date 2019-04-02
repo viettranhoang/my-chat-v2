@@ -25,7 +25,6 @@
     <dimen name="profile_image_camera_margin">@dimen/_10dp</dimen>
 
     //login
-    <dimen name="login_margin">@dimen/_10dp</dimen>
     <dimen name="login_image_social_size">@dimen/_45dp</dimen>
     <dimen name="login_image_social_padding">@dimen/_12dp</dimen>
     <dimen name="login_image_messenger">@dimen/_150dp</dimen>

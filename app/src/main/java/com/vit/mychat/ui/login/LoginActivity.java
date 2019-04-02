@@ -2,16 +2,14 @@ package com.vit.mychat.ui.login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Rect;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -29,15 +27,21 @@ import com.vit.mychat.R;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.util.GlideApp;
 
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 
 public class LoginActivity extends BaseActivity {
     private static final int RC_GOOGLE_SIGN_IN = 001;
 
-    public static void moveLoginActivity(Activity activity){
-        activity.startActivity(new Intent(activity , LoginActivity.class));
+    public static void moveLoginActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, LoginActivity.class));
     }
+
+    @BindView(R.id.layout_root)
+    LinearLayout mLayoutRoot;
 
     @BindView(R.id.image_messenger)
     ImageView mImageMessenger;
@@ -48,8 +52,19 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.input_password)
     EditText mInputPassword;
 
+    @BindView(R.id.input_password_confirm)
+    EditText mInputPasswordConfirm;
+
+    @BindView(R.id.view_line)
+    View mViewLine;
+
+    @BindView(R.id.button_login)
+    Button mButtonLogin;
+
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
+
+    private boolean isRegister = false;
 
 
     @Override
@@ -66,7 +81,6 @@ public class LoginActivity extends BaseActivity {
                 .load(R.drawable.ic_messenger)
                 .into(mImageMessenger);
         setKeyboardVisibilityListener();
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
     }
 
@@ -92,9 +106,54 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isRegister) {
+            isRegister = false;
+            switchRegisterUi(isRegister);
+            return;
+        }
+        super.onBackPressed();
+    }
+
     @OnClick(R.id.image_google)
     void onClickGoogle() {
         signInGoogle();
+    }
+
+    @OnClick(R.id.button_creat_account)
+    void onClickCreateAccount() {
+        if (!isRegister) {
+            isRegister = true;
+            switchRegisterUi(isRegister);
+        } else {
+            showToast("Register");
+        }
+
+    }
+
+    @OnFocusChange({R.id.input_password_confirm, R.id.input_password, R.id.input_email})
+    void onFocusChange(boolean focused) {
+        if (focused) mImageMessenger.setVisibility(View.GONE);
+    }
+
+    @OnClick({R.id.input_password_confirm, R.id.input_password, R.id.input_email})
+    void onClick() {
+        mImageMessenger.setVisibility(View.GONE);
+    }
+
+    private void switchRegisterUi(boolean isRegister) {
+        mInputPasswordConfirm.setVisibility(isRegister ? View.VISIBLE : View.GONE);
+        mViewLine.setVisibility(isRegister ? View.VISIBLE : View.GONE);
+        mButtonLogin.setVisibility(isRegister ? View.GONE : View.VISIBLE);
+        if (isRegister) {
+            mButtonLogin.setAnimation(AnimationUtils.loadAnimation(this, R.anim.right_to_left));
+            mInputPasswordConfirm.setAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+        } else {
+            mInputPasswordConfirm.setAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
+            mButtonLogin.setAnimation(AnimationUtils.loadAnimation(this, R.anim.left_to_right));
+        }
+
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -113,14 +172,13 @@ public class LoginActivity extends BaseActivity {
                             boolean newuser = task.getResult().getAdditionalUserInfo().isNewUser();
 
 
-
-                            if(newuser){
+                            if (newuser) {
 
                                 //Do Stuffs for new user
 
-                            }else{
+                            } else {
 
-                                //Continue with Sign up
+                                //Continue with Sign fade_in
                             }
 
                         } else {
@@ -143,30 +201,11 @@ public class LoginActivity extends BaseActivity {
         startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
 
+
     private void setKeyboardVisibilityListener() {
-        final View parentView = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
-        parentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            private boolean alreadyOpen;
-            private final int defaultKeyboardHeightDP = 100;
-            private final int EstimatedKeyboardDP = defaultKeyboardHeightDP + (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 48 : 0);
-            private final Rect rect = new Rect();
-
-            @Override
-            public void onGlobalLayout() {
-                int estimatedKeyboardHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, EstimatedKeyboardDP, parentView.getResources().getDisplayMetrics());
-                parentView.getWindowVisibleDisplayFrame(rect);
-                int heightDiff = parentView.getRootView().getHeight() - (rect.bottom - rect.top);
-                boolean isShown = heightDiff >= estimatedKeyboardHeight;
-
-                if (isShown == alreadyOpen) {
-                    Log.i("Keyboard state", "Ignoring global layout change...");
-                    return;
-                }
-                alreadyOpen = isShown;
-
-                mImageMessenger.setVisibility(isShown ? View.GONE : View.VISIBLE);
-            }
-        });
+        KeyboardVisibilityEvent.setEventListener(
+                this, isOpen -> {
+                    if (!isOpen) mImageMessenger.setVisibility(View.VISIBLE);
+                });
     }
 }
