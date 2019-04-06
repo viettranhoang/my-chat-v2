@@ -29,7 +29,7 @@ ext {
     glideVersion = '4.8.0'
     retrofitVersion = '2.5.0'
     okHttp3Version = '3.11.0'
-    daggerVersion = '2.19'
+    daggerVersion = '2.21'
     multidexVersion = '1.0.3'
     keyboardVisibilityVersion = '2.2.1'
     autoDimensionVersion = '1.0.4'

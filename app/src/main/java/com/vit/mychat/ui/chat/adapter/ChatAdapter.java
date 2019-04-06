@@ -10,24 +10,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vit.mychat.R;
-import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.data.model.Chat;
-import com.vit.mychat.util.GlideApp;
+import com.vit.mychat.di.scope.PerFragment;
+import com.vit.mychat.ui.base.BaseViewHolder;
+import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@PerFragment
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
     private List<Chat> mChatList = new ArrayList<>();
 
-    public ChatAdapter(List<Chat> mChatList) {
+    @Inject
+    public ChatAdapter() {
+    }
 
-        this.mChatList = mChatList;
+    public void setChatList(List<Chat> chatList) {
+        this.mChatList = chatList;
+        notifyDataSetChanged();
     }
 
     @NonNull

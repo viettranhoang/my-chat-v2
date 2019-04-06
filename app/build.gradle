@@ -34,6 +34,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':presentation')
+    implementation project(':remote')
+
     def uiDependencies = rootProject.ext.uiDependencies
     def testDependencies = rootProject.ext.testDependencies
 

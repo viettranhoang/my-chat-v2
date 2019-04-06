@@ -14,8 +14,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.vit.mychat.R;
 import com.vit.mychat.data.model.User;
 import com.vit.mychat.ui.base.BaseActivity;
+import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.util.Constant;
-import com.vit.mychat.util.GlideApp;
 import com.vit.mychat.util.RoundedCornersTransformation;
 
 import butterknife.BindView;

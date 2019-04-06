@@ -8,9 +8,6 @@ public class User {
     private String news;
     private long online;
 
-    public User() {
-    }
-
     public User(String name, String status, String avatar, String cover, String news, long online) {
         this.name = name;
         this.status = status;

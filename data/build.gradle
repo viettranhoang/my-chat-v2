@@ -1,0 +1,15 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api project(':domain')
+    def dataDependencies = rootProject.ext.dataDependencies
+
+    implementation dataDependencies.rx2Java
+    implementation dataDependencies.javaxInject
+    implementation dataDependencies.javaxAnnotation
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

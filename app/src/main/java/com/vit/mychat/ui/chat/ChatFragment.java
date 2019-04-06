@@ -15,6 +15,8 @@ import com.vit.mychat.ui.chat.adapter.ChatAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 
 public class ChatFragment extends BaseFragment {
@@ -31,7 +33,8 @@ public class ChatFragment extends BaseFragment {
     @BindView(R.id.list_mess)
     RecyclerView mRcvChat;
 
-    private ChatAdapter mChatAdapter;
+    @Inject
+    ChatAdapter mChatAdapter;
 
     @Override
     public int getLayoutId() {
@@ -43,8 +46,7 @@ public class ChatFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mChatAdapter = new ChatAdapter(creatListMessage());
-
+        mChatAdapter.setChatList(creatListMessage());
         initRcv();
     }
 

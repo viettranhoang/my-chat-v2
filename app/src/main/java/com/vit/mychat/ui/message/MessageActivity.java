@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.vit.mychat.R;
 import com.vit.mychat.data.model.Message1;
 import com.vit.mychat.ui.base.BaseActivity;
+import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.message.adapter.MessageAdapter;
-import com.vit.mychat.util.GlideApp;
 
 import java.util.ArrayList;
 import java.util.List;

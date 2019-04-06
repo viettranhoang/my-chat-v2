@@ -13,13 +13,13 @@ import android.widget.Toast;
 
 import com.vit.mychat.R;
 import com.vit.mychat.ui.base.BaseActivity;
+import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.friends.FriendsFragment;
 import com.vit.mychat.ui.login.LoginActivity;
 import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
-import com.vit.mychat.util.GlideApp;
 
 import butterknife.BindView;
 import butterknife.OnClick;

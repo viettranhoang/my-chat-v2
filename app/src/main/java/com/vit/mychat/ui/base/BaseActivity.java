@@ -1,5 +1,6 @@
 package com.vit.mychat.ui.base;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -8,11 +9,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public abstract class BaseActivity extends DaggerAppCompatActivity {
     protected static final String TAG = BaseActivity.class.getSimpleName();
+
+    @Inject
+    ViewModelProvider.Factory mViewModelFactory;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

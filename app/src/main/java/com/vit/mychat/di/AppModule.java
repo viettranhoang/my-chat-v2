@@ -3,45 +3,45 @@ package com.vit.mychat.di;
 import android.app.Application;
 
 import com.vit.mychat.MyChatApplication;
-import com.vit.mychat.ui.MainActivity;
-import com.vit.mychat.ui.MainActivityModule;
-import com.vit.mychat.ui.login.LoginActivity;
-import com.vit.mychat.ui.login.LoginModule;
-import com.vit.mychat.ui.message.MessageActivity;
-import com.vit.mychat.ui.message.MessageModule;
-import com.vit.mychat.ui.profile.ProfileActivity;
-import com.vit.mychat.ui.profile.ProfileModule;
-import com.vit.mychat.ui.register.RegisterActivity;
-import com.vit.mychat.ui.register.RegisterModule;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import dagger.android.ContributesAndroidInjector;
+import dagger.Provides;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
-@Module
+@Module(includes = {ActivityModule.class, RepositoryModule.class, ViewModelModule.class})
 public abstract class AppModule {
 
     @Singleton
     @Binds
-    abstract Application provideContext(MyChatApplication application);
+    abstract Application application(MyChatApplication application);
 
-    @ContributesAndroidInjector(modules = MainActivityModule.class)
-    abstract MainActivity mainActivityInjector();
+    @Singleton
+    @Provides
+    @Named("SchedulerType.IO")
+    static Scheduler schedulerIO() {
+        return Schedulers.io();
+    }
 
-    @ContributesAndroidInjector(modules = ProfileModule.class)
-    abstract ProfileActivity profileActivityInjector();
+    @Singleton
+    @Provides
+    @Named("SchedulerType.COMPUTATION")
+    static Scheduler schedulerComputation() {
+        return Schedulers.computation();
+    }
 
-    @ContributesAndroidInjector(modules = LoginModule.class)
-    abstract LoginActivity loginActivityInjector();
-
-    @ContributesAndroidInjector(modules = MessageModule.class)
-    abstract MessageActivity messageActivityInjector();
-
-    @ContributesAndroidInjector(modules = RegisterModule.class)
-    abstract RegisterActivity registerActivityInjector();
+    @Singleton
+    @Provides
+    @Named("SchedulerType.UI")
+    static Scheduler schedulerUI() {
+        return AndroidSchedulers.mainThread();
+    }
 
 
 }

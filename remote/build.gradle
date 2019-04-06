@@ -1,0 +1,23 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':data')
+
+    def remoteDependencies = rootProject.ext.remoteDependencies
+    implementation remoteDependencies.retrofit
+    implementation remoteDependencies.retrofitConverterGson
+    implementation remoteDependencies.retrofitRx2
+    implementation remoteDependencies.okhttp3Logging
+
+    implementation remoteDependencies.javaxInject
+    implementation remoteDependencies.javaxAnnotation
+
+    implementation remoteDependencies.firebaseCore
+    implementation remoteDependencies.firebaseDatabase
+    implementation remoteDependencies.firebaseAuth
+    implementation remoteDependencies.googleAuth
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

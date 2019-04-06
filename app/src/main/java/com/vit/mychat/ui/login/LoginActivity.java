@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.vit.mychat.R;
 import com.vit.mychat.ui.base.BaseActivity;
-import com.vit.mychat.util.GlideApp;
+import com.vit.mychat.ui.base.module.GlideApp;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
