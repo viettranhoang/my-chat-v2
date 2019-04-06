@@ -37,6 +37,7 @@ ext {
     firebaseDatabaseVersion = '16.1.0'
     firebaseAuthVersion = '16.1.0'
     googleAuthVersion = '16.0.1'
+    firebaseFirestoreVersion = '18.2.0'
 
     junitVersion = '4.12'
     powermockVersion = '2.0.0'
@@ -77,7 +78,8 @@ ext {
             firebaseCore : "com.google.firebase:firebase-core:${firebaseCoreVersion}",
             firebaseDatabase : "com.google.firebase:firebase-database:${firebaseDatabaseVersion}",
             firebaseAuth : "com.google.firebase:firebase-auth:${firebaseAuthVersion}",
-            googleAuth : "com.google.android.gms:play-services-auth:${googleAuthVersion}"
+            googleAuth : "com.google.android.gms:play-services-auth:${googleAuthVersion}",
+            firebaseFirestore : "com.google.firebase:firebase-firestore:${firebaseFirestoreVersion}"
     ]
 
     presentationDependencies = [

@@ -9,6 +9,8 @@ public class UserViewData {
     private String news;
     private long online;
 
+    public UserViewData() {
+    }
 
     public UserViewData(String name, String status, String avatar, String cover, String news, long online) {
         this.name = name;

@@ -9,6 +9,9 @@ public class UserEntity {
     private String news;
     private long online;
 
+    public UserEntity() {
+    }
+
     public UserEntity(String name, String status, String avatar, String cover, String news, long online) {
         this.name = name;
         this.status = status;
