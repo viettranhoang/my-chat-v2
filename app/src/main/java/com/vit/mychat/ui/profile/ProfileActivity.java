@@ -1,21 +1,16 @@
 package com.vit.mychat.ui.profile;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.vit.mychat.R;
-import com.vit.mychat.data.model.User;
+import com.vit.mychat.presentation.feature.user.GetUserByIdViewModel;
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
-import com.vit.mychat.util.Constant;
 import com.vit.mychat.util.RoundedCornersTransformation;
 
 import butterknife.BindView;
@@ -39,10 +34,12 @@ public class ProfileActivity extends BaseActivity {
     @BindView(R.id.image_background)
     ImageView mImageBackground;
 
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mRoot;
+    private GetUserByIdViewModel getUserByIdViewModel;
 
-    private String mUserId = "0";
+//    private FirebaseDatabase mDatabase;
+//    private DatabaseReference mRoot;
+
+    private String mUserId = "F9u5S8Z9SBzZ0GNCOqGM";
 
     @Override
     protected int getLayoutId() {
@@ -51,9 +48,23 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        getUserByIdViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetUserByIdViewModel.class);
+
+        getUserByIdViewModel.getUserById(mUserId).observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case LOADING:
+                    break;
+                case SUCCESS:
+                    loadProfile((UserViewData) resource.getData());
+                    break;
+                case ERROR:
+                    showToast(resource.getThrowable().getMessage());
+                    break;
+            }
+        });
         initFirebase();
 
-        mRoot.child(mUserId).addValueEventListener(new ValueEventListener() {
+        /*mRoot.child(mUserId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
@@ -64,7 +75,7 @@ public class ProfileActivity extends BaseActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 showToast(databaseError.getMessage());
             }
-        });
+        });*/
     }
 
     @OnClick(R.id.image_edit_cover)
@@ -77,7 +88,7 @@ public class ProfileActivity extends BaseActivity {
 
     }
 
-    private void loadProfile(User user) {
+    private void loadProfile(UserViewData user) {
 
         mTextName.setText(user.getName());
         mTextStatus.setText(user.getStatus());
@@ -95,7 +106,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void initFirebase() {
-        mDatabase = FirebaseDatabase.getInstance();
-        mRoot = mDatabase.getReference(Constant.TABLE_USER);
+//        mDatabase = FirebaseDatabase.getInstance();
+//        mRoot = mDatabase.getReference(Constant.TABLE_USER);
     }
 }

@@ -1,22 +1,28 @@
 package com.vit.mychat.presentation.feature.user;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.vit.mychat.domain.usecase.user.GetUserByIdUseCase;
+import com.vit.mychat.domain.usecase.user.model.User;
 import com.vit.mychat.presentation.SingleLiveEvent;
 import com.vit.mychat.presentation.data.Resource;
+import com.vit.mychat.presentation.data.ResourceState;
+import com.vit.mychat.presentation.feature.user.mapper.UserViewDataMapper;
 
 import javax.inject.Inject;
 
+import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public class GetUserByIdViewModel extends ViewModel {
 
     @Inject
     GetUserByIdUseCase getUserByIdUseCase;
-//
-//    @Inject
-//    UserViewDataMapper mapper;
+
+    @Inject
+    UserViewDataMapper mapper;
 
     private CompositeDisposable compositeDisposable;
     private SingleLiveEvent<Resource> userLiveData = new SingleLiveEvent<>();
@@ -25,7 +31,7 @@ public class GetUserByIdViewModel extends ViewModel {
     public GetUserByIdViewModel() {
         compositeDisposable = new CompositeDisposable();
     }
-/*
+
 
     public MutableLiveData<Resource> getUserById(String id) {
         userLiveData.postValue(new Resource(ResourceState.LOADING, null, null));
@@ -38,7 +44,7 @@ public class GetUserByIdViewModel extends ViewModel {
 
            @Override
            public void onSuccess(User user) {
-               userLiveData.postValue(new Resource(ResourceState.SUCCESS, user, null));
+               userLiveData.postValue(new Resource(ResourceState.SUCCESS, mapper.mapToViewData(user), null));
            }
 
            @Override
@@ -49,7 +55,7 @@ public class GetUserByIdViewModel extends ViewModel {
 
         return userLiveData;
     }
-*/
+
 
     @Override
     protected void onCleared() {

@@ -1,8 +1,10 @@
 package com.vit.mychat.remote.feature;
 
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.vit.mychat.remote.feature.user.model.UserModel;
 
-public class MyChatFirestore {
+import io.reactivex.Single;
 
-    private FirebaseFirestore database;
+public interface MyChatFirestore {
+
+    Single<UserModel> getUserById(String userId);
 }

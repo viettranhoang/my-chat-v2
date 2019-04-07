@@ -2,6 +2,7 @@ package com.vit.mychat.remote.feature.user;
 
 import com.vit.mychat.data.user.model.UserEntity;
 import com.vit.mychat.data.user.source.UserRemote;
+import com.vit.mychat.remote.feature.MyChatFirestore;
 import com.vit.mychat.remote.feature.user.mapper.UserModelMapper;
 
 import javax.inject.Inject;
@@ -16,11 +17,15 @@ public class UserRemoteImpl implements UserRemote {
     UserModelMapper mapper;
 
     @Inject
+    MyChatFirestore myChatFirestore;
+
+    @Inject
     public UserRemoteImpl() {
     }
 
     @Override
     public Single<UserEntity> getUserById(String userId) {
-        return null;
+        return myChatFirestore.getUserById(userId)
+                .map(userModel -> mapper.mapToEntity(userModel));
     }
 }

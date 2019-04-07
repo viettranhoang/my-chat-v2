@@ -18,7 +18,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     protected static final String TAG = BaseActivity.class.getSimpleName();
 
     @Inject
-    ViewModelProvider.Factory mViewModelFactory;
+    public ViewModelProvider.Factory viewModelFactory;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
