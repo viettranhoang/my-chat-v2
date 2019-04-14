@@ -20,7 +20,7 @@ public class UserModelMapper implements Mapper<UserModel, UserEntity> {
         if (type == null) {
             return null;
         }
-        return new UserEntity(type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
+        return new UserEntity(type.getId(), type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
                 type.getNews(), type.getOnline());
     }
 
@@ -29,7 +29,7 @@ public class UserModelMapper implements Mapper<UserModel, UserEntity> {
         if (type == null) {
             return null;
         }
-        return new UserModel(type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
+        return new UserModel(type.getId(), type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
                 type.getNews(), type.getOnline());
     }
 }

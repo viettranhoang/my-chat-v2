@@ -10,4 +10,5 @@ public interface AuthRepository {
 
     void signOut();
 
+    String getCurrentUserId();
 }

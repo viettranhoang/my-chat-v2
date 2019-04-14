@@ -1,12 +1,12 @@
 package com.vit.mychat.data.auth.source;
 
-import io.reactivex.Completable;
+import io.reactivex.Single;
 
 public interface AuthRemote {
 
-    Completable login(String email, String password);
+    Single<String> login(String email, String password);
 
-    Completable register(String email, String password);
+    Single<String> register(String email, String password);
 
     void signOut();
 }

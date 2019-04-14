@@ -2,6 +2,7 @@ package com.vit.mychat.data.user.model;
 
 public class UserEntity {
 
+    private String id;
     private String name;
     private String status;
     private String avatar;
@@ -12,13 +13,18 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(String name, String status, String avatar, String cover, String news, long online) {
+    public UserEntity(String id, String name, String status, String avatar, String cover, String news, long online) {
+        this.id = id;
         this.name = name;
         this.status = status;
         this.avatar = avatar;
         this.cover = cover;
         this.news = news;
         this.online = online;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

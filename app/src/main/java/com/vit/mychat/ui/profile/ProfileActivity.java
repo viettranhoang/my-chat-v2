@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.user.GetUserByIdViewModel;
+import com.vit.mychat.presentation.feature.user.UpdateUserViewModel;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
@@ -18,8 +19,12 @@ import butterknife.OnClick;
 
 public class ProfileActivity extends BaseActivity {
 
-    public static void moveProfileActivity(Activity activity) {
-        activity.startActivity(new Intent(activity, ProfileActivity.class));
+    public static final String EXTRA_USER_ID = "EXTRA_USER_ID";
+
+    public static void moveProfileActivity(Activity activity, String userId) {
+        Intent intent = new Intent(activity, ProfileActivity.class);
+        intent.putExtra(EXTRA_USER_ID, userId);
+        activity.startActivity(intent);
     }
 
     @BindView(R.id.text_name)
@@ -35,8 +40,9 @@ public class ProfileActivity extends BaseActivity {
     ImageView mImageBackground;
 
     private GetUserByIdViewModel getUserByIdViewModel;
+    private UpdateUserViewModel updateUserViewModel;
 
-    private String mUserId = "F9u5S8Z9SBzZ0GNCOqGM";
+    private String mUserId;
 
     @Override
     protected int getLayoutId() {
@@ -45,16 +51,24 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mUserId = getIntent().getStringExtra(EXTRA_USER_ID);
+
+        if (mUserId == null) return;
+
         getUserByIdViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetUserByIdViewModel.class);
+        updateUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserViewModel.class);
 
         getUserByIdViewModel.getUserById(mUserId).observe(this, resource -> {
             switch (resource.getStatus()) {
                 case LOADING:
+                    showHUD();
                     break;
                 case SUCCESS:
+                    dismissHUD();
                     loadProfile((UserViewData) resource.getData());
                     break;
                 case ERROR:
+                    dismissHUD();
                     showToast(resource.getThrowable().getMessage());
                     break;
             }

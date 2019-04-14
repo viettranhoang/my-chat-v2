@@ -26,9 +26,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
+import com.vit.mychat.presentation.feature.user.UpdateUserViewModel;
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.MainActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
+import com.vit.mychat.ui.profile.ProfileActivity;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
@@ -73,6 +76,7 @@ public class AuthActivity extends BaseActivity {
     private boolean isRegister = false;
 
     private AuthViewModel authViewModel;
+    private UpdateUserViewModel updateUserViewModel;
 
     @Override
     protected int getLayoutId() {
@@ -90,6 +94,7 @@ public class AuthActivity extends BaseActivity {
         setKeyboardVisibilityListener();
 
         authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
+        updateUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserViewModel.class);
 
     }
 
@@ -132,7 +137,7 @@ public class AuthActivity extends BaseActivity {
 
                         case SUCCESS:
                             dismissHUD();
-                            MainActivity.openMainActivity(this);
+                            MainActivity.moveMainActivity(this);
                             finish();
                             break;
 
@@ -150,7 +155,6 @@ public class AuthActivity extends BaseActivity {
             isRegister = true;
             switchRegisterUi(isRegister);
         } else {
-            showToast("Register");
             String email = mInputEmail.getText().toString();
             String password = mInputPassword.getText().toString();
 
@@ -163,7 +167,10 @@ public class AuthActivity extends BaseActivity {
 
                             case SUCCESS:
                                 dismissHUD();
-                                MainActivity.openMainActivity(this);
+                                updateUserViewModel.updateUser(new UserViewData(authViewModel.getCurrentUserId(),
+                                        "", "", "", "", "", System.currentTimeMillis()));
+
+                                ProfileActivity.moveProfileActivity(this, authViewModel.getCurrentUserId());
                                 finish();
                                 break;
 

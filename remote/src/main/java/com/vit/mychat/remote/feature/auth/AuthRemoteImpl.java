@@ -6,7 +6,7 @@ import com.vit.mychat.remote.feature.MyChatFirestore;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Completable;
+import io.reactivex.Single;
 
 @Singleton
 public class AuthRemoteImpl implements AuthRemote {
@@ -19,12 +19,12 @@ public class AuthRemoteImpl implements AuthRemote {
     }
 
     @Override
-    public Completable login(String email, String password) {
+    public Single<String> login(String email, String password) {
         return myChatFirestore.login(email, password);
     }
 
     @Override
-    public Completable register(String email, String password) {
+    public Single<String> register(String email, String password) {
         return myChatFirestore.register(email, password);
     }
 

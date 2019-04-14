@@ -35,22 +35,35 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
     }
 
     @Override
-    public Completable login(String email, String password) {
-        return Completable.create(emitter -> auth.signInWithEmailAndPassword(email, password)
+    public Completable updateUser(UserModel userModel) {
+        return Completable.create(emitter -> database.collection(Constants.TABLE_USER)
+                .document(userModel.getId())
+                .set(userModel)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                        emitter.onComplete();
+                    else
+                        emitter.onError(task.getException());
+                }));
+    }
+
+    @Override
+    public Single<String> login(String email, String password) {
+        return Single.create(emitter -> auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful())
-                    emitter.onComplete();
+                    emitter.onSuccess(auth.getUid());
                 else
                     emitter.onError(task.getException());
             }));
     }
 
     @Override
-    public Completable register(String email, String password) {
-        return Completable.create(emitter -> auth.createUserWithEmailAndPassword(email, password)
+    public Single<String> register(String email, String password) {
+        return Single.create(emitter -> auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful())
-                    emitter.onComplete();
+                    emitter.onSuccess(auth.getUid());
                 else
                     emitter.onError(task.getException());
             }));

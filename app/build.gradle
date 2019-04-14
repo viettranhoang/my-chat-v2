@@ -36,6 +36,7 @@ dependencies {
 
     implementation project(':presentation')
     implementation project(':remote')
+    implementation project(':cache')
 
     def uiDependencies = rootProject.ext.uiDependencies
     def testDependencies = rootProject.ext.testDependencies

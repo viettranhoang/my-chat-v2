@@ -1,6 +1,8 @@
 package com.vit.mychat.remote.feature.user.model;
 
 public class UserModel {
+
+    private String id;
     private String name;
     private String status;
     private String avatar;
@@ -11,13 +13,18 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(String name, String status, String avatar, String cover, String news, long online) {
+    public UserModel(String id, String name, String status, String avatar, String cover, String news, long online) {
+        this.id = id;
         this.name = name;
         this.status = status;
         this.avatar = avatar;
         this.cover = cover;
         this.news = news;
         this.online = online;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

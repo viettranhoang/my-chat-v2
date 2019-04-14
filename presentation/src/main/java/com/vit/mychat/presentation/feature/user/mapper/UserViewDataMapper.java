@@ -21,7 +21,7 @@ public class UserViewDataMapper implements Mapper<User, UserViewData> {
         if(type == null) {
             return null;
         }
-        return new UserViewData(type.getName(), type.getStatus(), type.getAvatar(), type.getCover(), type.getNews(), type.getOnline());
+        return new UserViewData(type.getId(), type.getName(), type.getStatus(), type.getAvatar(), type.getCover(), type.getNews(), type.getOnline());
     }
 
     @Override
@@ -29,6 +29,6 @@ public class UserViewDataMapper implements Mapper<User, UserViewData> {
         if(type == null) {
             return null;
         }
-        return new User(type.getName(), type.getStatus(), type.getAvatar(), type.getCover(), type.getNews(), type.getOnline());
+        return new User(type.getId(), type.getName(), type.getStatus(), type.getAvatar(), type.getCover(), type.getNews(), type.getOnline());
     }
 }

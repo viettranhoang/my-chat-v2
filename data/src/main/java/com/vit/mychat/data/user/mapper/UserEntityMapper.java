@@ -19,7 +19,7 @@ public class UserEntityMapper implements Mapper<UserEntity, User> {
         if (type == null) {
             return null;
         }
-        return new UserEntity(type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
+        return new UserEntity(type.getId(), type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
                 type.getNews(), type.getOnline());
     }
 
@@ -28,7 +28,7 @@ public class UserEntityMapper implements Mapper<UserEntity, User> {
         if (type == null) {
             return null;
         }
-        return new User(type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
+        return new User(type.getId(), type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
                 type.getNews(), type.getOnline());
     }
 }

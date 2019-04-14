@@ -1,7 +1,9 @@
 package com.vit.mychat.di;
 
 
+import com.vit.mychat.cache.features.auth.AuthCacheImpl;
 import com.vit.mychat.data.auth.AuthRepositoryImpl;
+import com.vit.mychat.data.auth.source.AuthCache;
 import com.vit.mychat.data.auth.source.AuthRemote;
 import com.vit.mychat.data.user.UserRepositoryImpl;
 import com.vit.mychat.data.user.source.UserRemote;
@@ -25,6 +27,10 @@ public abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract AuthRemote authRemote(AuthRemoteImpl authRemote);
+
+    @Singleton
+    @Binds
+    abstract AuthCache authCache(AuthCacheImpl authCache);
 
     @Singleton
     @Binds

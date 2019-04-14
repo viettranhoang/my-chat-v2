@@ -8,6 +8,7 @@ import com.vit.mychat.remote.feature.user.mapper.UserModelMapper;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 @Singleton
@@ -28,4 +29,11 @@ public class UserRemoteImpl implements UserRemote {
         return myChatFirestore.getUserById(userId)
                 .map(userModel -> mapper.mapToEntity(userModel));
     }
+
+    @Override
+    public Completable updateUser(UserEntity userEntity) {
+        return myChatFirestore.updateUser(mapper.mapToModel(userEntity));
+    }
+
+
 }

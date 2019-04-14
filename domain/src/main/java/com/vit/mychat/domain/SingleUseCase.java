@@ -18,7 +18,7 @@ public abstract class SingleUseCase<T, Params> {
     protected abstract Single<T> buildUseCaseSingle(Params params);
 
     public void execute(SingleObserver<T> singleObserver, Params params) {
-      buildUseCaseSingle(params)
+        buildUseCaseSingle(params)
                 .subscribeOn(threadExecutor)
                 .observeOn(postExecutionThread)
                 .subscribe(singleObserver);

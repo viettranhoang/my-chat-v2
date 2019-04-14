@@ -2,6 +2,7 @@ package com.vit.mychat.presentation.feature.user.model;
 
 public class UserViewData {
 
+    private String id;
     private String name;
     private String status;
     private String avatar;
@@ -12,13 +13,18 @@ public class UserViewData {
     public UserViewData() {
     }
 
-    public UserViewData(String name, String status, String avatar, String cover, String news, long online) {
+    public UserViewData(String id, String name, String status, String avatar, String cover, String news, long online) {
+        this.id = id;
         this.name = name;
         this.status = status;
         this.avatar = avatar;
         this.cover = cover;
         this.news = news;
         this.online = online;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

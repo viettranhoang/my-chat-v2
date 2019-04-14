@@ -21,14 +21,13 @@ import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.friends.FriendsFragment;
 import com.vit.mychat.ui.message.MessageActivity;
-import com.vit.mychat.ui.profile.ProfileActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
-    public static void openMainActivity(Activity activity) {
+    public static void moveMainActivity(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
     }
@@ -75,7 +74,7 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.image_avatar)
     void onClickAvatar() {
         Toast.makeText(this, "avatar", Toast.LENGTH_SHORT).show();
-        ProfileActivity.moveProfileActivity(this);
+//        ProfileActivity.moveProfileActivity(this);
     }
 
     @OnClick(R.id.image_create)

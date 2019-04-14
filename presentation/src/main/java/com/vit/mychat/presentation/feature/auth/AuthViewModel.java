@@ -85,4 +85,8 @@ public class AuthViewModel extends ViewModel {
     public void signOut() {
         loginUseCase.signOut();
     }
+
+    public String getCurrentUserId() {
+        return loginUseCase.getCurrentUserId();
+    }
 }

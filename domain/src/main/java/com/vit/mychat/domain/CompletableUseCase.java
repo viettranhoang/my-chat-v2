@@ -17,7 +17,7 @@ public abstract class CompletableUseCase<Params> {
     protected abstract Completable buildUseCaseSingle(Params params);
 
     public void execute(CompletableObserver completableObserver, Params params) {
-      buildUseCaseSingle(params)
+        buildUseCaseSingle(params)
                 .subscribeOn(threadExecutor)
                 .observeOn(postExecutionThread)
                 .subscribe(completableObserver);

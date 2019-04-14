@@ -7,11 +7,20 @@ import io.reactivex.Single;
 
 public interface MyChatFirestore {
 
+    /**
+     * user
+     */
     Single<UserModel> getUserById(String userId);
 
-    Completable login(String email, String password);
+    Completable updateUser(UserModel userModel);
 
-    Completable register(String email, String password);
+
+    /**
+     * auth
+     */
+    Single<String> login(String email, String password);
+
+    Single<String> register(String email, String password);
 
     void signOut();
 }
