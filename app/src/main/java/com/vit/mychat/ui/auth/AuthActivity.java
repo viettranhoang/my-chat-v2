@@ -42,7 +42,7 @@ import butterknife.OnFocusChange;
 public class AuthActivity extends BaseActivity {
     private static final int RC_GOOGLE_SIGN_IN = 001;
 
-    public static void moveLoginActivity(Activity activity) {
+    public static void moveAuthActivity(Activity activity) {
         activity.startActivity(new Intent(activity, AuthActivity.class));
     }
 
@@ -168,7 +168,8 @@ public class AuthActivity extends BaseActivity {
                             case SUCCESS:
                                 dismissHUD();
                                 updateUserViewModel.updateUser(new UserViewData(authViewModel.getCurrentUserId(),
-                                        "", "", "", "", "", System.currentTimeMillis()));
+                                        getString(R.string.ten_cua_ban), getString(R.string.status_cua_ban),
+                                        "", "", "", System.currentTimeMillis()));
 
                                 ProfileActivity.moveProfileActivity(this, authViewModel.getCurrentUserId());
                                 finish();

@@ -17,17 +17,17 @@
 
         <ImageView
             android:id="@+id/image_edit_cover"
+            android:layout_width="@dimen/profile_image_camera_size"
+            android:layout_height="@dimen/_32dp"
             android:layout_alignRight="@id/image_background"
             android:layout_alignBottom="@id/image_background"
             android:layout_margin="@dimen/profile_image_camera_margin"
-            android:src="@drawable/ic_camera"
             android:background="@drawable/round_corner_gray_6"
             android:paddingLeft="@dimen/_10dp"
-            android:paddingRight="@dimen/_10dp"
             android:paddingTop="@dimen/_3dp"
+            android:paddingRight="@dimen/_10dp"
             android:paddingBottom="@dimen/_3dp"
-            android:layout_width="@dimen/profile_image_camera_size"
-            android:layout_height="@dimen/_32dp" />
+            android:src="@drawable/ic_camera" />
 
         <ImageView
             android:id="@+id/image_avatar"
@@ -40,30 +40,30 @@
 
         <ImageView
             android:id="@+id/image_edit_avatar"
+            android:layout_width="@dimen/profile_image_camera_size"
+            android:layout_height="@dimen/profile_image_camera_size"
             android:layout_alignRight="@id/image_avatar"
             android:layout_alignBottom="@id/image_avatar"
-            android:src="@drawable/ic_camera"
-            android:padding="@dimen/_10dp"
             android:layout_margin="@dimen/profile_image_camera_margin"
             android:background="@drawable/shape_oval_gray"
-            android:layout_width="@dimen/profile_image_camera_size"
-            android:layout_height="@dimen/profile_image_camera_size" />
+            android:padding="@dimen/_10dp"
+            android:src="@drawable/ic_camera" />
 
         <TextView
             android:id="@+id/text_name"
             style="@style/TextTitle"
-            android:textSize="@dimen/text_headline_1"
             android:layout_below="@id/image_avatar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_38dp"/>
+            android:layout_marginTop="@dimen/_38dp"
+            android:textSize="@dimen/text_headline_1" />
 
         <TextView
             android:id="@+id/text_status"
             style="@style/TextTitle"
-            android:textSize="@dimen/text_input"
             android:layout_below="@id/text_name"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_24dp"/>
+            android:layout_marginTop="@dimen/_24dp"
+            android:textSize="@dimen/text_input" />
 
         <LinearLayout
             android:id="@+id/linear_bottom"
@@ -84,34 +84,44 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/ic_add_person"
+                    android:id="@+id/image_add_friend"
                     style="@style/ProfileImageItem"
                     android:padding="@dimen/_9dp"
                     android:src="@drawable/ic_add_friends" />
 
                 <TextView
                     style="@style/TextTitle"
-                    android:textSize="@dimen/text_min"
-                    android:text="Thêm bạn bè" />
+                    android:text="Thêm bạn bè"
+                    android:textSize="@dimen/text_min" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="4">
 
                 <ImageView
                     android:id="@+id/image_message"
                     style="@style/ProfileImageItem"
                     android:padding="@dimen/_12dp"
-                    android:src="@drawable/ic_mess" />
+                    android:src="@drawable/ic_mess"
+                    android:visibility="visible" />
+
+                <Switch
+                    android:id="@+id/switch_online"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:visibility="gone" />
 
                 <TextView
                     style="@style/TextTitle"
-                    android:textSize="@dimen/text_min"
-                    android:text="Nhắn tin" />
+                    android:layout_weight="1"
+                    android:text="Nhắn tin"
+                    android:textSize="@dimen/text_min" />
             </LinearLayout>
 
             <LinearLayout
@@ -122,15 +132,22 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/ic_follow_black"
+                    android:id="@+id/image_call"
                     style="@style/ProfileImageItem"
                     android:padding="@dimen/_9dp"
                     android:src="@drawable/ic_call" />
 
+                <ImageView
+                    android:id="@+id/image_logout"
+                    style="@style/ProfileImageItem"
+                    android:padding="@dimen/_9dp"
+                    android:src="@drawable/ic_logout"
+                    android:visibility="gone" />
+
                 <TextView
                     style="@style/TextTitle"
-                    android:textSize="@dimen/text_min"
-                    android:text="Gọi" />
+                    android:text="Gọi"
+                    android:textSize="@dimen/text_min" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

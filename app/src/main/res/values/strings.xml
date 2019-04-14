@@ -14,6 +14,8 @@
     <string name="mat_khau">Mật khẩu</string>
     <string name="xac_nhan_mat_khau">Xác nhận mật khẩu</string>
     <string name="quen_mat_khau">Quên mật khẩu</string>
+    <string name="ten_cua_ban">Tên của bạn</string>
+    <string name="status_cua_ban">Status của bạn</string>
 
     // Message
     <string name="call">Call</string>

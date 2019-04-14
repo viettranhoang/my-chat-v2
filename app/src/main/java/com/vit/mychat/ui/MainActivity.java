@@ -1,6 +1,7 @@
 package com.vit.mychat.ui;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vit.mychat.R;
+import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
@@ -21,6 +23,7 @@ import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.friends.FriendsFragment;
 import com.vit.mychat.ui.message.MessageActivity;
+import com.vit.mychat.ui.profile.ProfileActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -59,6 +62,8 @@ public class MainActivity extends BaseActivity {
     private FragmentManager fragmentManager;
     private Handler fragmentHandler;
 
+    private AuthViewModel authViewModel;
+
     @Override
     protected int getLayoutId() {
         return R.layout.main_activity;
@@ -66,21 +71,29 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
+
+        if (authViewModel.getCurrentUserId() == null) {
+            AuthActivity.moveAuthActivity(this);
+            finish();
+        }
+
         initToolbar();
         initBottomNavigationView();
+
 
     }
 
     @OnClick(R.id.image_avatar)
     void onClickAvatar() {
         Toast.makeText(this, "avatar", Toast.LENGTH_SHORT).show();
-//        ProfileActivity.moveProfileActivity(this);
+        ProfileActivity.moveProfileActivity(this, authViewModel.getCurrentUserId());
     }
 
     @OnClick(R.id.image_create)
     void onClickCreate() {
         Toast.makeText(this, "create", Toast.LENGTH_SHORT).show();
-        AuthActivity.moveLoginActivity(this);
+        AuthActivity.moveAuthActivity(this);
     }
 
     @OnClick(R.id.image_camera)
