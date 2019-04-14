@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.vit.mychat.di.key.ViewModelKey;
 import com.vit.mychat.presentation.feature.MyChatViewModelFactory;
+import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserByIdViewModel;
 
 import dagger.Binds;
@@ -21,5 +22,10 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(GetUserByIdViewModel.class)
     abstract ViewModel bindGetUserByIdViewModel(GetUserByIdViewModel getUserByIdViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AuthViewModel.class)
+    abstract ViewModel bindAuthViewModel(AuthViewModel authViewModel);
 
 }

@@ -36,9 +36,6 @@ public class ProfileActivity extends BaseActivity {
 
     private GetUserByIdViewModel getUserByIdViewModel;
 
-//    private FirebaseDatabase mDatabase;
-//    private DatabaseReference mRoot;
-
     private String mUserId = "F9u5S8Z9SBzZ0GNCOqGM";
 
     @Override
@@ -62,20 +59,6 @@ public class ProfileActivity extends BaseActivity {
                     break;
             }
         });
-        initFirebase();
-
-        /*mRoot.child(mUserId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                loadProfile(user);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                showToast(databaseError.getMessage());
-            }
-        });*/
     }
 
     @OnClick(R.id.image_edit_cover)
@@ -105,8 +88,4 @@ public class ProfileActivity extends BaseActivity {
                 .into(mImageBackground);
     }
 
-    private void initFirebase() {
-//        mDatabase = FirebaseDatabase.getInstance();
-//        mRoot = mDatabase.getReference(Constant.TABLE_USER);
-    }
 }

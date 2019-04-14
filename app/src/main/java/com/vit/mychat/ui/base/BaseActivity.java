@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -20,6 +22,8 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
 
+    public KProgressHUD loadingHUD;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,12 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         ButterKnife.bind(this);
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+        loadingHUD = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
 
         initView();
 
@@ -55,5 +65,17 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
 
     public void showSnackbar(View view, String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public void showHUD() {
+        if (loadingHUD != null && !loadingHUD.isShowing()) {
+            loadingHUD.show();
+        }
+    }
+
+    public void dismissHUD() {
+        if (loadingHUD != null && loadingHUD.isShowing()) {
+            loadingHUD.dismiss();
+        }
     }
 }

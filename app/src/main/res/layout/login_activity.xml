@@ -52,7 +52,7 @@
         android:textColor="@color/black20" />
 
     <Button
-        android:id="@+id/button_creat_account"
+        android:id="@+id/button_register"
         style="@style/ButtonMain"
         android:layout_marginTop="@dimen/margin_secondary"
         android:layout_marginBottom="@dimen/margin_secondary"

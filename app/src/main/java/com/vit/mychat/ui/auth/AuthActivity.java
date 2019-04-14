@@ -1,6 +1,7 @@
-package com.vit.mychat.ui.login;
+package com.vit.mychat.ui.auth;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.vit.mychat.R;
+import com.vit.mychat.presentation.feature.auth.AuthViewModel;
+import com.vit.mychat.ui.MainActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
 
@@ -33,11 +36,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
-public class LoginActivity extends BaseActivity {
+public class AuthActivity extends BaseActivity {
     private static final int RC_GOOGLE_SIGN_IN = 001;
 
     public static void moveLoginActivity(Activity activity) {
-        activity.startActivity(new Intent(activity, LoginActivity.class));
+        activity.startActivity(new Intent(activity, AuthActivity.class));
     }
 
     @BindView(R.id.layout_root)
@@ -61,11 +64,15 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.button_login)
     Button mButtonLogin;
 
+    @BindView(R.id.button_register)
+    Button mButtonRegister;
+
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
 
     private boolean isRegister = false;
 
+    private AuthViewModel authViewModel;
 
     @Override
     protected int getLayoutId() {
@@ -82,13 +89,8 @@ public class LoginActivity extends BaseActivity {
                 .into(mImageMessenger);
         setKeyboardVisibilityListener();
 
-    }
+        authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        updateUI(currentUser);
     }
 
     @Override
@@ -116,19 +118,72 @@ public class LoginActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    @OnClick(R.id.image_google)
-    void onClickGoogle() {
-        signInGoogle();
+    @OnClick(R.id.button_login)
+    void onClickLogin() {
+        String email = mInputEmail.getText().toString();
+        String password = mInputPassword.getText().toString();
+
+        authViewModel.login(email, password)
+                .observe(this, resource -> {
+                    switch (resource.getStatus()) {
+                        case LOADING:
+                            showHUD();
+                            break;
+
+                        case SUCCESS:
+                            dismissHUD();
+                            MainActivity.openMainActivity(this);
+                            finish();
+                            break;
+
+                        case ERROR:
+                            dismissHUD();
+                            showToast(resource.getThrowable().getMessage());
+                            break;
+                    }
+                });
     }
 
-    @OnClick(R.id.button_creat_account)
-    void onClickCreateAccount() {
+    @OnClick(R.id.button_register)
+    void onClickRegister() {
         if (!isRegister) {
             isRegister = true;
             switchRegisterUi(isRegister);
         } else {
             showToast("Register");
+            String email = mInputEmail.getText().toString();
+            String password = mInputPassword.getText().toString();
+
+            authViewModel.register(email, password)
+                    .observe(this, resource -> {
+                        switch (resource.getStatus()) {
+                            case LOADING:
+                                showHUD();
+                                break;
+
+                            case SUCCESS:
+                                dismissHUD();
+                                MainActivity.openMainActivity(this);
+                                finish();
+                                break;
+
+                            case ERROR:
+                                dismissHUD();
+                                showToast(resource.getThrowable().getMessage());
+                                break;
+                        }
+                    });
         }
+
+    }
+
+    @OnClick(R.id.image_google)
+    void onClickGoogle() {
+        signInGoogle();
+    }
+
+    @OnClick(R.id.image_facebook)
+    void onClickFacebook() {
 
     }
 
@@ -200,7 +255,6 @@ public class LoginActivity extends BaseActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
-
 
     private void setKeyboardVisibilityListener() {
         KeyboardVisibilityEvent.setEventListener(

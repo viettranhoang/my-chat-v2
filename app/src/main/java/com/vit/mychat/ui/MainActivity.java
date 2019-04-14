@@ -1,5 +1,7 @@
 package com.vit.mychat.ui;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -12,12 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vit.mychat.R;
+import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.friends.FriendsFragment;
-import com.vit.mychat.ui.login.LoginActivity;
 import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
 
@@ -25,6 +27,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
+
+    public static void openMainActivity(Activity activity) {
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+    }
 
     @BindView(R.id.view_scroll_main)
     NestedScrollView mViewScrollMain;
@@ -74,7 +81,7 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.image_create)
     void onClickCreate() {
         Toast.makeText(this, "create", Toast.LENGTH_SHORT).show();
-        LoginActivity.moveLoginActivity(this);
+        AuthActivity.moveLoginActivity(this);
     }
 
     @OnClick(R.id.image_camera)

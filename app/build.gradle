@@ -60,6 +60,7 @@ dependencies {
     implementation uiDependencies.keyboardVisibility
     implementation uiDependencies.autoDimension
     implementation uiDependencies.supportDesign
+    implementation uiDependencies.kProgressHUD
 
     testImplementation testDependencies.junit
     testImplementation testDependencies.mockitoCore

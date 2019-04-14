@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.vit.mychat.MyChatApplication;
 import com.vit.mychat.remote.feature.MyChatFirestore;
-import com.vit.mychat.remote.feature.MyChatFirestoryFactory;
+import com.vit.mychat.remote.feature.MyChatFirestoreFactory;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -26,7 +26,7 @@ public abstract class AppModule {
 
     @Singleton
     @Binds
-    abstract MyChatFirestore myChatFirestore(MyChatFirestoryFactory myChatFirestoryFactory);
+    abstract MyChatFirestore myChatFirestore(MyChatFirestoreFactory myChatFirestoreFactory);
 
     @Singleton
     @Provides
