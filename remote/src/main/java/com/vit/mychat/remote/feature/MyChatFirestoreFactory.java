@@ -2,6 +2,7 @@ package com.vit.mychat.remote.feature;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.vit.mychat.remote.common.Constants;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
@@ -9,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 @Singleton
@@ -24,13 +26,16 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
     }
 
     @Override
-    public Single<UserModel> getUserById(String userId) {
-        return Single.create(emitter -> {
-            database.collection(Constants.TABLE_USER).document(userId)
-                    .get()
-                    .addOnSuccessListener(documentSnapshot ->
-                            emitter.onSuccess(documentSnapshot.toObject(UserModel.class)))
-                    .addOnFailureListener(e -> emitter.onError(e));
+    public Observable<UserModel> getUserById(String userId) {
+        return Observable.create(emitter -> {
+            ListenerRegistration listenerRegistration = database.collection(Constants.TABLE_USER).document(userId)
+                    .addSnapshotListener((documentSnapshot, e) -> {
+                        if (e != null)
+                            emitter.onError(e);
+                        if (documentSnapshot != null && documentSnapshot.exists())
+                            emitter.onNext(documentSnapshot.toObject(UserModel.class));
+                    });
+            emitter.setCancellable(() -> listenerRegistration.remove());
         });
     }
 

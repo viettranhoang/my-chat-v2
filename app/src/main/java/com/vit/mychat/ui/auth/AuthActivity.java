@@ -43,7 +43,9 @@ public class AuthActivity extends BaseActivity {
     private static final int RC_GOOGLE_SIGN_IN = 001;
 
     public static void moveAuthActivity(Activity activity) {
-        activity.startActivity(new Intent(activity, AuthActivity.class));
+        Intent intent = new Intent(activity, AuthActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activity.startActivity(intent);
     }
 
     @BindView(R.id.layout_root)

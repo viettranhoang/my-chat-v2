@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.Observable;
 
 @Singleton
 public class UserRepositoryImpl implements UserRepository {
@@ -25,7 +25,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Single<User> getUserById(String userId) {
+    public Observable<User> getUserById(String userId) {
         return userRemote.getUserById(userId)
                 .map(userEntity -> mapper.mapFromEntity(userEntity));
     }

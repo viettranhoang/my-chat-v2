@@ -43,6 +43,7 @@ public class AuthRepositoryImpl implements AuthRepository {
     @Override
     public void signOut() {
         authRemote.signOut();
+        authCache.saveCurrentUserId(null);
     }
 
     @Override

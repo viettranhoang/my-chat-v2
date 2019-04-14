@@ -29,6 +29,7 @@ public class LoginUseCase extends CompletableUseCase<LoginUseCase.Params> {
 
     public void signOut() {
         authRepository.signOut();
+
     }
 
     public String getCurrentUserId() {

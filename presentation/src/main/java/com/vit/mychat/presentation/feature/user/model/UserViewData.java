@@ -23,6 +23,34 @@ public class UserViewData {
         this.online = online;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public void setNews(String news) {
+        this.news = news;
+    }
+
+    public void setOnline(long online) {
+        this.online = online;
+    }
+
     public String getId() {
         return id;
     }

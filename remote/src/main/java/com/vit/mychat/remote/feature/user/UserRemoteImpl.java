@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.Observable;
 
 @Singleton
 public class UserRemoteImpl implements UserRemote {
@@ -25,7 +25,7 @@ public class UserRemoteImpl implements UserRemote {
     }
 
     @Override
-    public Single<UserEntity> getUserById(String userId) {
+    public Observable<UserEntity> getUserById(String userId) {
         return myChatFirestore.getUserById(userId)
                 .map(userModel -> mapper.mapToEntity(userModel));
     }

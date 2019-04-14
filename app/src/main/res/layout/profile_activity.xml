@@ -118,6 +118,7 @@
                     android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/text_message"
                     style="@style/TextTitle"
                     android:layout_weight="1"
                     android:text="Nhắn tin"
@@ -145,6 +146,7 @@
                     android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/text_call"
                     style="@style/TextTitle"
                     android:text="Gọi"
                     android:textSize="@dimen/text_min" />

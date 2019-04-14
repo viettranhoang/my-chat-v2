@@ -12,7 +12,7 @@ import com.vit.mychat.presentation.feature.user.mapper.UserViewDataMapper;
 
 import javax.inject.Inject;
 
-import io.reactivex.SingleObserver;
+import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -36,14 +36,14 @@ public class GetUserByIdViewModel extends ViewModel {
     public MutableLiveData<Resource> getUserById(String id) {
         userLiveData.postValue(new Resource(ResourceState.LOADING, null, null));
 
-       getUserByIdUseCase.execute(new SingleObserver<User>() {
+       getUserByIdUseCase.execute(new Observer<User>() {
            @Override
            public void onSubscribe(Disposable d) {
                compositeDisposable.add(d);
            }
 
            @Override
-           public void onSuccess(User user) {
+           public void onNext(User user) {
                userLiveData.postValue(new Resource(ResourceState.SUCCESS, mapper.mapToViewData(user), null));
            }
 
@@ -51,6 +51,11 @@ public class GetUserByIdViewModel extends ViewModel {
            public void onError(Throwable e) {
                 userLiveData.postValue(new Resource(ResourceState.ERROR, null, e));
            }
+
+           @Override
+           public void onComplete() {
+           }
+
        }, GetUserByIdUseCase.Params.forUserById(id));
 
         return userLiveData;

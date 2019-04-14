@@ -21,4 +21,10 @@
     <string name="call">Call</string>
     <string name="call_video">Call Video</string>
     <string name="more">More</string>
+
+    // Profile
+    <string name="dang_xuat">Đăng xuất</string>
+    <string name="online">Online</string>
+    <string name="nhan_tin">Nhắn tin</string>
+    <string name="them_ban_be">Thêm bạn bè</string>
 </resources>
