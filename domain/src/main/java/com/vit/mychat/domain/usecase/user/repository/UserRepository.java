@@ -13,5 +13,5 @@ public interface UserRepository {
 
     Observable<String> getRelationship(String fromId, String toId);
 
-
+    Completable updateUserRelationship(String fromId, String toId, String type);
 }

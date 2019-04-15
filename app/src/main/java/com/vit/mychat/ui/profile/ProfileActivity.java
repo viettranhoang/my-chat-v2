@@ -13,6 +13,7 @@ import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserByIdViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserRelationshipViewModel;
+import com.vit.mychat.presentation.feature.user.UpdateUserRelationshipViewModel;
 import com.vit.mychat.presentation.feature.user.UpdateUserViewModel;
 import com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
@@ -25,6 +26,8 @@ import com.vit.mychat.util.RoundedCornersTransformation;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+
+import static com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig.*;
 
 
 public class ProfileActivity extends BaseActivity {
@@ -77,6 +80,7 @@ public class ProfileActivity extends BaseActivity {
     private UpdateUserViewModel updateUserViewModel;
     private AuthViewModel authViewModel;
     private GetUserRelationshipViewModel getUserRelationshipViewModel;
+    private UpdateUserRelationshipViewModel updateUserRelationshipViewModel;
 
     private String mUserId;
     private UserViewData mUserViewData;
@@ -91,7 +95,8 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mUserId = getIntent().getStringExtra(EXTRA_USER_ID);
+//        mUserId = getIntent().getStringExtra(EXTRA_USER_ID);
+        mUserId = "x1SR6cnmVKQJLTUX9l5NdkjkvaD3";
 
         if (mUserId == null) return;
 
@@ -99,6 +104,7 @@ public class ProfileActivity extends BaseActivity {
         updateUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserViewModel.class);
         authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
         getUserRelationshipViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetUserRelationshipViewModel.class);
+        updateUserRelationshipViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserRelationshipViewModel.class);
 
         loadUI();
 
@@ -155,14 +161,17 @@ public class ProfileActivity extends BaseActivity {
     void onClickAddFriend() {
         if (!TextUtils.isEmpty(mCurrentRelationship)) {
             switch (mCurrentRelationship) {
-                case UserRelationshipConfig.FRIEND:
-
+                case FRIEND:
+                    updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), mUserId, NOT);
                     break;
-                case UserRelationshipConfig.NOT:
+                case NOT:
+                    updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), mUserId, SENT);
                     break;
-                case UserRelationshipConfig.SENT:
+                case SENT:
+                    updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), mUserId, NOT);
                     break;
-                case UserRelationshipConfig.RECEIVE:
+                case RECEIVE:
+                    updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), mUserId, FRIEND);
                     break;
             }
         }
@@ -180,24 +189,24 @@ public class ProfileActivity extends BaseActivity {
                     dismissHUD();
                     mCurrentRelationship = (String) resource.getData();
                     switch (mCurrentRelationship) {
-                        case UserRelationshipConfig.NOT:
+                        case NOT:
                             mImageAddFriend.setImageResource(R.drawable.ic_add_friends);
                             mTextAddFriend.setText(getString(R.string.them_ban_be));
                             mTextAddFriend.setTextColor(getResources().getColor(R.color.black87));
                             break;
-                        case UserRelationshipConfig.FRIEND:
+                        case FRIEND:
                             mImageAddFriend.setImageResource(R.drawable.ic_person);
                             mTextAddFriend.setText(getString(R.string.huy_ket_ban));
                             mTextAddFriend.setTextColor(getResources().getColor(R.color.blue));
                             break;
-                        case UserRelationshipConfig.SENT:
-                            mImageAddFriend.setImageResource(R.drawable.ic_add_friends);
+                        case SENT:
+                            mImageAddFriend.setImageResource(R.drawable.ic_add_friends_blue);
                             mTextAddFriend.setText(getString(R.string.huy_loi_moi));
-                            mTextAddFriend.setTextColor(getResources().getColor(R.color.black87));
+                            mTextAddFriend.setTextColor(getResources().getColor(R.color.blue));
                             break;
-                        case UserRelationshipConfig.RECEIVE:
+                        case RECEIVE:
                             mImageAddFriend.setImageResource(R.drawable.ic_add_friends);
-                            mTextAddFriend.setText(getString(R.string.tra_loi));
+                            mTextAddFriend.setText(getString(R.string.chap_nhap));
                             mTextAddFriend.setTextColor(getResources().getColor(R.color.black87));
                             break;
                     }

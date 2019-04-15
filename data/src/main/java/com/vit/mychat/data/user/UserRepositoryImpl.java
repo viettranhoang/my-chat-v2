@@ -39,4 +39,9 @@ public class UserRepositoryImpl implements UserRepository {
     public Observable<String> getRelationship(String fromId, String toId) {
         return userRemote.getRelationship(fromId, toId);
     }
+
+    @Override
+    public Completable updateUserRelationship(String fromId, String toId, String type) {
+        return userRemote.updateUserRelationship(fromId, toId, type);
+    }
 }

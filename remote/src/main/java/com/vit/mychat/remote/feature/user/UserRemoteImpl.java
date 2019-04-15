@@ -40,5 +40,10 @@ public class UserRemoteImpl implements UserRemote {
         return myChatFirestore.getRelationship(fromId, toId);
     }
 
+    @Override
+    public Completable updateUserRelationship(String fromId, String toId, String type) {
+        return myChatFirestore.updateUserRelationship(fromId, toId, type);
+    }
+
 
 }

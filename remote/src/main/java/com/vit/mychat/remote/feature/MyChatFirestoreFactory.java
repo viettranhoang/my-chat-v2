@@ -28,6 +28,10 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
         auth = FirebaseAuth.getInstance();
     }
 
+
+    /**
+     * user
+     */
     @Override
     public Observable<UserModel> getUserById(String userId) {
         return Observable.create(emitter -> {
@@ -79,6 +83,23 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
         });
     }
 
+    @Override
+    public Completable updateUserRelationship(String fromId, String toId, String type) {
+        return Completable.create(emitter -> database.collection(Constants.TABLE_FRIEND)
+                .document(fromId)
+                .update(toId, type)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                        emitter.onComplete();
+                    else
+                        emitter.onError(task.getException());
+                }));
+    }
+
+
+    /**
+     * auth
+     */
     @Override
     public Single<String> login(String email, String password) {
         return Single.create(emitter -> auth.signInWithEmailAndPassword(email, password)
