@@ -35,5 +35,10 @@ public class UserRemoteImpl implements UserRemote {
         return myChatFirestore.updateUser(mapper.mapToModel(userEntity));
     }
 
+    @Override
+    public Observable<String> getRelationship(String fromId, String toId) {
+        return myChatFirestore.getRelationship(fromId, toId);
+    }
+
 
 }

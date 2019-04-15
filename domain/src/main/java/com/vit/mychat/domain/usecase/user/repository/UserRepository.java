@@ -11,5 +11,7 @@ public interface UserRepository {
 
     Completable updateUser(User user);
 
+    Observable<String> getRelationship(String fromId, String toId);
+
 
 }

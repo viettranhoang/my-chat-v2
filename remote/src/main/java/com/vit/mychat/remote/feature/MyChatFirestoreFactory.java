@@ -6,6 +6,9 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.vit.mychat.remote.common.Constants;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -34,6 +37,8 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
                             emitter.onError(e);
                         if (documentSnapshot != null && documentSnapshot.exists())
                             emitter.onNext(documentSnapshot.toObject(UserModel.class));
+                        else
+                            emitter.onError(new Throwable("Không có dữ liệu"));
                     });
             emitter.setCancellable(() -> listenerRegistration.remove());
         });
@@ -50,6 +55,28 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
                     else
                         emitter.onError(task.getException());
                 }));
+    }
+
+    @Override
+    public Observable<String> getRelationship(String fromId, String toId) {
+        Map<String, String> data = new HashMap<>();
+        data.put(toId, "");
+        return Observable.create(emitter -> {
+            ListenerRegistration listenerRegistration = database.collection(Constants.TABLE_FRIEND)
+                    .document(fromId)
+                    .addSnapshotListener((documentSnapshot, e) -> {
+                        if (e != null)
+                            emitter.onError(e);
+                        if (documentSnapshot != null && documentSnapshot.exists())
+                            emitter.onNext(documentSnapshot.getString(toId));
+                        else {
+                            database.collection(Constants.TABLE_FRIEND).document(fromId).set(data);
+                            emitter.onNext("");
+                        }
+                    });
+
+            emitter.setCancellable(() -> listenerRegistration.remove());
+        });
     }
 
     @Override

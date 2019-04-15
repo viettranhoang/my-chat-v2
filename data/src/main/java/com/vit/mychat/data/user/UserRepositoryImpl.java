@@ -34,4 +34,9 @@ public class UserRepositoryImpl implements UserRepository {
     public Completable updateUser(User user) {
         return userRemote.updateUser(mapper.mapToEntity(user));
     }
+
+    @Override
+    public Observable<String> getRelationship(String fromId, String toId) {
+        return userRemote.getRelationship(fromId, toId);
+    }
 }

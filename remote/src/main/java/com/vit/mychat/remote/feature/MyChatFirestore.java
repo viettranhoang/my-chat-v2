@@ -15,6 +15,8 @@ public interface MyChatFirestore {
 
     Completable updateUser(UserModel userModel);
 
+    Observable<String> getRelationship(String fromId, String toId);
+
 
     /**
      * auth

@@ -90,6 +90,7 @@
                     android:src="@drawable/ic_add_friends" />
 
                 <TextView
+                    android:id="@+id/text_add_friend"
                     style="@style/TextTitle"
                     android:text="Thêm bạn bè"
                     android:textSize="@dimen/text_min" />

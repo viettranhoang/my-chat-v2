@@ -11,5 +11,7 @@ public interface UserRemote {
 
     Completable updateUser(UserEntity userEntity);
 
+    Observable<String> getRelationship(String fromId, String toId);
+
 
 }
