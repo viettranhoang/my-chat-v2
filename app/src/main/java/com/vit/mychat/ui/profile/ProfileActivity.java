@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserByIdViewModel;
@@ -27,7 +28,10 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-import static com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig.*;
+import static com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig.FRIEND;
+import static com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig.NOT;
+import static com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig.RECEIVE;
+import static com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig.SENT;
 
 
 public class ProfileActivity extends BaseActivity {
@@ -86,7 +90,10 @@ public class ProfileActivity extends BaseActivity {
     private UserViewData mUserViewData;
 
     @UserRelationshipConfig
-    String mCurrentRelationship;
+    private String mCurrentRelationship;
+
+    private MaterialDialog mNameInputDialog;
+    private MaterialDialog mStatusInputDialog;
 
     @Override
     protected int getLayoutId() {
@@ -177,7 +184,19 @@ public class ProfileActivity extends BaseActivity {
         }
     }
 
+    @OnClick(R.id.text_name)
+    void onClickEditName() {
+        if (mUserViewData != null) {
+            getNameInputDialog().show();
+        }
+    }
 
+    @OnClick(R.id.text_status)
+    void onClickEditStatus() {
+        if (mUserViewData != null) {
+            getStatusInputDialog().show();
+        }
+    }
 
     private void getRelationship() {
         getUserRelationshipViewModel.getUserRelationship(authViewModel.getCurrentUserId(), mUserId).observe(this, resource -> {
@@ -251,4 +270,30 @@ public class ProfileActivity extends BaseActivity {
         mSwitchOnline.setChecked(user.getOnline() == 1);
     }
 
+    private MaterialDialog getNameInputDialog() {
+        if (mNameInputDialog == null) {
+            mNameInputDialog = new MaterialDialog.Builder(this)
+                    .title(getString(R.string.ten))
+                    .positiveColorRes(R.color.black87)
+                    .input("", mTextName.getText(), false, (dialog, input) -> {
+                        mUserViewData.setName(input.toString());
+                        updateUserViewModel.updateUser(mUserViewData);
+                    })
+                    .build();
+        } else mNameInputDialog.getInputEditText().setText(mTextName.getText());
+        return mNameInputDialog;
+    }
+
+    private MaterialDialog getStatusInputDialog() {
+        if (mStatusInputDialog == null) {
+            mStatusInputDialog = new MaterialDialog.Builder(this)
+                    .title(getString(R.string.status))
+                    .input("", mTextStatus.getText(), false, (dialog, input) -> {
+                        mUserViewData.setStatus(input.toString());
+                        updateUserViewModel.updateUser(mUserViewData);
+                    })
+                    .build();
+        } else mStatusInputDialog.getInputEditText().setText(mTextStatus.getText());
+        return mStatusInputDialog;
+    }
 }

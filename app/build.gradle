@@ -62,6 +62,7 @@ dependencies {
     implementation uiDependencies.autoDimension
     implementation uiDependencies.supportDesign
     implementation uiDependencies.kProgressHUD
+    implementation uiDependencies.materialDialogs
 
     testImplementation testDependencies.junit
     testImplementation testDependencies.mockitoCore

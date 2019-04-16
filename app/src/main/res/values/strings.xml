@@ -32,4 +32,6 @@
     <string name="chap_nhap">Chấp nhận</string>
     <string name="huy_ket_ban">Hủy kết bạn</string>
     <string name="huy_loi_moi">Hủy lời mời</string>
+    <string name="ten">Tên</string>
+    <string name="status">Status</string>
 </resources>
