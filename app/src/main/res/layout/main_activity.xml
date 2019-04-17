@@ -39,7 +39,10 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/_10dp"
                 android:text="@string/tim_kiem"
-                android:textSize="@dimen/_16sp" />
+                android:textSize="@dimen/_16sp"
+                android:clickable="true"
+                android:foreground="@drawable/ripple_effect"
+                />
 
             <FrameLayout
                 android:id="@+id/layout_fragment"

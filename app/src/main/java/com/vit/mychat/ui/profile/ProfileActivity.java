@@ -102,8 +102,8 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-//        mUserId = getIntent().getStringExtra(EXTRA_USER_ID);
-        mUserId = "x1SR6cnmVKQJLTUX9l5NdkjkvaD3";
+        mUserId = getIntent().getStringExtra(EXTRA_USER_ID);
+//        mUserId = "x1SR6cnmVKQJLTUX9l5NdkjkvaD3";
 
         if (mUserId == null) return;
 
@@ -240,6 +240,8 @@ public class ProfileActivity extends BaseActivity {
 
     private void loadUI() {
         if (authViewModel.getCurrentUserId().equals(mUserId)) {
+            mImageAddFriend.setVisibility(View.GONE);
+            mTextAddFriend.setVisibility(View.GONE);
             mImageCall.setVisibility(View.GONE);
             mTextCall.setText(R.string.dang_xuat);
             mImageMessage.setVisibility(View.GONE);
@@ -288,6 +290,7 @@ public class ProfileActivity extends BaseActivity {
         if (mStatusInputDialog == null) {
             mStatusInputDialog = new MaterialDialog.Builder(this)
                     .title(getString(R.string.status))
+                    .positiveColorRes(R.color.black87)
                     .input("", mTextStatus.getText(), false, (dialog, input) -> {
                         mUserViewData.setStatus(input.toString());
                         updateUserViewModel.updateUser(mUserViewData);

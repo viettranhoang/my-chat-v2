@@ -40,14 +40,22 @@
         <item name="android:layout_height">0.1dp</item>
         <item name="android:background">@color/black40</item>
     </style>
+
+    <style name="Switch" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">@color/green</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
     
     <style name="ToolbarMenuItem">
         <item name="android:layout_width">@dimen/toolbar_image_item_size</item>
         <item name="android:layout_height">@dimen/toolbar_image_item_size</item>
         <item name="android:layout_marginRight">@dimen/margin_primary</item>
         <item name="android:background">@drawable/shape_oval_gray</item>
+        <item name="android:foreground">@drawable/ripple_effect</item>
         <item name="android:padding">@dimen/toolbar_image_item_padding</item>
         <item name="android:visibility">invisible</item>
+        <item name="android:clickable">true</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
 

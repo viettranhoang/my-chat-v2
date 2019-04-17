@@ -5,12 +5,16 @@ import com.vit.mychat.ui.MainActivity;
 import com.vit.mychat.ui.MainActivityModule;
 import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.auth.AuthModule;
+import com.vit.mychat.ui.request_receive.RequestReceiveActivity;
+import com.vit.mychat.ui.request_receive.module.RequestReceiveModule;
+import com.vit.mychat.ui.request_sent.RequestSentActivity;
+import com.vit.mychat.ui.request_sent.module.RequestSentModule;
 import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.message.MessageModule;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.profile.ProfileModule;
-import com.vit.mychat.ui.register.RegisterActivity;
-import com.vit.mychat.ui.register.RegisterModule;
+import com.vit.mychat.ui.search.SearchActivity;
+import com.vit.mychat.ui.search.module.SearchModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -35,6 +39,14 @@ public abstract class ActivityModule {
     abstract MessageActivity messageActivityInjector();
 
     @PerActivity
-    @ContributesAndroidInjector(modules = RegisterModule.class)
-    abstract RegisterActivity registerActivityInjector();
+    @ContributesAndroidInjector(modules = RequestReceiveModule.class)
+    abstract RequestReceiveActivity requestReceiveActivityInjector();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = RequestSentModule.class)
+    abstract RequestSentActivity requestSentActivityInjector();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = SearchModule.class)
+    abstract SearchActivity searchActivityInjector();
 }

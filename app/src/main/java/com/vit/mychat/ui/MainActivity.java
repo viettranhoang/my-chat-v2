@@ -24,6 +24,9 @@ import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.friends.FriendsFragment;
 import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
+import com.vit.mychat.ui.request_receive.RequestReceiveActivity;
+import com.vit.mychat.ui.request_sent.RequestSentActivity;
+import com.vit.mychat.ui.search.SearchActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -86,7 +89,6 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.image_avatar)
     void onClickAvatar() {
-        Toast.makeText(this, "avatar", Toast.LENGTH_SHORT).show();
         ProfileActivity.moveProfileActivity(this, authViewModel.getCurrentUserId());
     }
 
@@ -104,12 +106,17 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.image_add_friends)
     void onClickAddFriends() {
-        Toast.makeText(this, "add friends", Toast.LENGTH_SHORT).show();
+        RequestSentActivity.moveRequestSentActivity(this);
     }
 
     @OnClick(R.id.image_contacts)
     void onClickContacts() {
-        Toast.makeText(this, "contacts", Toast.LENGTH_SHORT).show();
+        RequestReceiveActivity.moveRequestReceiveActivity(this);
+    }
+
+    @OnClick(R.id.text_search)
+    void onClickSearch() {
+        SearchActivity.moveSearchActivity(this);
     }
 
     private void initToolbar() {
