@@ -7,6 +7,7 @@ import com.vit.mychat.di.key.ViewModelKey;
 import com.vit.mychat.presentation.feature.MyChatViewModelFactory;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserByIdViewModel;
+import com.vit.mychat.presentation.feature.user.GetUserListViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserRelationshipViewModel;
 import com.vit.mychat.presentation.feature.user.UpdateUserRelationshipViewModel;
 import com.vit.mychat.presentation.feature.user.UpdateUserViewModel;
@@ -20,6 +21,11 @@ public abstract class ViewModelModule {
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(MyChatViewModelFactory myChatViewModelFactory);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GetUserListViewModel.class)
+    abstract ViewModel bindGetUserListViewModel(GetUserListViewModel getUserListViewModel);
 
     @Binds
     @IntoMap

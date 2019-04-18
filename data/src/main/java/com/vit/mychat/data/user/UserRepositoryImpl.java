@@ -5,6 +5,8 @@ import com.vit.mychat.data.user.source.UserRemote;
 import com.vit.mychat.domain.usecase.user.model.User;
 import com.vit.mychat.domain.usecase.user.repository.UserRepository;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -43,5 +45,14 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Completable updateUserRelationship(String fromId, String toId, String type) {
         return userRemote.updateUserRelationship(fromId, toId, type);
+    }
+
+    @Override
+    public Observable<List<User>> getUserList() {
+        return userRemote.getUserList()
+                .flatMap(userEntities -> Observable.fromIterable(userEntities)
+                        .map(userEntity -> mapper.mapFromEntity(userEntity))
+                        .toList()
+                        .toObservable());
     }
 }

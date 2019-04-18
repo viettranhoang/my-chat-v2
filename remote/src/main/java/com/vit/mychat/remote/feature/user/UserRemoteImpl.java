@@ -5,6 +5,8 @@ import com.vit.mychat.data.user.source.UserRemote;
 import com.vit.mychat.remote.feature.MyChatFirestore;
 import com.vit.mychat.remote.feature.user.mapper.UserModelMapper;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -43,6 +45,15 @@ public class UserRemoteImpl implements UserRemote {
     @Override
     public Completable updateUserRelationship(String fromId, String toId, String type) {
         return myChatFirestore.updateUserRelationship(fromId, toId, type);
+    }
+
+    @Override
+    public Observable<List<UserEntity>> getUserList() {
+        return myChatFirestore.getUserList()
+                .flatMap(userModels -> Observable.fromIterable(userModels)
+                .map(userModel -> mapper.mapToEntity(userModel))
+                .toList()
+                .toObservable());
     }
 
 

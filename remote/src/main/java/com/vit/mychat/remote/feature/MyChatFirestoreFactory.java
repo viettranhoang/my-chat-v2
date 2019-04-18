@@ -3,10 +3,13 @@ package com.vit.mychat.remote.feature;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.vit.mychat.remote.common.Constants;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -94,6 +97,26 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
                     else
                         emitter.onError(task.getException());
                 }));
+    }
+
+    @Override
+    public Observable<List<UserModel>> getUserList() {
+        return Observable.create(emitter -> {
+            ListenerRegistration listenerRegistration = database.collection(Constants.TABLE_USER)
+                    .addSnapshotListener((value, e) -> {
+                        if (e != null)
+                            emitter.onError(e);
+
+                        List<UserModel> userModelList = new ArrayList<>();
+                        for (QueryDocumentSnapshot user : value) {
+                            if (user != null) {
+                                userModelList.add(user.toObject(UserModel.class));
+                            }
+                        }
+                        emitter.onNext(userModelList);
+                    });
+            emitter.setCancellable(() -> listenerRegistration.remove());
+        });
     }
 
 
