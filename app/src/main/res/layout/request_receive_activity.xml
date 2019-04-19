@@ -3,5 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <include
+        android:id="@+id/toolbar_receive_user"
+        layout="@layout/request_receive_toolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_receive_user"
+        android:layout_below="@+id/toolbar_receive_user"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/_5dp"
+        android:layout_marginTop="@dimen/_5dp"
+        android:layout_marginBottom="@dimen/_8dp"
+        android:layout_marginRight="@dimen/_5dp"
+        />
+
+    <View
+        android:id="@+id/view_line_bottom"
+        style="@style/Line"
+        android:layout_above="@+id/list_sent_user" />
 
 </LinearLayout>

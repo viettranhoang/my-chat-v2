@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-</LinearLayout>
+    <include
+        android:id="@+id/toolbar_sent_user"
+        layout="@layout/request_sent_toolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_sent_user"
+        android:layout_below="@+id/toolbar_sent_user"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/_5dp"
+        android:layout_marginTop="@dimen/_5dp"
+        android:layout_marginBottom="@dimen/_8dp"
+        android:layout_marginRight="@dimen/_5dp"
+        />
+
+    <View
+        android:id="@+id/view_line_bottom"
+        style="@style/Line"
+        android:layout_above="@+id/list_sent_user" />
+
+
+
+
+
+</RelativeLayout>

@@ -1,7 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5dp"
+    android:layout_marginBottom="@dimen/_8dp"
     android:orientation="vertical">
 
-</LinearLayout>
+    <ImageView
+
+        android:id="@+id/image_avatar_receive"
+        android:layout_width="@dimen/message_image_avatar_size"
+        android:layout_height="@dimen/message_image_avatar_size"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/_15dp"
+        android:padding="@dimen/_3dp" />
+
+
+    <ImageView
+        android:id="@+id/image_online"
+        android:layout_width="@dimen/message_image_online_size"
+        android:layout_height="@dimen/message_image_online_size"
+        android:layout_alignRight="@+id/image_avatar_receive"
+        android:layout_alignBottom="@+id/image_avatar_receive"
+        android:background="@drawable/shape_oval_border_green" />
+
+
+    <TextView
+        android:id="@+id/text_name_user"
+        style="@style/TextTitle"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/margin_primary"
+        android:layout_toRightOf="@+id/image_avatar_receive"
+
+        android:fontFamily="sans-serif-medium"
+        android:text="Vu Hanh"
+        android:textSize="@dimen/text_input" />
+
+    <ImageView
+        android:id="@+id/image_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/margin_primary"
+        android:background="@drawable/shape_oval_gray"
+        android:padding="@dimen/_6dp"
+        android:src="@drawable/ic_cancel"
+        android:tint="@color/black20" />
+
+
+</RelativeLayout>
