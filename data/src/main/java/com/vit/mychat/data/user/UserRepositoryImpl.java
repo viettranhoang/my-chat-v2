@@ -55,4 +55,13 @@ public class UserRepositoryImpl implements UserRepository {
                         .toList()
                         .toObservable());
     }
+
+    @Override
+    public Observable<List<User>> getFriendList(String userId, String type) {
+        return userRemote.getFriendList(userId, type)
+                .flatMap(userEntities -> Observable.fromIterable(userEntities)
+                        .map(userEntity -> mapper.mapFromEntity(userEntity))
+                        .toList()
+                        .toObservable());
+    }
 }

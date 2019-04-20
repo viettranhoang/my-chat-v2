@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="4dp"
-    android:background="?attr/colorPrimary"
-    app:contentInsetStartWithNavigation="0dp"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize">
+    android:id="@+id/toolbar_message"
+    style="@style/Toolbar">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -28,12 +24,12 @@
             android:background="@drawable/shape_oval_border_green" />
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_toRightOf="@id/image_avatar"
-            android:layout_marginLeft="@dimen/margin_secondary"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_secondary"
+            android:layout_toRightOf="@id/image_avatar"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text_name"

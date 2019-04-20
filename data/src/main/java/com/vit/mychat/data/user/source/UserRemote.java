@@ -19,5 +19,7 @@ public interface UserRemote {
 
     Observable<List<UserEntity>> getUserList();
 
+    Observable<List<UserEntity>> getFriendList(String userId, String type);
+
 
 }

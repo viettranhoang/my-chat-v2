@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import com.vit.mychat.di.key.ViewModelKey;
 import com.vit.mychat.presentation.feature.MyChatViewModelFactory;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
+import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserByIdViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserListViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserRelationshipViewModel;
@@ -22,6 +23,10 @@ public abstract class ViewModelModule {
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(MyChatViewModelFactory myChatViewModelFactory);
 
+
+    /**
+     * User
+     */
     @Binds
     @IntoMap
     @ViewModelKey(GetUserListViewModel.class)
@@ -47,6 +52,15 @@ public abstract class ViewModelModule {
     @ViewModelKey(UpdateUserRelationshipViewModel.class)
     abstract ViewModel bindUpdateUserRelationshipViewModel(UpdateUserRelationshipViewModel updateUserRelationshipViewModel);
 
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GetFriendListViewModel.class)
+    abstract ViewModel bindGetFriendListViewModel(GetFriendListViewModel getFriendListViewModel);
+
+    /**
+     * Auth
+     */
     @Binds
     @IntoMap
     @ViewModelKey(AuthViewModel.class)

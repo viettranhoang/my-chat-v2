@@ -28,7 +28,7 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
     @BindView(R.id.list_receive_user)
     RecyclerView mListReceiveUser;
 
-    @BindView(R.id.toolbar_receive_user)
+    @BindView(R.id.toolbar_request_receive)
     Toolbar mToolbarReceiveUser;
 
     @Inject

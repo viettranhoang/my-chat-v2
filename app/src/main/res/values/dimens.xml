@@ -8,6 +8,7 @@
     <dimen name="text_input">@dimen/_16sp</dimen>
     <dimen name="text_body">@dimen/_14sp</dimen>
     <dimen name="text_min">@dimen/_12sp</dimen>
+    <dimen name="toolbar_shadow">@dimen/_2dp</dimen>
 
     <dimen name="toolbar_image_item_size">@dimen/_34dp</dimen>
     <dimen name="toolbar_image_item_padding">@dimen/_7dp</dimen>

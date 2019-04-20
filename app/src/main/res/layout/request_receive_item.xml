@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
     <ImageView
-
         android:id="@+id/image_avatar_receive"
         android:layout_width="@dimen/message_image_avatar_size"
         android:layout_height="@dimen/message_image_avatar_size"
@@ -20,8 +19,8 @@
         android:id="@+id/image_online"
         android:layout_width="@dimen/message_image_online_size"
         android:layout_height="@dimen/message_image_online_size"
-        android:layout_alignRight="@+id/image_avatar_receive"
-        android:layout_alignBottom="@+id/image_avatar_receive"
+        android:layout_alignRight="@id/image_avatar_receive"
+        android:layout_alignBottom="@id/image_avatar_receive"
         android:background="@drawable/shape_oval_border_green" />
 
 

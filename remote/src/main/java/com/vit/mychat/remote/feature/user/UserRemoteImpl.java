@@ -51,10 +51,18 @@ public class UserRemoteImpl implements UserRemote {
     public Observable<List<UserEntity>> getUserList() {
         return myChatFirestore.getUserList()
                 .flatMap(userModels -> Observable.fromIterable(userModels)
-                .map(userModel -> mapper.mapToEntity(userModel))
-                .toList()
-                .toObservable());
+                        .map(userModel -> mapper.mapToEntity(userModel))
+                        .toList()
+                        .toObservable());
     }
 
-
+    @Override
+    public Observable<List<UserEntity>> getFriendList(String userId, String type) {
+        return myChatFirestore.getIdFriendList(userId, type)
+                .flatMap(strings -> Observable.fromIterable(strings)
+                        .flatMap(myChatFirestore::getUserById)
+                        .map(mapper::mapToEntity))
+                .toList()
+                .toObservable();
+    }
 }

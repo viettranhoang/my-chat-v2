@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true">
 
     <include
-        android:id="@+id/toolbar_message"
-        layout="@layout/message_toolbar"/>
+        layout="@layout/message_toolbar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_mess"
-        android:layout_below="@id/toolbar_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/view_line_bottom"
+        android:layout_below="@id/toolbar_message"
         android:layout_marginLeft="@dimen/_5dp"
         android:layout_marginRight="@dimen/_5dp" />
 
@@ -22,7 +20,6 @@
         android:id="@+id/view_line_bottom"
         style="@style/Line"
         android:layout_above="@+id/layout_send" />
-
 
     <RelativeLayout
         android:id="@+id/layout_send"

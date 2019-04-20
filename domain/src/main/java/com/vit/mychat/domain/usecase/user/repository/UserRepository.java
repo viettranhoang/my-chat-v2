@@ -18,4 +18,6 @@ public interface UserRepository {
     Completable updateUserRelationship(String fromId, String toId, String type);
 
     Observable<List<User>> getUserList();
+
+    Observable<List<User>> getFriendList(String userId, String type);
 }

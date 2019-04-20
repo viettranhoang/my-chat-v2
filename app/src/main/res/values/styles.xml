@@ -59,6 +59,14 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
+    <style name="Toolbar">
+        <item name="android:elevation">@dimen/toolbar_shadow</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+    </style>
+    
     <style name="ProfileImageItem">
         <item name="android:foreground">@drawable/ripple_effect</item>
         <item name="android:layout_width">@dimen/profile_image_item_size</item>

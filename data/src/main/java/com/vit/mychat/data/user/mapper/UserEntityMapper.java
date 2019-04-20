@@ -28,6 +28,7 @@ public class UserEntityMapper implements Mapper<UserEntity, User> {
         if (type == null) {
             return null;
         }
+        System.out.println("UserEntityMapper" + type.getName());
         return new User(type.getId(), type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
                 type.getNews(), type.getOnline());
     }

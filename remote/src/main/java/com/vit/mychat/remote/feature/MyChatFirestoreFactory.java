@@ -1,9 +1,13 @@
 package com.vit.mychat.remote.feature;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.WriteBatch;
 import com.vit.mychat.remote.common.Constants;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
@@ -20,7 +24,8 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 @Singleton
-public class MyChatFirestoreFactory implements MyChatFirestore{
+public class MyChatFirestoreFactory implements MyChatFirestore {
+    public static final String TAG = MyChatFirestoreFactory.class.getSimpleName();
 
     private FirebaseFirestore database;
     private FirebaseAuth auth;
@@ -42,13 +47,33 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
                     .addSnapshotListener((documentSnapshot, e) -> {
                         if (e != null)
                             emitter.onError(e);
-                        if (documentSnapshot != null && documentSnapshot.exists())
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            Log.i(TAG, "getUserById: " + documentSnapshot.toObject(UserModel.class).getName());
                             emitter.onNext(documentSnapshot.toObject(UserModel.class));
-                        else
+                        } else
                             emitter.onError(new Throwable("Không có dữ liệu"));
                     });
             emitter.setCancellable(() -> listenerRegistration.remove());
         });
+    }
+
+    @Override
+    public Single<UserModel> getUserByIdSingle(String userId) {
+        return Single.create(emitter ->
+                database.collection(Constants.TABLE_USER).document(userId)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    emitter.onSuccess(document.toObject(UserModel.class));
+                                } else {
+                                    emitter.onError(new Throwable("Không có dữ liệu"));
+                                }
+                            } else {
+                                emitter.onError(task.getException());
+                            }
+                        }));
     }
 
     @Override
@@ -66,8 +91,10 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
 
     @Override
     public Observable<String> getRelationship(String fromId, String toId) {
-        Map<String, String> data = new HashMap<>();
-        data.put(toId, "");
+        Map<String, String> dataToId = new HashMap<>();
+        Map<String, String> dataFromId = new HashMap<>();
+        dataToId.put(toId, "");
+        dataFromId.put(fromId, "");
         return Observable.create(emitter -> {
             ListenerRegistration listenerRegistration = database.collection(Constants.TABLE_FRIEND)
                     .document(fromId)
@@ -77,7 +104,8 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
                         if (documentSnapshot != null && documentSnapshot.exists())
                             emitter.onNext(documentSnapshot.getString(toId));
                         else {
-                            database.collection(Constants.TABLE_FRIEND).document(fromId).set(data);
+                            database.collection(Constants.TABLE_FRIEND).document(fromId).set(dataToId);
+                            database.collection(Constants.TABLE_FRIEND).document(toId).set(dataFromId);
                             emitter.onNext("");
                         }
                     });
@@ -88,15 +116,19 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
 
     @Override
     public Completable updateUserRelationship(String fromId, String toId, String type) {
-        return Completable.create(emitter -> database.collection(Constants.TABLE_FRIEND)
-                .document(fromId)
-                .update(toId, type)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful())
-                        emitter.onComplete();
-                    else
-                        emitter.onError(task.getException());
-                }));
+        return Completable.create(emitter -> {
+            WriteBatch batch = database.batch();
+            batch.update(database.collection(Constants.TABLE_FRIEND).document(fromId), toId, type);
+            batch.update(database.collection(Constants.TABLE_FRIEND).document(toId), fromId, type);
+
+            batch.commit()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful())
+                            emitter.onComplete();
+                        else
+                            emitter.onError(task.getException());
+                    });
+        });
     }
 
     @Override
@@ -119,6 +151,33 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
         });
     }
 
+    @Override
+    public Observable<List<String>> getIdFriendList(String userId, String type) {
+        return Observable.create(emitter -> {
+            ListenerRegistration listenerRegistration = database
+                    .collection(Constants.TABLE_FRIEND)
+                    .document(userId)
+                    .addSnapshotListener((documentSnapshot, e) -> {
+                        if (e != null)
+                            emitter.onError(e);
+
+                        List<String> idList = new ArrayList<>();
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            Map<String, Object> map = documentSnapshot.getData();
+                            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                                if (entry.getValue().toString().contains(type)) {
+                                    idList.add(entry.getKey());
+                                }
+                            }
+                            Log.i(TAG, "getIdFriendList: " + idList.toString());
+                            emitter.onNext(idList);
+                        } else
+                            emitter.onError(new Throwable("Không có dữ liệu"));
+                    });
+            emitter.setCancellable(() -> listenerRegistration.remove());
+        });
+    }
+
 
     /**
      * auth
@@ -126,23 +185,23 @@ public class MyChatFirestoreFactory implements MyChatFirestore{
     @Override
     public Single<String> login(String email, String password) {
         return Single.create(emitter -> auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(task -> {
-                if (task.isSuccessful())
-                    emitter.onSuccess(auth.getUid());
-                else
-                    emitter.onError(task.getException());
-            }));
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                        emitter.onSuccess(auth.getUid());
+                    else
+                        emitter.onError(task.getException());
+                }));
     }
 
     @Override
     public Single<String> register(String email, String password) {
         return Single.create(emitter -> auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(task -> {
-                if (task.isSuccessful())
-                    emitter.onSuccess(auth.getUid());
-                else
-                    emitter.onError(task.getException());
-            }));
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                        emitter.onSuccess(auth.getUid());
+                    else
+                        emitter.onError(task.getException());
+                }));
     }
 
     @Override

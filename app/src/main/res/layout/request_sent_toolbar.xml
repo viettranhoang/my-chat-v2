@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize">
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_request_sent"
+    style="@style/Toolbar">
 
     <TextView
         android:id="@+id/text_sent_user"
         style="@style/TextTitle"
-        android:text="Thêm người liên hệ"
-        android:textSize="@dimen/text_input"
-        />
+        android:text="@string/loi_moi_ket_ban_di"
+        android:textSize="@dimen/text_title" />
 </android.support.v7.widget.Toolbar>

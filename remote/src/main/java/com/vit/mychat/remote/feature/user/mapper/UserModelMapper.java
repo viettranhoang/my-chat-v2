@@ -1,6 +1,8 @@
 package com.vit.mychat.remote.feature.user.mapper;
 
 
+import android.util.Log;
+
 import com.vit.mychat.data.user.model.UserEntity;
 import com.vit.mychat.remote.common.Mapper;
 import com.vit.mychat.remote.feature.user.model.UserModel;
@@ -20,8 +22,16 @@ public class UserModelMapper implements Mapper<UserModel, UserEntity> {
         if (type == null) {
             return null;
         }
+        Log.i("UserModelMapper", "mapToEntity: " + type.getName());
         return new UserEntity(type.getId(), type.getName(), type.getStatus(), type.getAvatar(), type.getCover(),
                 type.getNews(), type.getOnline());
+    }
+
+    public UserEntity mapToString(String type) {
+        if (type == null) {
+            return null;
+        }
+        return new UserEntity(type, "", "", "", "", "", 0);
     }
 
     @Override

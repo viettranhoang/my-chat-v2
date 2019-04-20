@@ -34,4 +34,8 @@
     <string name="huy_loi_moi">Hủy lời mời</string>
     <string name="ten">Tên</string>
     <string name="status">Status</string>
+
+    //request
+    <string name="loi_moi_ket_ban_di">Lời mời kết bạn đi</string>
+    <string name="loi_moi_ket_ban_den">Lời mời kết bạn đến</string>
 </resources>
