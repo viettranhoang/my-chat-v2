@@ -3,6 +3,9 @@ package com.vit.mychat.ui.search;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.user.GetUserListViewModel;
@@ -15,6 +18,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+
 public class SearchActivity extends BaseActivity implements OnClickSearchItemListener {
 
     public static void moveSearchActivity(Activity activity) {
@@ -22,10 +27,17 @@ public class SearchActivity extends BaseActivity implements OnClickSearchItemLis
         activity.startActivity(intent);
     }
 
+    private GetUserListViewModel getUserListViewModel;
+
+    @BindView(R.id.toolbar_search)
+    Toolbar mToolbarSearchUser;
+
+    @BindView(R.id.list_search_user)
+    RecyclerView mListUserSearch;
+
     @Inject
     SearchAdapter searchAdapter;
 
-    private GetUserListViewModel getUserListViewModel;
 
     @Override
     protected int getLayoutId() {
@@ -34,6 +46,8 @@ public class SearchActivity extends BaseActivity implements OnClickSearchItemLis
 
     @Override
     protected void initView() {
+        initToolbar();
+        initRcvSearchUser();
 
         getUserListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetUserListViewModel.class);
 
@@ -48,6 +62,8 @@ public class SearchActivity extends BaseActivity implements OnClickSearchItemLis
 
                     // Set List cho adapter o day :))
 
+                    searchAdapter.setSetSearchUser(list);
+
                     break;
                 case ERROR:
                     dismissHUD();
@@ -55,6 +71,19 @@ public class SearchActivity extends BaseActivity implements OnClickSearchItemLis
                     break;
             }
         });
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(mToolbarSearchUser);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void initRcvSearchUser() {
+        mListUserSearch.setLayoutManager(new LinearLayoutManager(this));
+        mListUserSearch.setHasFixedSize(true);
+        mListUserSearch.setAdapter(searchAdapter);
     }
 
     @Override
