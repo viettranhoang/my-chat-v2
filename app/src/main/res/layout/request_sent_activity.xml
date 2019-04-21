@@ -4,27 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/request_sent_toolbar" />
+    <include layout="@layout/request_sent_toolbar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_sent_user"
-        android:layout_below="@id/toolbar_request_sent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/_5dp"
-        android:layout_marginTop="@dimen/_5dp"
-        android:layout_marginBottom="@dimen/_8dp"
-        android:layout_marginRight="@dimen/_5dp"
-        />
+        android:layout_below="@id/toolbar_request_sent"
+        android:layout_marginTop="@dimen/_5dp"/>
 
     <View
         android:id="@+id/view_line_bottom"
         style="@style/Line"
         android:layout_above="@+id/list_sent_user" />
-
-
-
 
 
 </RelativeLayout>

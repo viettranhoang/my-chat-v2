@@ -4,7 +4,7 @@
     style="@style/Toolbar">
 
     <TextView
-        android:id="@+id/text_receive_user"
+        android:id="@+id/text_search"
         style="@style/TextTitle"
         android:text="@string/loi_moi_ket_ban_den"
         android:textSize="@dimen/text_title" />

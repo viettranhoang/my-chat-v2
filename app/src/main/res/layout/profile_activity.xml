@@ -23,6 +23,8 @@
             android:layout_alignBottom="@id/image_background"
             android:layout_margin="@dimen/profile_image_camera_margin"
             android:background="@drawable/round_corner_gray_6"
+            android:clickable="true"
+            android:foreground="@drawable/ripple_effect"
             android:paddingLeft="@dimen/_10dp"
             android:paddingTop="@dimen/_3dp"
             android:paddingRight="@dimen/_10dp"
@@ -45,6 +47,8 @@
             android:layout_alignRight="@id/image_avatar"
             android:layout_alignBottom="@id/image_avatar"
             android:layout_margin="@dimen/profile_image_camera_margin"
+            android:clickable="true"
+            android:foreground="@drawable/ripple_effect"
             android:background="@drawable/shape_oval_gray"
             android:padding="@dimen/_10dp"
             android:src="@drawable/ic_camera" />

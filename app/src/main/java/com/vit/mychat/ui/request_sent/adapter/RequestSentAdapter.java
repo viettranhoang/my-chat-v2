@@ -66,14 +66,14 @@ public class RequestSentAdapter extends RecyclerView.Adapter<RequestSentAdapter.
 
     class RequestSentViewHolder extends BaseViewHolder<UserViewData> {
 
-        @BindView(R.id.image_avatar_receive)
-        ImageView imageAvatarReceive;
+        @BindView(R.id.image_avatar)
+        ImageView mImageAvatar;
 
         @BindView(R.id.image_online)
         ImageView imageOnline;
 
-        @BindView(R.id.text_name_user)
-        TextView textNameUser;
+        @BindView(R.id.text_name)
+        TextView mTextName;
 
         @BindView(R.id.image_cancel)
         ImageView imageCancel;
@@ -89,9 +89,14 @@ public class RequestSentAdapter extends RecyclerView.Adapter<RequestSentAdapter.
             GlideApp.with(itemView.getContext())
                     .load(userViewData.getAvatar())
                     .circleCrop()
-                    .into(imageAvatarReceive);
+                    .into(mImageAvatar);
 
-            textNameUser.setText(userViewData.getName());
+            mTextName.setText(userViewData.getName());
+
+            if (userViewData.getOnline() == 1)
+                imageOnline.setVisibility(View.VISIBLE);
+            else
+                imageOnline.setVisibility(View.INVISIBLE);
         }
 
         @OnClick(R.id.image_cancel)

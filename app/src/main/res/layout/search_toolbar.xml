@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:elevation="@dimen/_2dp"
-    android:background="?attr/colorPrimary">
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_search"
+    style="@style/Toolbar">
+
     <EditText
-        android:id="@+id/text_receive_user"
+        android:id="@+id/text_search"
         style="@style/TextTitle"
-        android:hint="Tìm kiếm"
-        
-        android:textStyle="normal"
+        android:background="@null"
+        android:maxLines="1"
+        android:hint="@string/tim_kiem"
         android:textSize="@dimen/text_input" />
 </android.support.v7.widget.Toolbar>

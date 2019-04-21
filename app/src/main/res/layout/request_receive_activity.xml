@@ -11,10 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_request_receive"
-        android:layout_marginLeft="@dimen/_5dp"
-        android:layout_marginTop="@dimen/_5dp"
-        android:layout_marginRight="@dimen/_5dp"
-        android:layout_marginBottom="@dimen/_8dp" />
+        android:layout_marginTop="@dimen/_5dp" />
 
     <View
         android:id="@+id/view_line_bottom"

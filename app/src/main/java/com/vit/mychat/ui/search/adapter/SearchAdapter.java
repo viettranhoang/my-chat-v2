@@ -22,6 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 @PerActivity
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
@@ -36,7 +37,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     SearchAdapter() {
     }
 
-    public void setSetSearchUser(List<UserViewData> mListUserSearch) {
+    public void setList(List<UserViewData> mListUserSearch) {
         this.mListUserSearch = mListUserSearch;
         notifyDataSetChanged();
 
@@ -63,18 +64,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     class SearchViewHolder extends BaseViewHolder<UserViewData> {
 
-        @BindView(R.id.image_avatar_serach)
-        ImageView imageAvatrSearch;
+        @BindView(R.id.image_avatar)
+        ImageView mImageAvatar;
 
-        @BindView(R.id.text_name_user)
-        TextView textNameUser;
+        @BindView(R.id.text_name)
+        TextView mTextName;
 
         @BindView(R.id.image_online)
-        ImageView imageOnline;
+        ImageView mImageOnline;
 
         public SearchViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         @Override
@@ -82,10 +83,24 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             GlideApp.with(itemView.getContext())
                     .load(userViewData.getAvatar())
                     .circleCrop()
-                    .into(imageAvatrSearch);
+                    .into(mImageAvatar);
 
-            textNameUser.setText(userViewData.getName());
+            mTextName.setText(userViewData.getName());
 
+            if (userViewData.getOnline() == 1)
+                mImageOnline.setVisibility(View.VISIBLE);
+            else
+                mImageOnline.setVisibility(View.INVISIBLE);
+        }
+
+        @OnClick(R.id.layout_root)
+        void onClickItem() {
+            listener.onClickSearchItem(mListUserSearch.get(getAdapterPosition()));
+        }
+
+        @OnClick(R.id.image_info)
+        void onClickInfo() {
+            listener.onClickInfo(mListUserSearch.get(getAdapterPosition()).getId());
         }
     }
 }

@@ -56,7 +56,6 @@ public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAd
     @Override
     public void onBindViewHolder(@NonNull RequestReceiveViewHolder requestReceiveViewHolder, int i) {
         requestReceiveViewHolder.bindData(mListRequestReceive.get(i));
-
     }
 
     @Override
@@ -66,11 +65,11 @@ public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAd
 
     class RequestReceiveViewHolder extends BaseViewHolder<UserViewData> {
 
-        @BindView(R.id.image_avatar_sent)
-        ImageView imageAvatarSent;
+        @BindView(R.id.image_avatar)
+        ImageView mImageAvatar;
 
-        @BindView(R.id.text_name_user)
-        TextView textNameUser;
+        @BindView(R.id.text_name)
+        TextView mTextName;
 
         @BindView(R.id.image_cancel)
         ImageView imageCancel;
@@ -91,9 +90,14 @@ public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAd
             GlideApp.with(itemView.getContext())
                     .load(userViewData.getAvatar())
                     .circleCrop()
-                    .into(imageAvatarSent);
+                    .into(mImageAvatar);
 
-            textNameUser.setText(userViewData.getName());
+            mTextName.setText(userViewData.getName());
+
+            if (userViewData.getOnline() == 1)
+                imageOnline.setVisibility(View.VISIBLE);
+            else
+                imageOnline.setVisibility(View.INVISIBLE);
 
         }
 
@@ -111,6 +115,5 @@ public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAd
         void onClickItem() {
             listener.onClickRequestReceiveItem(mListRequestReceive.get(getAdapterPosition()));
         }
-
     }
 }

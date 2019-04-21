@@ -3,19 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include
-        android:id="@+id/toolbar_search"
-        layout="@layout/search_toolbar" />
+
+    <include layout="@layout/search_toolbar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_search_user"
-        android:layout_below="@+id/toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/_5dp"
-        android:layout_marginTop="@dimen/_5dp"
-        android:layout_marginBottom="@dimen/_8dp"
-        android:layout_marginRight="@dimen/_5dp"
-        />
+        android:layout_below="@+id/toolbar_search"
+        android:layout_marginTop="@dimen/_5dp" />
 
 </RelativeLayout>
