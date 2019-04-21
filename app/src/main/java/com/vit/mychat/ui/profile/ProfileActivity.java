@@ -216,17 +216,17 @@ public class ProfileActivity extends BaseActivity {
                             mTextAddFriend.setTextColor(getResources().getColor(R.color.black87));
                             break;
                         case FRIEND:
-                            mImageAddFriend.setImageResource(R.drawable.ic_person);
+                            mImageAddFriend.setImageResource(R.drawable.ic_account_check);
                             mTextAddFriend.setText(getString(R.string.huy_ket_ban));
                             mTextAddFriend.setTextColor(getResources().getColor(R.color.blue));
                             break;
                         case SENT:
-                            mImageAddFriend.setImageResource(R.drawable.ic_add_friends_blue);
+                            mImageAddFriend.setImageResource(R.drawable.ic_account_arrow_right_blue);
                             mTextAddFriend.setText(getString(R.string.huy_loi_moi));
                             mTextAddFriend.setTextColor(getResources().getColor(R.color.blue));
                             break;
                         case RECEIVE:
-                            mImageAddFriend.setImageResource(R.drawable.ic_add_friends);
+                            mImageAddFriend.setImageResource(R.drawable.ic_account_arrow_left);
                             mTextAddFriend.setText(getString(R.string.chap_nhap));
                             mTextAddFriend.setTextColor(getResources().getColor(R.color.black87));
                             break;

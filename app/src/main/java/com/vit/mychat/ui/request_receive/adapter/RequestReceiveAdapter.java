@@ -22,12 +22,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 @PerActivity
 public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAdapter.RequestReceiveViewHolder> {
 
-    private List<UserViewData> mListUserReceive = new ArrayList<>();
-
+    private List<UserViewData> mListRequestReceive = new ArrayList<>();
 
     @Inject
     OnClickRequestReceiveItemListener listener;
@@ -36,11 +36,15 @@ public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAd
     RequestReceiveAdapter() {
     }
 
-    public void setRequestReceive(List<UserViewData> mListUserReceive) {
-        this.mListUserReceive = mListUserReceive;
+    public void setList(List<UserViewData> mListUserReceive) {
+        this.mListRequestReceive = mListUserReceive;
         notifyDataSetChanged();
     }
 
+    public void deleteUser(UserViewData userViewData) {
+        mListRequestReceive.remove(userViewData);
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -51,13 +55,13 @@ public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAd
 
     @Override
     public void onBindViewHolder(@NonNull RequestReceiveViewHolder requestReceiveViewHolder, int i) {
-        requestReceiveViewHolder.bindData(mListUserReceive.get(i));
+        requestReceiveViewHolder.bindData(mListRequestReceive.get(i));
 
     }
 
     @Override
     public int getItemCount() {
-        return mListUserReceive.size();
+        return mListRequestReceive.size();
     }
 
     class RequestReceiveViewHolder extends BaseViewHolder<UserViewData> {
@@ -92,5 +96,21 @@ public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAd
             textNameUser.setText(userViewData.getName());
 
         }
+
+        @OnClick(R.id.image_cancel)
+        void onClickCancel() {
+            listener.onClickCancelRequest(mListRequestReceive.get(getAdapterPosition()));
+        }
+
+        @OnClick(R.id.image_accept)
+        void onClickAccept() {
+            listener.onClickAcceptRequest(mListRequestReceive.get(getAdapterPosition()));
+        }
+
+        @OnClick(R.id.layout_root)
+        void onClickItem() {
+            listener.onClickRequestReceiveItem(mListRequestReceive.get(getAdapterPosition()));
+        }
+
     }
 }

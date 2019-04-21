@@ -6,5 +6,5 @@ public interface OnClickRequestSentItemListener {
 
     void onClickRequestSentItem(UserViewData user);
 
-    void onClickCacelRequest(UserViewData user);
+    void onClickCancelRequest(UserViewData user);
 }

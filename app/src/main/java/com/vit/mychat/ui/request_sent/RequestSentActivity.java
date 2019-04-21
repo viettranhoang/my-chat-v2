@@ -39,7 +39,6 @@ public class RequestSentActivity extends BaseActivity implements OnClickRequestS
     private UpdateUserRelationshipViewModel updateUserRelationshipViewModel;
     private GetFriendListViewModel getFriendListViewModel;
 
-
     public static void moveRequestSentActivity(Activity activity) {
         Intent intent = new Intent(activity, RequestSentActivity.class);
         activity.startActivity(intent);
@@ -59,36 +58,12 @@ public class RequestSentActivity extends BaseActivity implements OnClickRequestS
         updateUserRelationshipViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserRelationshipViewModel.class);
         getFriendListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetFriendListViewModel.class);
 
-        getFriendListViewModel.getFriendList(authViewModel.getCurrentUserId(), "sent").observe(this, resource -> {
-            switch (resource.getStatus()) {
-                case LOADING:
-                    showHUD();
-                    break;
-                case SUCCESS:
-                    dismissHUD();
-                    List<UserViewData> list = (List<UserViewData>) resource.getData();
-                    for (UserViewData l : list) showToast(l.getName());
-                    requestSentAdapter.setRequestSent(list);
-                    break;
-                case ERROR:
-                    dismissHUD();
-                    showToast(resource.getThrowable().getMessage());
-                    break;
-            }
-        });
     }
 
-    private void initToolbar() {
-        setSupportActionBar(mToolbarSentUser);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
-    private void initRcvRequestSent() {
-        mRcvRequestSent.setLayoutManager(new LinearLayoutManager(this));
-        mRcvRequestSent.setHasFixedSize(true);
-        mRcvRequestSent.setAdapter(requestSentAdapter);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getListRequestSent();
     }
 
     @Override
@@ -97,7 +72,7 @@ public class RequestSentActivity extends BaseActivity implements OnClickRequestS
     }
 
     @Override
-    public void onClickCacelRequest(UserViewData user) {
+    public void onClickCancelRequest(UserViewData user) {
         updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), user.getId(), UserRelationshipConfig.NOT)
                 .observe(this, resource -> {
                     switch (resource.getStatus()) {
@@ -115,4 +90,38 @@ public class RequestSentActivity extends BaseActivity implements OnClickRequestS
                     }
                 });
     }
+
+    private void initToolbar() {
+        setSupportActionBar(mToolbarSentUser);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void initRcvRequestSent() {
+        mRcvRequestSent.setLayoutManager(new LinearLayoutManager(this));
+        mRcvRequestSent.setHasFixedSize(true);
+        mRcvRequestSent.setAdapter(requestSentAdapter);
+    }
+
+    private void getListRequestSent() {
+        getFriendListViewModel.getFriendList(authViewModel.getCurrentUserId(), UserRelationshipConfig.SENT).observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case LOADING:
+                    showHUD();
+                    break;
+                case SUCCESS:
+                    dismissHUD();
+                    List<UserViewData> list = (List<UserViewData>) resource.getData();
+                    requestSentAdapter.setList(list);
+                    break;
+                case ERROR:
+                    dismissHUD();
+                    showToast(resource.getThrowable().getMessage());
+                    break;
+            }
+        });
+    }
+
+
 }

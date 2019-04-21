@@ -8,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.vit.mychat.R;
-import com.vit.mychat.presentation.feature.user.GetUserListViewModel;
+import com.vit.mychat.presentation.feature.auth.AuthViewModel;
+import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
+import com.vit.mychat.presentation.feature.user.UpdateUserRelationshipViewModel;
+import com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
@@ -23,8 +26,6 @@ import butterknife.BindView;
 
 public class RequestReceiveActivity extends BaseActivity implements OnClickRequestReceiveItemListener {
 
-    private GetUserListViewModel getUserListViewModel;
-
     @BindView(R.id.list_receive_user)
     RecyclerView mListReceiveUser;
 
@@ -34,11 +35,14 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
     @Inject
     RequestReceiveAdapter requestReceiveAdapter;
 
+    private AuthViewModel authViewModel;
+    private UpdateUserRelationshipViewModel updateUserRelationshipViewModel;
+    private GetFriendListViewModel getFriendListViewModel;
+
     public static void moveRequestReceiveActivity(Activity activity) {
         Intent intent = new Intent(activity, RequestReceiveActivity.class);
         activity.startActivity(intent);
     }
-
 
     @Override
     protected int getLayoutId() {
@@ -50,28 +54,62 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
         initToolbar();
         initRcvReceiveUser();
 
-        getUserListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetUserListViewModel.class);
-
-        getUserListViewModel.getUserList().observe(this, resource -> {
-            switch (resource.getStatus()) {
-                case LOADING:
-                    showHUD();
-                    break;
-                case SUCCESS:
-                    dismissHUD();
-                    List<UserViewData> list = (List<UserViewData>) resource.getData();
-
-                    requestReceiveAdapter.setRequestReceive(list);
-
-                    break;
-                case ERROR:
-                    dismissHUD();
-                    showToast(resource.getThrowable().getMessage());
-                    break;
-            }
-        });
+        authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
+        updateUserRelationshipViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserRelationshipViewModel.class);
+        getFriendListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetFriendListViewModel.class);
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getListRequestReceive();
+    }
+
+    @Override
+    public void onClickRequestReceiveItem(UserViewData user) {
+        ProfileActivity.moveProfileActivity(this, user.getId());
+    }
+
+    @Override
+    public void onClickAcceptRequest(UserViewData user) {
+        updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), user.getId(), UserRelationshipConfig.FRIEND)
+                .observe(this, resource -> {
+                    switch (resource.getStatus()) {
+                        case LOADING:
+                            showHUD();
+                            break;
+                        case SUCCESS:
+                            dismissHUD();
+                            requestReceiveAdapter.deleteUser(user);
+                            break;
+                        case ERROR:
+                            dismissHUD();
+                            showToast(resource.getThrowable().getMessage());
+                            break;
+                    }
+                });
+    }
+
+    @Override
+    public void onClickCancelRequest(UserViewData user) {
+        updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), user.getId(), UserRelationshipConfig.NOT)
+                .observe(this, resource -> {
+                    switch (resource.getStatus()) {
+                        case LOADING:
+                            showHUD();
+                            break;
+                        case SUCCESS:
+                            dismissHUD();
+                            requestReceiveAdapter.deleteUser(user);
+                            break;
+                        case ERROR:
+                            dismissHUD();
+                            showToast(resource.getThrowable().getMessage());
+                            break;
+                    }
+                });
     }
 
     private void initToolbar() {
@@ -87,18 +125,24 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
         mListReceiveUser.setAdapter(requestReceiveAdapter);
     }
 
-    @Override
-    public void onClickRequestReceiveItem(String userId) {
-        ProfileActivity.moveProfileActivity(this, userId);
+    private void getListRequestReceive() {
+        getFriendListViewModel.getFriendList(authViewModel.getCurrentUserId(), UserRelationshipConfig.RECEIVE).observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case LOADING:
+                    showHUD();
+                    break;
+                case SUCCESS:
+                    dismissHUD();
+                    List<UserViewData> list = (List<UserViewData>) resource.getData();
+                    requestReceiveAdapter.setList(list);
+                    break;
+                case ERROR:
+                    dismissHUD();
+                    showToast(resource.getThrowable().getMessage());
+                    break;
+            }
+        });
     }
 
-    @Override
-    public void onClickAcceptRequest(String userId) {
 
-    }
-
-    @Override
-    public void onClickCacelRequest(String userId) {
-
-    }
 }

@@ -36,7 +36,7 @@ public class RequestSentAdapter extends RecyclerView.Adapter<RequestSentAdapter.
     RequestSentAdapter() {
     }
 
-    public void setRequestSent(List<UserViewData> mListUser) {
+    public void setList(List<UserViewData> mListUser) {
         this.mListUser = mListUser;
         notifyDataSetChanged();
     }
@@ -96,7 +96,7 @@ public class RequestSentAdapter extends RecyclerView.Adapter<RequestSentAdapter.
 
         @OnClick(R.id.image_cancel)
         void onClickCancel() {
-            listener.onClickCacelRequest(mListUser.get(getAdapterPosition()));
+            listener.onClickCancelRequest(mListUser.get(getAdapterPosition()));
         }
 
         @OnClick(R.id.layout_root)

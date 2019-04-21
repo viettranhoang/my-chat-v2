@@ -1,9 +1,11 @@
 package com.vit.mychat.ui.request_receive.listener;
 
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
+
 public interface OnClickRequestReceiveItemListener {
-    void onClickRequestReceiveItem(String userId);
+    void onClickRequestReceiveItem(UserViewData user);
 
-    void onClickAcceptRequest(String userId);
+    void onClickAcceptRequest(UserViewData user);
 
-    void onClickCacelRequest(String userId);
+    void onClickCancelRequest(UserViewData user);
 }

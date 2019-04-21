@@ -31,7 +31,6 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/margin_primary"
         android:layout_toRightOf="@+id/image_avatar_receive"
-
         android:fontFamily="sans-serif-medium"
         android:text="Vu Hanh"
         android:textSize="@dimen/text_input" />
@@ -44,6 +43,8 @@
         android:layout_centerInParent="true"
         android:layout_marginRight="@dimen/margin_primary"
         android:background="@drawable/shape_oval_gray"
+        android:clickable="true"
+        android:foreground="@drawable/ripple_effect"
         android:padding="@dimen/_6dp"
         android:src="@drawable/ic_cancel"
         android:tint="@color/black20" />

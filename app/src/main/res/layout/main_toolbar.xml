@@ -42,13 +42,13 @@
             android:id="@+id/image_contacts"
             style="@style/ToolbarMenuItem"
             android:layout_toLeftOf="@id/image_add_friends"
-            android:src="@drawable/ic_contacts" />
+            android:src="@drawable/ic_account_arrow_left" />
 
         <ImageView
             android:id="@+id/image_add_friends"
             style="@style/ToolbarMenuItem"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_add_friends" />
+            android:src="@drawable/ic_account_arrow_right" />
 
     </RelativeLayout>
 
