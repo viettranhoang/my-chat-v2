@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public interface UserRemote {
 
@@ -19,7 +20,7 @@ public interface UserRemote {
 
     Observable<List<UserEntity>> getUserList();
 
-    Observable<List<UserEntity>> getFriendList(String userId, String type);
+    Single<List<UserEntity>> getFriendList(String userId, String type);
 
 
 }

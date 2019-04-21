@@ -59,21 +59,21 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 
     @Override
     public Single<UserModel> getUserByIdSingle(String userId) {
-        return Single.create(emitter ->
-                database.collection(Constants.TABLE_USER).document(userId)
-                        .get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    emitter.onSuccess(document.toObject(UserModel.class));
-                                } else {
-                                    emitter.onError(new Throwable("Không có dữ liệu"));
-                                }
-                            } else {
-                                emitter.onError(task.getException());
-                            }
-                        }));
+        return Single.create(emitter -> database
+                .collection(Constants.TABLE_USER)
+                .document(userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            emitter.onSuccess(document.toObject(UserModel.class));
+                        } else
+                            emitter.onError(new Throwable("Không có dữ liệu"));
+                    } else
+                        emitter.onError(task.getException());
+
+                }));
     }
 
     @Override
@@ -152,30 +152,28 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     }
 
     @Override
-    public Observable<List<String>> getIdFriendList(String userId, String type) {
-        return Observable.create(emitter -> {
-            ListenerRegistration listenerRegistration = database
-                    .collection(Constants.TABLE_FRIEND)
-                    .document(userId)
-                    .addSnapshotListener((documentSnapshot, e) -> {
-                        if (e != null)
-                            emitter.onError(e);
-
-                        List<String> idList = new ArrayList<>();
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
-                            Map<String, Object> map = documentSnapshot.getData();
+    public Single<List<String>> getIdFriendList(String userId, String type) {
+        return Single.create(emitter -> database
+                .collection(Constants.TABLE_FRIEND)
+                .document(userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            List<String> idList = new ArrayList<>();
+                            Map<String, Object> map = document.getData();
                             for (Map.Entry<String, Object> entry : map.entrySet()) {
                                 if (entry.getValue().toString().contains(type)) {
                                     idList.add(entry.getKey());
                                 }
                             }
-                            Log.i(TAG, "getIdFriendList: " + idList.toString());
-                            emitter.onNext(idList);
+                            emitter.onSuccess(idList);
                         } else
                             emitter.onError(new Throwable("Không có dữ liệu"));
-                    });
-            emitter.setCancellable(() -> listenerRegistration.remove());
-        });
+                    } else
+                        emitter.onError(task.getException());
+                }));
     }
 
 

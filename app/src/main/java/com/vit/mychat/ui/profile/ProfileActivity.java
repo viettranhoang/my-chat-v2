@@ -103,7 +103,6 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void initView() {
         mUserId = getIntent().getStringExtra(EXTRA_USER_ID);
-//        mUserId = "x1SR6cnmVKQJLTUX9l5NdkjkvaD3";
 
         if (mUserId == null) return;
 
@@ -136,7 +135,10 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        MainActivity.moveMainActivity(this);
+        if (authViewModel.getCurrentUserId().equals(mUserId)) {
+            MainActivity.moveMainActivity(this);
+        }
+        super.onBackPressed();
     }
 
     @OnCheckedChanged(R.id.switch_online)

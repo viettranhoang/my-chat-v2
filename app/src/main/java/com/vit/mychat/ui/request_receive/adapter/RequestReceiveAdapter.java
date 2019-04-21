@@ -62,17 +62,20 @@ public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAd
 
     class RequestReceiveViewHolder extends BaseViewHolder<UserViewData> {
 
-        @BindView(R.id.image_avatar_receive)
-        ImageView imageAvatarReceive;
-
-        @BindView(R.id.image_online)
-        ImageView imageOnline;
+        @BindView(R.id.image_avatar_sent)
+        ImageView imageAvatarSent;
 
         @BindView(R.id.text_name_user)
         TextView textNameUser;
 
         @BindView(R.id.image_cancel)
         ImageView imageCancel;
+
+        @BindView(R.id.image_accept)
+        ImageView imagaeAccept;
+
+        @BindView(R.id.image_online)
+        ImageView imageOnline;
 
         public RequestReceiveViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,7 +87,7 @@ public class RequestReceiveAdapter extends RecyclerView.Adapter<RequestReceiveAd
             GlideApp.with(itemView.getContext())
                     .load(userViewData.getAvatar())
                     .circleCrop()
-                    .into(imageAvatarReceive);
+                    .into(imageAvatarSent);
 
             textNameUser.setText(userViewData.getName());
 

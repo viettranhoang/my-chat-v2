@@ -1,8 +1,10 @@
 package com.vit.mychat.ui.request_sent.listener;
 
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
+
 public interface OnClickRequestSentItemListener {
 
-    void onClickRequestSentItem(String userId);
+    void onClickRequestSentItem(UserViewData user);
 
-    void onClickCacelRequest(String userId);
+    void onClickCacelRequest(UserViewData user);
 }

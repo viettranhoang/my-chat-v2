@@ -17,7 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
+import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -41,14 +41,14 @@ public class GetFriendListViewModel extends ViewModel {
     public MutableLiveData<Resource> getFriendList(String userId, String type) {
         friendListLiveData.postValue(new Resource(ResourceState.LOADING, null, null));
 
-        getFriendListUseCase.execute(new Observer<List<User>>() {
+        getFriendListUseCase.execute(new SingleObserver<List<User>>() {
             @Override
             public void onSubscribe(Disposable d) {
                 compositeDisposable.add(d);
             }
 
             @Override
-            public void onNext(List<User> users) {
+            public void onSuccess(List<User> users) {
                 Log.i("GetFriendListViewModel", "onNext: " + users.toString());
                 List<UserViewData> list = Observable.fromIterable(users)
                         .map(user -> mapper.mapToViewData(user))
@@ -60,11 +60,6 @@ public class GetFriendListViewModel extends ViewModel {
             @Override
             public void onError(Throwable e) {
                 friendListLiveData.postValue(new Resource(ResourceState.ERROR, null, e));
-            }
-
-            @Override
-            public void onComplete() {
-
             }
         }, GetFriendListUseCase.Params.forGetFriendList(userId, type));
 

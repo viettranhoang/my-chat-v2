@@ -22,11 +22,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 @PerActivity
-public class RequestSentAdapter  extends RecyclerView.Adapter<RequestSentAdapter.RequestSentViewHolder> {
+public class RequestSentAdapter extends RecyclerView.Adapter<RequestSentAdapter.RequestSentViewHolder> {
 
-    private List<UserViewData> mListUser =  new ArrayList<>();
+    private List<UserViewData> mListUser = new ArrayList<>();
 
     @Inject
     OnClickRequestSentItemListener listener;
@@ -35,8 +36,13 @@ public class RequestSentAdapter  extends RecyclerView.Adapter<RequestSentAdapter
     RequestSentAdapter() {
     }
 
-    public void setRequestSent(List<UserViewData> mListUser){
+    public void setRequestSent(List<UserViewData> mListUser) {
         this.mListUser = mListUser;
+        notifyDataSetChanged();
+    }
+
+    public void deleteUser(UserViewData userViewData) {
+        mListUser.remove(userViewData);
         notifyDataSetChanged();
     }
 
@@ -58,9 +64,13 @@ public class RequestSentAdapter  extends RecyclerView.Adapter<RequestSentAdapter
     }
 
 
-    class RequestSentViewHolder extends BaseViewHolder<UserViewData>{
-        @BindView(R.id.image_avatar_sent)
-        ImageView imageAvatarSent;
+    class RequestSentViewHolder extends BaseViewHolder<UserViewData> {
+
+        @BindView(R.id.image_avatar_receive)
+        ImageView imageAvatarReceive;
+
+        @BindView(R.id.image_online)
+        ImageView imageOnline;
 
         @BindView(R.id.text_name_user)
         TextView textNameUser;
@@ -68,17 +78,10 @@ public class RequestSentAdapter  extends RecyclerView.Adapter<RequestSentAdapter
         @BindView(R.id.image_cancel)
         ImageView imageCancel;
 
-        @BindView(R.id.image_accept)
-        ImageView imagaeAccept;
-
-        @BindView(R.id.image_online)
-        ImageView imageOnline;
-
-
 
         public RequestSentViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         @Override
@@ -86,12 +89,20 @@ public class RequestSentAdapter  extends RecyclerView.Adapter<RequestSentAdapter
             GlideApp.with(itemView.getContext())
                     .load(userViewData.getAvatar())
                     .circleCrop()
-                    .into(imageAvatarSent);
+                    .into(imageAvatarReceive);
 
             textNameUser.setText(userViewData.getName());
-
-
-
         }
+
+        @OnClick(R.id.image_cancel)
+        void onClickCancel() {
+            listener.onClickCacelRequest(mListUser.get(getAdapterPosition()));
+        }
+
+        @OnClick(R.id.layout_root)
+        void onClickItem() {
+            listener.onClickRequestSentItem(mListUser.get(getAdapterPosition()));
+        }
+
     }
 }

@@ -15,6 +15,8 @@ public interface MyChatFirestore {
      */
     Observable<UserModel> getUserById(String userId);
 
+    Single<UserModel> getUserByIdSingle(String userId);
+
     Completable updateUser(UserModel userModel);
 
     Observable<String> getRelationship(String fromId, String toId);
@@ -23,9 +25,7 @@ public interface MyChatFirestore {
 
     Observable<List<UserModel>> getUserList();
 
-    Observable<List<String>> getIdFriendList(String userId, String type);
-
-    Single<UserModel> getUserByIdSingle(String userId);
+    Single<List<String>> getIdFriendList(String userId, String type);
 
     /**
      * auth
