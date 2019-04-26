@@ -101,7 +101,6 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.image_camera)
     void onClickCamera() {
         Toast.makeText(this, "camera", Toast.LENGTH_SHORT).show();
-        MessageActivity.moveMessageActivity(this);
     }
 
     @OnClick(R.id.image_add_friends)

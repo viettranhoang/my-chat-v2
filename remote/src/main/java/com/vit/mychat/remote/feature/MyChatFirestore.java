@@ -1,5 +1,8 @@
 package com.vit.mychat.remote.feature;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.vit.mychat.remote.feature.message.model.MessageModel;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
 import java.util.List;
@@ -9,6 +12,8 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public interface MyChatFirestore {
+
+    Observable<DataSnapshot> getDataSnapshot(DatabaseReference ref);
 
     /**
      * user
@@ -35,4 +40,12 @@ public interface MyChatFirestore {
     Single<String> register(String email, String password);
 
     void signOut();
+
+    /**
+     * message
+     */
+    Observable<List<MessageModel>> getMessageList();
+
+    Completable sendMessage(String userId, String message);
+
 }

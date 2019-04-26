@@ -48,7 +48,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder chatListViewHolder, int i) {
         chatListViewHolder.bindData(mChatList.get(i));
-
     }
 
     @Override
@@ -79,13 +78,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         int mBlack87;
 
         public ChatViewHolder(@NonNull View itemView) {
-
-
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
-
 
         @Override
         public void bindData(Chat chatList) {

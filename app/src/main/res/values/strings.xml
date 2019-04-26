@@ -21,6 +21,8 @@
     <string name="call">Call</string>
     <string name="call_video">Call Video</string>
     <string name="more">More</string>
+    <string name="dang_hoat_dong">Đang hoạt động</string>
+
 
     // Profile
     <string name="dang_xuat">Đăng xuất</string>

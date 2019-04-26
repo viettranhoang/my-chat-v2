@@ -9,48 +9,58 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vit.mychat.R;
-import com.vit.mychat.data.model.Message1;
+import com.vit.mychat.presentation.feature.message.model.MessageViewData;
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.ui.base.module.GlideApp;
-import com.vit.mychat.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
-    private List<Message1> message1List = new ArrayList<>();
+    private List<MessageViewData> mMessageList = new ArrayList<>();
+    private UserViewData mUser;
 
     private int selectedPosition = 100;
 
-
-    public MessageAdapter(List<Message1> message1List){
-        this.message1List= message1List;
+    @Inject
+    public MessageAdapter() {
     }
 
+    public void setList(List<MessageViewData> messageList) {
+        this.mMessageList = messageList;
+        notifyDataSetChanged();
+    }
+
+    public void setUser(UserViewData userViewData) {
+        this.mUser = userViewData;
+    }
 
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_item,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_item, viewGroup, false);
         return new MessageViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder messageViewHolder, int i) {
-        messageViewHolder.bindData(message1List.get(i));
+        messageViewHolder.bindData(mMessageList.get(i));
 
     }
 
     @Override
     public int getItemCount() {
-        return message1List.size();
+        return mMessageList.size();
     }
 
-    class MessageViewHolder extends BaseViewHolder<Message1>{
+    class MessageViewHolder extends BaseViewHolder<MessageViewData> {
 
         @BindView(R.id.image_avatar)
         ImageView mImageAvatar;
@@ -66,28 +76,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         @Override
-        public void bindData(Message1 message1) {
+        public void bindData(MessageViewData message) {
 
-            GlideApp.with(itemView.getContext())
-                    .load(message1.getAvatar())
+            GlideApp.with(itemView)
+                    .load(mUser.getAvatar())
                     .circleCrop()
                     .into(mImageAvatar);
 
-            mTextMessage.setText(message1.getContent());
-            String seen = message1.getSeen() ? "Đã xem" : "";
-            mTextSeen.setText(seen);
-            mTextTime.setText(Utils.getCurrentTime());
+            mTextMessage.setText(message.getMessage());
+            mTextSeen.setText(message.isSeen() ? "Đã xem" : "");
+            mTextTime.setText(String.valueOf(message.getTime()));
 
             if (selectedPosition != getLayoutPosition()) {
                 mTextTime.setVisibility(View.GONE);
                 mTextSeen.setVisibility(View.GONE);
             }
-
-
         }
     }
 }

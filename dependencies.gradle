@@ -42,6 +42,7 @@ ext {
     facebookSdkVersion = '4.41.0'
     kProgressHUDVersion = '1.2.0'
     materialDialogsVersion = '0.9.6.0'
+    parcelerVersion = '1.1.11'
 
     junitVersion = '4.12'
     powermockVersion = '2.0.0'
@@ -118,7 +119,9 @@ ext {
             autoDimension         : "com.github.hantrungkien:AutoDimension:${autoDimensionVersion}",
             supportDesign         : "com.android.support:design:${androidSupportVersion}",
             kProgressHUD          : "com.kaopiz:kprogresshud:${kProgressHUDVersion}",
-            materialDialogs       : "com.afollestad.material-dialogs:core:${materialDialogsVersion}"
+            materialDialogs       : "com.afollestad.material-dialogs:core:${materialDialogsVersion}",
+            parceler              : "org.parceler:parceler-api:${parcelerVersion}",
+            parcelerProcessor     : "org.parceler:parceler:${parcelerVersion}"
     ]
 
     testDependencies = [

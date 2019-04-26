@@ -3,12 +3,17 @@ package com.vit.mychat.remote.feature;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.vit.mychat.remote.common.Constants;
+import com.vit.mychat.remote.common.RxFirebase;
+import com.vit.mychat.remote.feature.message.model.MessageModel;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
 import java.util.ArrayList;
@@ -28,14 +33,23 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     public static final String TAG = MyChatFirestoreFactory.class.getSimpleName();
 
     private FirebaseFirestore database;
+    private DatabaseReference firebaseDatabase;
     private FirebaseAuth auth;
+    private String currentUserId;
 
     @Inject
     public MyChatFirestoreFactory() {
         database = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE);
+        currentUserId = auth.getUid();
     }
 
+
+    @Override
+    public Observable<DataSnapshot> getDataSnapshot(DatabaseReference ref) {
+        return RxFirebase.getDataSnapshot(ref);
+    }
 
     /**
      * user
@@ -205,5 +219,20 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     @Override
     public void signOut() {
         auth.signOut();
+    }
+
+    /**
+     * message
+     */
+    @Override
+    public Observable<List<MessageModel>> getMessageList() {
+        return RxFirebase.getList(firebaseDatabase
+                .child(Constants.TABLE_MESSAGE)
+                .child(currentUserId), MessageModel.class);
+    }
+
+    @Override
+    public Completable sendMessage(String userId, String message) {
+        return null;
     }
 }

@@ -57,7 +57,7 @@
             android:src="@drawable/ic_mic" />
 
         <EditText
-            android:id="@+id/input_text"
+            android:id="@+id/input_message"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_36dp"
             android:layout_marginLeft="@dimen/_10dp"
@@ -78,6 +78,15 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/_7dp"
             android:layout_marginRight="@dimen/_6dp"
+            android:src="@drawable/ic_like" />
+
+        <ImageView
+            android:id="@+id/image_send"
+            style="@style/MessengerImageItem"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/_7dp"
+            android:layout_marginRight="@dimen/_6dp"
+            android:visibility="gone"
             android:src="@drawable/ic_like" />
 
     </RelativeLayout>
