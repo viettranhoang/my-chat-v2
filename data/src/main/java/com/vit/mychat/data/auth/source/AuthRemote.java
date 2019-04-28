@@ -9,4 +9,5 @@ public interface AuthRemote {
     Single<String> register(String email, String password);
 
     void signOut();
+
 }

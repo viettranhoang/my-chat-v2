@@ -37,7 +37,7 @@ public class GetMessageListViewModel extends ViewModel {
     }
 
 
-    public MutableLiveData<Resource> getMessageList() {
+    public MutableLiveData<Resource> getMessageList(String userId) {
         messageListLiveData.postValue(new Resource(ResourceState.LOADING, null, null));
 
         getMessageListUseCase.execute(new Observer<List<Message>>() {
@@ -64,7 +64,7 @@ public class GetMessageListViewModel extends ViewModel {
             public void onComplete() {
 
             }
-        }, null);
+        }, GetMessageListUseCase.Params.forGetMessageList(userId));
 
         return messageListLiveData;
     }

@@ -1,6 +1,9 @@
 package com.vit.mychat.domain.usecase.auth.repository;
 
+import com.vit.mychat.domain.usecase.user.model.User;
+
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 public interface AuthRepository {
 
@@ -11,4 +14,6 @@ public interface AuthRepository {
     void signOut();
 
     String getCurrentUserId();
+
+    Observable<User> getCurentUser();
 }

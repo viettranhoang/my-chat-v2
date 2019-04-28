@@ -28,12 +28,12 @@ public class MessageRepositoryImpl implements MessageRepository {
 
 
     @Override
-    public Observable<List<Message>> getMessageList() {
-        return messageRemote.getMessageList()
-                .flatMap(Observable::fromIterable)
-                .map(mapper::mapFromEntity)
-                .toList()
-                .toObservable();
+    public Observable<List<Message>> getMessageList(String userId) {
+        return messageRemote.getMessageList(userId)
+                .flatMap(messageEntities -> Observable.fromIterable(messageEntities)
+                        .map(messageEntity -> mapper.mapFromEntity(messageEntity))
+                        .toList()
+                        .toObservable());
     }
 
     @Override

@@ -93,7 +93,9 @@ ext {
             javaxInject        : "javax.inject:javax.inject:${javaxInjectVersion}",
             lifecycleExtensions: "android.arch.lifecycle:extensions:${lifecycleVersion}",
             lifecycleRuntime   : "android.arch.lifecycle:runtime:${lifecycleVersion}",
-            lifecycleProcessor : "android.arch.lifecycle:compiler:${lifecycleVersion}"
+            lifecycleProcessor : "android.arch.lifecycle:compiler:${lifecycleVersion}",
+            parceler              : "org.parceler:parceler-api:${parcelerVersion}",
+            parcelerProcessor     : "org.parceler:parceler:${parcelerVersion}"
     ]
 
     uiDependencies = [

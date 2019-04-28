@@ -34,7 +34,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
 
         loadingHUD = KProgressHUD.create(this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setCancellable(false)
+                .setCancellable(true)
                 .setAnimationSpeed(2)
                 .setDimAmount(0.5f);
 

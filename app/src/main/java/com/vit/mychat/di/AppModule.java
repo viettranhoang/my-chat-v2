@@ -3,6 +3,7 @@ package com.vit.mychat.di;
 import android.app.Application;
 
 import com.vit.mychat.MyChatApplication;
+import com.vit.mychat.cache.PrefUtils;
 import com.vit.mychat.remote.feature.MyChatFirestore;
 import com.vit.mychat.remote.feature.MyChatFirestoreFactory;
 
@@ -27,6 +28,12 @@ public abstract class AppModule {
     @Singleton
     @Binds
     abstract MyChatFirestore myChatFirestore(MyChatFirestoreFactory myChatFirestoreFactory);
+
+    @Provides
+    @Singleton
+    static PrefUtils prefUtils(Application app) {
+        return new PrefUtils(app);
+    }
 
     @Singleton
     @Provides

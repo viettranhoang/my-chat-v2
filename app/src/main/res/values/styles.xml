@@ -85,14 +85,22 @@
     </style>
 
 
-    <style name="MessengerImageItem">
+    <style name="MessageImageItem">
         <item name="android:layout_height">@dimen/message_image_item_size</item>
         <item name="android:layout_width">@dimen/message_image_item_size</item>
         <item name="android:layout_centerInParent">true</item>
     </style>
 
 
-    <style name="MessengerRecyclerView">
+    <style name="MessageItemTextMessage" parent="TextTitle">
+        <item name="android:background">@drawable/round_corner_gray_18</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">@dimen/_10dp</item>
+        <item name="android:textSize">@dimen/text_input</item>
+    </style>
+
+    <style name="MessageRecyclerView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_1dp</item>
         <item name="android:layout_margin">@dimen/_5dp</item>

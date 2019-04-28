@@ -16,13 +16,13 @@ import android.widget.Toast;
 
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.friends.FriendsFragment;
-import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.request_receive.RequestReceiveActivity;
 import com.vit.mychat.ui.request_sent.RequestSentActivity;
@@ -120,10 +120,22 @@ public class MainActivity extends BaseActivity {
 
     private void initToolbar() {
         setSupportActionBar(findViewById(R.id.main_toolbar));
-        GlideApp.with(this)
-                .load("https://i.ytimg.com/vi/o1bL0Qe_yoU/hqdefault.jpg")
-                .circleCrop()
-                .into(mImageAvatar);
+
+        authViewModel.getCurrentUser().observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case SUCCESS:
+                    UserViewData user = (UserViewData) resource.getData();
+                    GlideApp.with(this)
+                            .load(user.getAvatar())
+                            .circleCrop()
+                            .into(mImageAvatar);
+                    break;
+                case ERROR:
+                    showToast(resource.getThrowable().getMessage());
+                    break;
+            }
+        });
+
     }
 
     private void initBottomNavigationView() {

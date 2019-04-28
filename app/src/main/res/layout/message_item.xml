@@ -1,55 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/_2dp"
-    android:layout_marginTop="@dimen/_10dp"
-    android:layout_marginRight="@dimen/margin_primary"
-    android:orientation="horizontal">
+    android:layout_marginTop="@dimen/margin_secondary"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/margin_secondary">
 
     <ImageView
         android:id="@+id/image_avatar"
         android:layout_width="@dimen/message_image_avatar_size"
         android:layout_height="@dimen/message_image_avatar_size"
-        android:layout_alignBottom="@+id/text_message"
-        android:layout_marginLeft="@dimen/_2dp"
+        android:layout_alignBottom="@id/text_message_you"
         android:layout_marginTop="@dimen/_10dp"
-        android:background="@drawable/shape_oval_while" />
-
+        android:background="@drawable/shape_oval_while"
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/text_time"
         style="@style/TextTitle"
+        android:fontFamily="sans-serif"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/_2dp"
-        android:text="12:45"
+        android:textColor="@color/black40"
+        android:textSize="@dimen/text_min"
+        android:visibility="visible"
+        tools:text="12:45" />
+
+    <TextView
+        android:id="@+id/text_message_you"
+        style="@style/MessageItemTextMessage"
+        android:clickable="true"
+        android:layout_below="@id/text_time"
+        android:layout_marginLeft="@dimen/margin_secondary"
+        android:layout_marginRight="@dimen/_62dp"
+        android:layout_toRightOf="@+id/image_avatar"
+        android:visibility="visible"
+        tools:text="Hello I loveksnafjkalfmasl;fkbakjasfnlsdnfkbsakfbskfkabfnlaskfnsdbfs,afmaslfansdk  " />
+
+    <TextView
+        android:id="@+id/text_message_me"
+        style="@style/MessageItemTextMessage"
+        android:clickable="true"
+        android:layout_below="@id/text_time"
+        android:background="@drawable/round_corner_blue_18"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/_62dp"
+        android:layout_marginRight="@dimen/margin_primary"
+        android:visibility="visible"
+        android:textColor="@color/white"
+        tools:text="Hello I loveksnafjkalfmasl;fkbakjasfnlsdnfkbsakfbskfkabfnlaskfnsdbfs,afmaslfansdk  " />
+
+    <TextView
+        android:id="@+id/text_seen_you"
+        style="@style/TextTitle"
+        android:layout_below="@id/text_message_you"
+        android:layout_alignLeft="@id/text_message_you"
+        android:layout_marginLeft="@dimen/_17dp"
+        tools:text="da xem"
+        android:fontFamily="sans-serif"
         android:textColor="@color/black40"
         android:textSize="@dimen/text_min"
         android:visibility="visible" />
 
     <TextView
-        android:id="@+id/text_message"
+        android:id="@+id/text_seen_me"
         style="@style/TextTitle"
-        android:layout_marginLeft="@dimen/margin_secondary"
-        android:layout_marginTop="@dimen/_18dp"
-        android:layout_toRightOf="@+id/image_avatar"
-        android:background="@drawable/round_corner_gray_18"
+        android:layout_below="@id/text_message_me"
+        android:layout_alignRight="@id/text_message_me"
+        android:layout_marginRight="@dimen/margin_primary"
+        tools:text="da xem"
         android:fontFamily="sans-serif"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_secondary"
-        android:paddingTop="@dimen/_10dp"
-        android:paddingRight="@dimen/_10dp"
-        android:paddingBottom="@dimen/_10dp"
-        android:text="Hello I loveksnafjkalfmasl;fkbakjasfnlsdnfkbsakfbskfkabfnlaskfnsdbfs,afmaslfansdk  "
-        android:textSize="@dimen/text_input" />
-
-    <TextView
-        android:id="@+id/text_seen"
-        style="@style/TextTitle"
-        android:layout_below="@+id/text_message"
-        android:layout_alignLeft="@+id/text_message"
-        android:layout_marginLeft="@dimen/_17dp"
-        android:text="da xem"
         android:textColor="@color/black40"
         android:textSize="@dimen/text_min"
         android:visibility="visible" />

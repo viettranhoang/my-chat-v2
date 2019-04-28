@@ -1,5 +1,8 @@
 package com.vit.mychat.presentation.feature.user.model;
 
+import org.parceler.Parcel;
+
+@Parcel(value = Parcel.Serialization.BEAN, analyze = UserViewData.class)
 public class UserViewData {
 
     private String id;

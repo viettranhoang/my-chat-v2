@@ -3,18 +3,14 @@ package com.vit.mychat.ui.bot;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.vit.mychat.R;
 import com.vit.mychat.data.model.Tesst;
-import com.vit.mychat.ui.base.BaseFragment;
 import com.vit.mychat.remote.common.RxFirebase;
+import com.vit.mychat.ui.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,45 +71,11 @@ public class BotFragment extends BaseFragment {
 //                        throwable -> showToast(throwable.getMessage()));
 
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> list = new ArrayList<>();
-                List<Tesst> listTesst = new ArrayList<>();
-
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    if (data.getValue(String.class).contains("not")) {
-                        list.add(data.getKey());
-                        Log.i("dataChangeKeyList", data.getKey());
-                    }
-                }
-
-                for (String s : list) {
-                    myRefUser.child(s).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Log.i("dataChange", dataSnapshot.getValue(Tesst.class).toString());
-                            listTesst.add(dataSnapshot.getValue(Tesst.class));
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        }));
 
     }
 
     private Observable<Tesst> getTesst(String id) {
-        return RxFirebase.dataChange(myRefUser.child(id), Tesst.class);
+        return RxFirebase.getValue(myRefUser.child(id), Tesst.class);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.vit.mychat.remote.common;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -10,18 +9,35 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class RxFirebase {
 
-    public static <T> Observable<T> dataChange(DatabaseReference ref, Class<T> clazz) {
+    public static <T> Observable<T> getValue(DatabaseReference ref, Class<T> clazz) {
         return Observable.create(emitter ->
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Log.i("dataChange", dataSnapshot.getValue(clazz).toString());
                         emitter.onNext(dataSnapshot.getValue(clazz));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        emitter.onError(databaseError.toException());
+                    }
+                }));
+    }
+
+    public static <T> Single<T> getValueSingle(DatabaseReference ref, Class<T> clazz) {
+        return Single.create(emitter ->
+                ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        emitter.onSuccess(dataSnapshot.getValue(clazz));
                     }
 
                     @Override
@@ -84,6 +100,32 @@ public class RxFirebase {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         emitter.onError(databaseError.toException());
+                    }
+                }));
+    }
+
+    public static <T> Completable setValue(DatabaseReference ref, T t) {
+        return Completable.create(emitter ->
+                ref.setValue(t, (databaseError, databaseReference) -> {
+                    if (!emitter.isDisposed()) {
+                        if (null != databaseError) {
+                            emitter.onError(databaseError.toException());
+                        } else {
+                            emitter.onComplete();
+                        }
+                    }
+                }));
+    }
+
+    public static Completable updateChildren(DatabaseReference ref, Map map) {
+        return Completable.create(emitter ->
+                ref.updateChildren(map, (databaseError, databaseReference) -> {
+                    if (!emitter.isDisposed()) {
+                        if (null != databaseError) {
+                            emitter.onError(databaseError.toException());
+                        } else {
+                            emitter.onComplete();
+                        }
                     }
                 }));
     }

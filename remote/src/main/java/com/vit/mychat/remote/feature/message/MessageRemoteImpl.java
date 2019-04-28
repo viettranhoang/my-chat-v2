@@ -27,12 +27,12 @@ public class MessageRemoteImpl implements MessageRemote {
     }
 
     @Override
-    public Observable<List<MessageEntity>> getMessageList() {
-        return myChatFirestore.getMessageList()
-                .flatMap(Observable::fromIterable)
-                .map(mapper::mapToEntity)
-                .toList()
-                .toObservable();
+    public Observable<List<MessageEntity>> getMessageList(String userId) {
+        return myChatFirestore.getMessageList(userId)
+                .flatMap(messageModels -> Observable.fromIterable(messageModels)
+                        .map(messageModel -> mapper.mapToEntity(messageModel))
+                        .toList()
+                        .toObservable());
     }
 
     @Override

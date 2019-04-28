@@ -1,16 +1,15 @@
 package com.vit.mychat.remote.feature;
 
-import android.util.Log;
+import android.support.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.WriteBatch;
 import com.vit.mychat.remote.common.Constants;
 import com.vit.mychat.remote.common.RxFirebase;
 import com.vit.mychat.remote.feature.message.model.MessageModel;
@@ -33,7 +32,9 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     public static final String TAG = MyChatFirestoreFactory.class.getSimpleName();
 
     private FirebaseFirestore database;
-    private DatabaseReference firebaseDatabase;
+    private DatabaseReference userDatabase;
+    private DatabaseReference friendDatabase;
+    private DatabaseReference messageDatabase;
     private FirebaseAuth auth;
     private String currentUserId;
 
@@ -41,7 +42,9 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     public MyChatFirestoreFactory() {
         database = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE);
+        userDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_USER);
+        friendDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_FRIEND);
+        messageDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_MESSAGE);
         currentUserId = auth.getUid();
     }
 
@@ -56,19 +59,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
      */
     @Override
     public Observable<UserModel> getUserById(String userId) {
-        return Observable.create(emitter -> {
-            ListenerRegistration listenerRegistration = database.collection(Constants.TABLE_USER).document(userId)
-                    .addSnapshotListener((documentSnapshot, e) -> {
-                        if (e != null)
-                            emitter.onError(e);
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
-                            Log.i(TAG, "getUserById: " + documentSnapshot.toObject(UserModel.class).getName());
-                            emitter.onNext(documentSnapshot.toObject(UserModel.class));
-                        } else
-                            emitter.onError(new Throwable("Không có dữ liệu"));
-                    });
-            emitter.setCancellable(() -> listenerRegistration.remove());
-        });
+        return RxFirebase.getValue(userDatabase.child(userId), UserModel.class);
     }
 
     @Override
@@ -92,101 +83,66 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 
     @Override
     public Completable updateUser(UserModel userModel) {
-        return Completable.create(emitter -> database.collection(Constants.TABLE_USER)
-                .document(userModel.getId())
-                .set(userModel)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful())
-                        emitter.onComplete();
-                    else
-                        emitter.onError(task.getException());
-                }));
+        return RxFirebase.setValue(userDatabase.child(userModel.getId()), userModel);
     }
 
     @Override
     public Observable<String> getRelationship(String fromId, String toId) {
-        Map<String, String> dataToId = new HashMap<>();
-        Map<String, String> dataFromId = new HashMap<>();
-        dataToId.put(toId, "");
-        dataFromId.put(fromId, "");
-        return Observable.create(emitter -> {
-            ListenerRegistration listenerRegistration = database.collection(Constants.TABLE_FRIEND)
-                    .document(fromId)
-                    .addSnapshotListener((documentSnapshot, e) -> {
-                        if (e != null)
-                            emitter.onError(e);
-                        if (documentSnapshot != null && documentSnapshot.exists())
-                            emitter.onNext(documentSnapshot.getString(toId));
-                        else {
-                            database.collection(Constants.TABLE_FRIEND).document(fromId).set(dataToId);
-                            database.collection(Constants.TABLE_FRIEND).document(toId).set(dataFromId);
-                            emitter.onNext("");
-                        }
-                    });
+        Map<String, Object> map = new HashMap<>();
+        map.put("/" + fromId + "/" + toId, "");
+        map.put("/" + toId + "/" + fromId, "");
 
-            emitter.setCancellable(() -> listenerRegistration.remove());
-        });
+        return Observable.create(emitter ->
+                friendDatabase.child(fromId).child(toId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue(String.class) == null) {
+                            friendDatabase.updateChildren(map);
+                        } else emitter.onNext(dataSnapshot.getValue(String.class));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        emitter.onError(databaseError.toException());
+                    }
+                }));
     }
 
     @Override
     public Completable updateUserRelationship(String fromId, String toId, String type) {
-        return Completable.create(emitter -> {
-            WriteBatch batch = database.batch();
-            batch.update(database.collection(Constants.TABLE_FRIEND).document(fromId), toId, type);
-            batch.update(database.collection(Constants.TABLE_FRIEND).document(toId), fromId, type);
+        Map<String, String> map = new HashMap<>();
+        map.put("/" + fromId + "/" + toId, type);
+        map.put("/" + toId + "/" + fromId, type);
 
-            batch.commit()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful())
-                            emitter.onComplete();
-                        else
-                            emitter.onError(task.getException());
-                    });
-        });
+        return RxFirebase.updateChildren(friendDatabase, map);
     }
 
     @Override
     public Observable<List<UserModel>> getUserList() {
-        return Observable.create(emitter -> {
-            ListenerRegistration listenerRegistration = database.collection(Constants.TABLE_USER)
-                    .addSnapshotListener((value, e) -> {
-                        if (e != null)
-                            emitter.onError(e);
-
-                        List<UserModel> userModelList = new ArrayList<>();
-                        for (QueryDocumentSnapshot user : value) {
-                            if (user != null) {
-                                userModelList.add(user.toObject(UserModel.class));
-                            }
-                        }
-                        emitter.onNext(userModelList);
-                    });
-            emitter.setCancellable(() -> listenerRegistration.remove());
-        });
+        return RxFirebase.getList(userDatabase, UserModel.class);
     }
 
     @Override
     public Single<List<String>> getIdFriendList(String userId, String type) {
-        return Single.create(emitter -> database
-                .collection(Constants.TABLE_FRIEND)
-                .document(userId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            List<String> idList = new ArrayList<>();
-                            Map<String, Object> map = document.getData();
-                            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                                if (entry.getValue().toString().contains(type)) {
-                                    idList.add(entry.getKey());
-                                }
+        return Single.create(emitter -> friendDatabase
+                .child(userId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<String> list = new ArrayList<>();
+
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            if (data.getValue(String.class).equals(type)) {
+                                list.add(data.getKey());
                             }
-                            emitter.onSuccess(idList);
-                        } else
-                            emitter.onError(new Throwable("Không có dữ liệu"));
-                    } else
-                        emitter.onError(task.getException());
+                        }
+                        emitter.onSuccess(list);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        emitter.onError(databaseError.toException());
+                    }
                 }));
     }
 
@@ -225,14 +181,18 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
      * message
      */
     @Override
-    public Observable<List<MessageModel>> getMessageList() {
-        return RxFirebase.getList(firebaseDatabase
-                .child(Constants.TABLE_MESSAGE)
-                .child(currentUserId), MessageModel.class);
+    public Observable<List<MessageModel>> getMessageList(String userId) {
+        return RxFirebase.getList(messageDatabase.child(currentUserId).child(userId), MessageModel.class);
     }
 
     @Override
     public Completable sendMessage(String userId, String message) {
-        return null;
+        MessageModel messageModel = new MessageModel(message, currentUserId, true, System.currentTimeMillis(), "text");
+        String key = messageDatabase.child(currentUserId).child(userId).push().getKey();
+        Map<String, Object> map = new HashMap<>();
+        map.put(String.format(Constants.CHILDREN, currentUserId, userId, key), messageModel.toMap());
+        map.put(String.format(Constants.CHILDREN, userId, currentUserId, key), messageModel.toMap());
+
+        return RxFirebase.updateChildren(messageDatabase, map);
     }
 }

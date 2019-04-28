@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +34,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class MessageActivity extends BaseActivity {
 
@@ -49,6 +52,9 @@ public class MessageActivity extends BaseActivity {
 
     @BindView(R.id.toolbar_message)
     Toolbar mToolbarMessage;
+
+    @BindView(R.id.text_name)
+    TextView mTextName;
 
     @BindView(R.id.list_mess)
     RecyclerView mRcvMessage;
@@ -100,10 +106,11 @@ public class MessageActivity extends BaseActivity {
         if (mUser == null)
             return;
 
+        initToolbar();
+
         getMessageListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetMessageListViewModel.class);
         sendMessageViewModel = ViewModelProviders.of(this, viewModelFactory).get(SendMessageViewModel.class);
 
-        initToolbar();
         initRcvMessage();
     }
 
@@ -151,6 +158,23 @@ public class MessageActivity extends BaseActivity {
                             break;
                     }
                 });
+        mInputMessage.setText("");
+    }
+
+    @OnClick(R.id.image_icon)
+    void onClickIcon() {
+        showToast("Icon");
+    }
+
+    @OnTextChanged(R.id.input_message)
+    void onTextChangeMessage() {
+        if (!TextUtils.isEmpty(mInputMessage.getText())) {
+            mImageIcon.setVisibility(View.INVISIBLE);
+            mImageSend.setVisibility(View.VISIBLE);
+        } else {
+            mImageIcon.setVisibility(View.VISIBLE);
+            mImageSend.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void initToolbar() {
@@ -163,6 +187,8 @@ public class MessageActivity extends BaseActivity {
                 .load(mUser.getAvatar())
                 .circleCrop()
                 .into(mImageAvatar);
+
+        mTextName.setText(mUser.getName());
 
         if (mUser.getOnline() == 1) {
             mImageOnline.setVisibility(View.VISIBLE);
@@ -177,9 +203,10 @@ public class MessageActivity extends BaseActivity {
         messageAdapter.setUser(mUser);
         mRcvMessage.setLayoutManager(new LinearLayoutManager(this));
         mRcvMessage.setHasFixedSize(true);
+        mRcvMessage.setItemAnimator(new DefaultItemAnimator());
         mRcvMessage.setAdapter(messageAdapter);
 
-        getMessageListViewModel.getMessageList().observe(this, resource -> {
+        getMessageListViewModel.getMessageList(mUser.getId()).observe(this, resource -> {
             switch (resource.getStatus()) {
                 case LOADING:
                     showHUD();

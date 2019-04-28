@@ -11,10 +11,9 @@
         android:id="@+id/list_mess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_primary"
         android:layout_above="@+id/view_line_bottom"
-        android:layout_below="@id/toolbar_message"
-        android:layout_marginLeft="@dimen/_5dp"
-        android:layout_marginRight="@dimen/_5dp" />
+        android:layout_below="@id/toolbar_message"/>
 
     <View
         android:id="@+id/view_line_bottom"
@@ -33,7 +32,7 @@
 
         <ImageView
             android:id="@+id/image_camera"
-            style="@style/MessengerImageItem"
+            style="@style/MessageImageItem"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/_7dp"
             android:layout_marginBottom="@dimen/_13dp"
@@ -42,7 +41,7 @@
 
         <ImageView
             android:id="@+id/image_picture"
-            style="@style/MessengerImageItem"
+            style="@style/MessageImageItem"
             android:layout_marginLeft="@dimen/_15dp"
             android:layout_marginBottom="@dimen/_13dp"
             android:layout_toRightOf="@+id/image_camera"
@@ -50,7 +49,7 @@
 
         <ImageView
             android:id="@+id/image_mic"
-            style="@style/MessengerImageItem"
+            style="@style/MessageImageItem"
             android:layout_marginLeft="@dimen/_15dp"
             android:layout_marginBottom="@dimen/_13dp"
             android:layout_toRightOf="@+id/image_picture"
@@ -74,7 +73,7 @@
 
         <ImageView
             android:id="@+id/image_icon"
-            style="@style/MessengerImageItem"
+            style="@style/MessageImageItem"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/_7dp"
             android:layout_marginRight="@dimen/_6dp"
@@ -82,12 +81,12 @@
 
         <ImageView
             android:id="@+id/image_send"
-            style="@style/MessengerImageItem"
+            style="@style/MessageImageItem"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/_7dp"
             android:layout_marginRight="@dimen/_6dp"
             android:visibility="gone"
-            android:src="@drawable/ic_like" />
+            android:src="@drawable/ic_send" />
 
     </RelativeLayout>
 

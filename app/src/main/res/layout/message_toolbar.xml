@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar_message"
     style="@style/Toolbar">
 
@@ -34,7 +35,7 @@
             <TextView
                 android:id="@+id/text_name"
                 style="@style/TextTitle"
-                android:text="Vũ Hạnh"
+                tools:text="Vũ Hạnh"
                 android:textSize="@dimen/text_input" />
 
             <TextView

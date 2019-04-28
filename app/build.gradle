@@ -64,7 +64,7 @@ dependencies {
     implementation uiDependencies.kProgressHUD
     implementation uiDependencies.materialDialogs
     implementation uiDependencies.parceler
-    implementation uiDependencies.parcelerProcessor
+    annotationProcessor uiDependencies.parcelerProcessor
 
     testImplementation testDependencies.junit
     testImplementation testDependencies.mockitoCore

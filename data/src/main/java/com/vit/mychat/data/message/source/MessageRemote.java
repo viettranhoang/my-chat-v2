@@ -9,7 +9,7 @@ import io.reactivex.Observable;
 
 public interface MessageRemote {
 
-    Observable<List<MessageEntity>> getMessageList();
+    Observable<List<MessageEntity>> getMessageList(String userId);
 
     Completable sendMessage(String userId, String message);
 }

@@ -9,7 +9,7 @@ import io.reactivex.Observable;
 
 public interface MessageRepository {
 
-    Observable<List<Message>> getMessageList();
+    Observable<List<Message>> getMessageList(String userId);
 
     Completable sendMessage(String userId, String message);
 

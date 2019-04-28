@@ -44,7 +44,7 @@ public interface MyChatFirestore {
     /**
      * message
      */
-    Observable<List<MessageModel>> getMessageList();
+    Observable<List<MessageModel>> getMessageList(String userId);
 
     Completable sendMessage(String userId, String message);
 

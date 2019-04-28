@@ -1,5 +1,8 @@
 package com.vit.mychat.remote.feature.message.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MessageModel {
 
     private String message;
@@ -17,6 +20,17 @@ public class MessageModel {
         this.seen = seen;
         this.time = time;
         this.type = type;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("message", message);
+        result.put("from", from);
+        result.put("seen", seen);
+        result.put("time", time);
+        result.put("type", type);
+
+        return result;
     }
 
     public String getMessage() {

@@ -13,6 +13,7 @@ import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.user.GetUserListViewModel;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseActivity;
+import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.search.adapter.SearchAdapter;
 import com.vit.mychat.ui.search.listener.OnClickSearchItemListener;
@@ -97,7 +98,7 @@ public class SearchActivity extends BaseActivity implements OnClickSearchItemLis
 
     @Override
     public void onClickSearchItem(UserViewData userViewData) {
-
+        MessageActivity.moveMessageActivity(this, userViewData);
     }
 
     @Override

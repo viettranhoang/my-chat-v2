@@ -14,7 +14,7 @@ import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 
 @Singleton
-public class GetMessageListUseCase extends ObservableUseCase<List<Message>, Void> {
+public class GetMessageListUseCase extends ObservableUseCase<List<Message>, GetMessageListUseCase.Params> {
 
     @Inject
     MessageRepository messageRepository;
@@ -26,7 +26,19 @@ public class GetMessageListUseCase extends ObservableUseCase<List<Message>, Void
     }
 
     @Override
-    protected Observable<List<Message>> buildUseCaseSingle(Void aVoid) {
-        return messageRepository.getMessageList();
+    protected Observable<List<Message>> buildUseCaseSingle(Params params) {
+        return messageRepository.getMessageList(params.userId);
+    }
+
+    public static final class Params {
+        private final String userId;
+
+        public Params(String userId) {
+            this.userId = userId;
+        }
+
+        public static GetMessageListUseCase.Params forGetMessageList(String userId) {
+            return new GetMessageListUseCase.Params(userId);
+        }
     }
 }
