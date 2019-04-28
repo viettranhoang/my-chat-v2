@@ -3,12 +3,12 @@ package com.vit.mychat.ui.request_sent;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.vit.mychat.R;
-import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
 import com.vit.mychat.presentation.feature.user.UpdateUserRelationshipViewModel;
 import com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig;
@@ -17,6 +17,7 @@ import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.request_sent.adapter.RequestSentAdapter;
 import com.vit.mychat.ui.request_sent.listener.OnClickRequestSentItemListener;
+import com.vit.mychat.util.Constants;
 
 import java.util.List;
 
@@ -35,7 +36,6 @@ public class RequestSentActivity extends BaseActivity implements OnClickRequestS
     @Inject
     RequestSentAdapter requestSentAdapter;
 
-    private AuthViewModel authViewModel;
     private UpdateUserRelationshipViewModel updateUserRelationshipViewModel;
     private GetFriendListViewModel getFriendListViewModel;
 
@@ -54,7 +54,6 @@ public class RequestSentActivity extends BaseActivity implements OnClickRequestS
         initToolbar();
         initRcvRequestSent();
 
-        authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
         updateUserRelationshipViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserRelationshipViewModel.class);
         getFriendListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetFriendListViewModel.class);
 
@@ -73,7 +72,7 @@ public class RequestSentActivity extends BaseActivity implements OnClickRequestS
 
     @Override
     public void onClickCancelRequest(UserViewData user) {
-        updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), user.getId(), UserRelationshipConfig.NOT)
+        updateUserRelationshipViewModel.updateUserRelationship(Constants.CURRENT_UID, user.getId(), UserRelationshipConfig.NOT)
                 .observe(this, resource -> {
                     switch (resource.getStatus()) {
                         case LOADING:
@@ -101,11 +100,12 @@ public class RequestSentActivity extends BaseActivity implements OnClickRequestS
     private void initRcvRequestSent() {
         mRcvRequestSent.setLayoutManager(new LinearLayoutManager(this));
         mRcvRequestSent.setHasFixedSize(true);
+        mRcvRequestSent.setItemAnimator(new DefaultItemAnimator());
         mRcvRequestSent.setAdapter(requestSentAdapter);
     }
 
     private void getListRequestSent() {
-        getFriendListViewModel.getFriendList(authViewModel.getCurrentUserId(), UserRelationshipConfig.SENT).observe(this, resource -> {
+        getFriendListViewModel.getFriendList(Constants.CURRENT_UID, UserRelationshipConfig.SENT).observe(this, resource -> {
             switch (resource.getStatus()) {
                 case LOADING:
                     showHUD();

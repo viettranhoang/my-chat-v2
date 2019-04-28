@@ -72,4 +72,15 @@ public class MessageModel {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "MessageModel{" +
+                "message='" + message + '\'' +
+                ", from='" + from + '\'' +
+                ", seen=" + seen +
+                ", time=" + time +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

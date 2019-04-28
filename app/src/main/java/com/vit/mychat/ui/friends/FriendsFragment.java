@@ -1,25 +1,35 @@
 package com.vit.mychat.ui.friends;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.vit.mychat.R;
-import com.vit.mychat.data.model.Friend;
+import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
+import com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig;
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseFragment;
 import com.vit.mychat.ui.friends.adapter.FriendNewsAdapter;
 import com.vit.mychat.ui.friends.adapter.FriendOnlineAdapter;
+import com.vit.mychat.ui.friends.listener.OnClickFriendNewsItemListener;
+import com.vit.mychat.ui.friends.listener.OnClickFriendOnlineItemListener;
+import com.vit.mychat.ui.message.MessageActivity;
+import com.vit.mychat.util.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class FriendsFragment extends BaseFragment {
+public class FriendsFragment extends BaseFragment
+        implements OnClickFriendNewsItemListener, OnClickFriendOnlineItemListener {
 
     public static final String TAG = FriendsFragment.class.getSimpleName();
 
@@ -30,14 +40,19 @@ public class FriendsFragment extends BaseFragment {
         return fragment;
     }
 
-    private FriendNewsAdapter mFriendNewsAdapter;
-    private FriendOnlineAdapter mFriendOnlineAdapter;
     @BindView(R.id.list_friend_news)
     RecyclerView mRcvFriendNews;
 
     @BindView(R.id.list_friend_online)
     RecyclerView mRcvFriendOnline;
 
+    @Inject
+    FriendNewsAdapter friendNewsAdapter;
+
+    @Inject
+    FriendOnlineAdapter friendOnlineAdapter;
+
+    private GetFriendListViewModel getFriendListViewModel;
 
     @Override
     public int getLayoutId() {
@@ -47,40 +62,47 @@ public class FriendsFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mFriendNewsAdapter = new FriendNewsAdapter(crateListFriendNews());
-        mFriendOnlineAdapter = new FriendOnlineAdapter(creatListFriendOnline());
-        initView();
+
+        getFriendListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetFriendListViewModel.class);
+
+        initRcv();
+        getFriendList();
     }
 
-    private void initView(){
+    private void getFriendList() {
+        getFriendListViewModel.getFriendList(Constants.CURRENT_UID, UserRelationshipConfig.FRIEND).observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case SUCCESS:
+                    List<UserViewData> list = (List<UserViewData>) resource.getData();
+                    friendNewsAdapter.setList(list);
+                    friendOnlineAdapter.setList(list);
+                    break;
+                case ERROR:
+                    showToast(resource.getThrowable().getMessage());
+                    break;
+            }
+        });
+    }
+
+    private void initRcv() {
         mRcvFriendOnline.setLayoutManager(new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false));
         mRcvFriendOnline.setHasFixedSize(true);
-        mRcvFriendOnline.setAdapter(mFriendOnlineAdapter);
+        mRcvFriendNews.setItemAnimator(new DefaultItemAnimator());
+        mRcvFriendOnline.setAdapter(friendOnlineAdapter);
 
         mRcvFriendNews.setLayoutManager(new GridLayoutManager(mainActivity, 2));
         mRcvFriendNews.setHasFixedSize(true);
-        mRcvFriendNews.setAdapter(mFriendNewsAdapter);
-    }
-    private List<Friend> creatListFriendOnline() {
-        List<Friend> listFriendOnline = new ArrayList<>();
-        listFriendOnline.add(new Friend("https://cdn.shopify.com/s/files/1/2508/1836/products/QooBee-Plush-Toys-03_2000x.jpg", "Việt", true, ""));
-        listFriendOnline.add(new Friend("https://i.pinimg.com/originals/f4/22/36/f422363e23bb12a9b5100b4c22c6b85a.jpg", "Hạnh", false, ""));
-        listFriendOnline.add(new Friend("https://thuthuattienich.com/wp-content/uploads/2017/06/anh-dai-dien-facebook-cho-meo-de-thuong-2.jpg", "Kim Lê", true, ""));
-        listFriendOnline.add(new Friend("https://cdn.shopify.com/s/files/1/2508/1836/products/QooBee-Plush-Toys-03_2000x.jpg", "Đức" , true, ""));
-        listFriendOnline.add(new Friend("https://cdn.shopify.com/s/files/1/2508/1836/products/QooBee-Plush-Toys-03_2000x.jpg", "Anh trai", true, ""));
-        listFriendOnline.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg", "Heo beo", true, ""));
-
-        return listFriendOnline;
+        mRcvFriendOnline.setItemAnimator(new DefaultItemAnimator());
+        mRcvFriendNews.setAdapter(friendNewsAdapter);
     }
 
-    private List<Friend> crateListFriendNews() {
-        List<Friend> listFriendNews = new ArrayList<>();
-        listFriendNews.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg","kimle",true, "https://thuthuattienich.com/wp-content/uploads/2017/06/anh-dai-dien-facebook-cho-meo-de-thuong-2.jpg" ));
-        listFriendNews.add(new Friend("https://i.pinimg.com/originals/f4/22/36/f422363e23bb12a9b5100b4c22c6b85a.jpg","Ngoc cham",true, "https://thuthuattienich.com/wp-content/uploads/2017/06/anh-dai-dien-facebook-cho-meo-de-thuong-2.jpg" ));
-        listFriendNews.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg","Vu hanh",true, "https://i.pinimg.com/originals/f4/22/36/f422363e23bb12a9b5100b4c22c6b85a.jpg" ));
-        listFriendNews.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg","Cuc xuc",true, "https://thuthuattienich.com/wp-content/uploads/2017/06/anh-dai-dien-facebook-cho-meo-de-thuong-2.jpg" ));
-        listFriendNews.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg","Cho viet",true, "https://thuthuattienich.com/wp-content/uploads/2017/06/anh-dai-dien-facebook-cho-meo-de-thuong-2.jpg" ));
-        listFriendNews.add(new Friend("https://tophinhanhdep.com/wp-content/uploads/2017/07/avatar-de-thuong-han-quoc-300x300.jpg","Hong hanh",true, "https://thuthuattienich.com/wp-content/uploads/2017/06/anh-dai-dien-facebook-cho-meo-de-thuong-2.jpg" ));
-        return listFriendNews;
+    @Override
+    public void onClickFriendNewsItem(UserViewData userViewData) {
+
+    }
+
+    @Override
+    public void onClickFriendOnlineItem(UserViewData userViewData) {
+        MessageActivity.moveMessageActivity(mainActivity, userViewData);
     }
 }

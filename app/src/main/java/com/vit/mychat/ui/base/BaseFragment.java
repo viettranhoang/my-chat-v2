@@ -1,6 +1,7 @@
 package com.vit.mychat.ui.base;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import com.vit.mychat.ui.MainActivity;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.support.DaggerFragment;
@@ -19,6 +22,9 @@ import dagger.android.support.DaggerFragment;
 public abstract class BaseFragment extends DaggerFragment {
 
     public static final String TAG = BaseFragment.class.getSimpleName();
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
 
     private Unbinder unbinder;
 

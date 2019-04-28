@@ -12,7 +12,6 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 
 @Singleton
 public class UserRemoteImpl implements UserRemote {
@@ -58,11 +57,11 @@ public class UserRemoteImpl implements UserRemote {
     }
 
     @Override
-    public Single<List<UserEntity>> getFriendList(String userId, String type) {
-        return myChatFirestore.getIdFriendList(userId, type)
-                .flatMapObservable(Observable::fromIterable)
-                .flatMapSingle(myChatFirestore::getUserByIdSingle)
-                .map(mapper::mapToEntity)
-                .toList();
+    public Observable<List<UserEntity>> getFriendList(String userId, String type) {
+        return myChatFirestore.getFriendList(userId, type)
+                .flatMap(userModels -> Observable.fromIterable(userModels)
+                        .map(mapper::mapToEntity)
+                        .toList()
+                        .toObservable());
     }
 }

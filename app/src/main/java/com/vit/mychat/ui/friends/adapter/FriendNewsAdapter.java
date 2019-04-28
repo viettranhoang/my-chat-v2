@@ -10,33 +10,48 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vit.mychat.R;
-import com.vit.mychat.data.model.Friend;
+import com.vit.mychat.di.scope.PerFragment;
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.ui.base.module.GlideApp;
+import com.vit.mychat.ui.friends.listener.OnClickFriendNewsItemListener;
 import com.vit.mychat.util.RoundedCornersTransformation;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import butterknife.OnClick;
 
-public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.FriendNewsViewHolder> {
-    private List<Friend> mListFriendNews = new ArrayList<>();
+@PerFragment
+public class FriendNewsAdapter extends RecyclerView.Adapter<FriendNewsAdapter.FriendNewsViewHolder> {
 
-    public FriendNewsAdapter(List<Friend> mListFriendNews) {
-        this.mListFriendNews = mListFriendNews;
+    @Inject
+    OnClickFriendNewsItemListener listener;
+
+    private List<UserViewData> mListFriendNews = new ArrayList<>();
+
+    @Inject
+    public FriendNewsAdapter() {
+    }
+
+    public void setList(List<UserViewData> listFriendNews) {
+        this.mListFriendNews = listFriendNews;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public FriendNewsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_news_item, viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_news_item, viewGroup, false);
         return new FriendNewsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FriendNewsViewHolder friendNewsViewHolder, int i) {
-            friendNewsViewHolder.bindData(mListFriendNews.get(i));
+        friendNewsViewHolder.bindData(mListFriendNews.get(i));
     }
 
     @Override
@@ -44,7 +59,8 @@ public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.F
         return mListFriendNews.size();
     }
 
-    public class FriendNewsViewHolder extends BaseViewHolder<Friend> {
+    public class FriendNewsViewHolder extends BaseViewHolder<UserViewData> {
+
         @BindView(R.id.image_avatar_news)
         ImageView mImageAvatar;
 
@@ -56,22 +72,29 @@ public class FriendNewsAdapter  extends RecyclerView.Adapter<FriendNewsAdapter.F
 
         public FriendNewsViewHolder(@NonNull View itemView) {
             super(itemView);
-
         }
 
         @Override
-        public void bindData(Friend friend) {
+        public void bindData(UserViewData userViewData) {
+
             GlideApp.with(itemView.getContext())
-                    .load(friend.getNews())
+                    .load(userViewData.getNews())
                     .centerCrop()
                     .transform(new RoundedCornersTransformation(50, 0, RoundedCornersTransformation.CornerType.ALL))
                     .into(mImageFriendNews);
+
             GlideApp.with(itemView.getContext())
-                    .load(friend.getAvatar())
+                    .load(userViewData.getAvatar())
                     .circleCrop()
                     .into(mImageAvatar);
+
             mTextName.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-            mTextName.setText(friend.getName());
+            mTextName.setText(userViewData.getName());
+        }
+
+        @OnClick(R.id.layout_root)
+        void onClickItem() {
+            listener.onClickFriendNewsItem(mListFriendNews.get(getAdapterPosition()));
         }
 
 

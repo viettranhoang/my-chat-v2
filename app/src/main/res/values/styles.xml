@@ -110,8 +110,8 @@
     <style name="SearchImageItemAvatar">
         <item name="android:layout_width">@dimen/message_image_avatar_size</item>
         <item name="android:layout_height">@dimen/message_image_avatar_size</item>
-        <item name="android:layout_marginTop">@dimen/margin_tertiary</item>
-        <item name="android:layout_marginBottom">@dimen/margin_tertiary</item>
+        <item name="android:layout_marginTop">@dimen/margin_secondary2</item>
+        <item name="android:layout_marginBottom">@dimen/margin_secondary2</item>
         <item name="android:layout_marginLeft">@dimen/margin_primary</item>
         <item name="android:layout_marginRight">@dimen/margin_primary</item>
         <item name="android:layout_alignParentLeft">true</item>

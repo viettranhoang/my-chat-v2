@@ -9,21 +9,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vit.mychat.R;
-import com.vit.mychat.data.model.Friend;
+import com.vit.mychat.di.scope.PerFragment;
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.ui.base.module.GlideApp;
+import com.vit.mychat.ui.friends.listener.OnClickFriendOnlineItemListener;
+import com.vit.mychat.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+@PerFragment
 public class FriendOnlineAdapter extends RecyclerView.Adapter<FriendOnlineAdapter.FriendOnlineViewHolder> {
-    private List<Friend> mListFriendOnline = new ArrayList<>();
 
-    public FriendOnlineAdapter(List<Friend> mListFriendOnline) {
-        this.mListFriendOnline = mListFriendOnline;
+    @Inject
+    OnClickFriendOnlineItemListener listener;
+
+    private List<UserViewData> mListFriendOnline = new ArrayList<>();
+
+    @Inject
+    public FriendOnlineAdapter() {
+    }
+
+    public void setList(List<UserViewData> listFriendOnline) {
+        this.mListFriendOnline = listFriendOnline;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -43,7 +59,7 @@ public class FriendOnlineAdapter extends RecyclerView.Adapter<FriendOnlineAdapte
         return mListFriendOnline.size();
     }
 
-    class FriendOnlineViewHolder extends BaseViewHolder<Friend> {
+    class FriendOnlineViewHolder extends BaseViewHolder<UserViewData> {
         @BindView(R.id.image_avatar_online)
         ImageView mImageAvatar;
 
@@ -58,17 +74,25 @@ public class FriendOnlineAdapter extends RecyclerView.Adapter<FriendOnlineAdapte
         }
 
         @Override
-        public void bindData(Friend friend) {
+        public void bindData(UserViewData userViewData) {
+
             GlideApp.with(itemView.getContext())
-                    .load(friend.getAvatar())
+                    .load(userViewData.getAvatar())
                     .circleCrop()
                     .into(mImageAvatar);
 
-            mImageOnline.setVisibility(View.GONE);
-            if(friend.isOnline()){
+            if(userViewData.getOnline() == Constants.ONLINE){
                 mImageOnline.setVisibility(View.VISIBLE);
+            } else {
+                mImageOnline.setVisibility(View.GONE);
             }
-            mTextName.setText(friend.getName());
+
+            mTextName.setText(userViewData.getName());
+        }
+
+        @OnClick(R.id.layout_root)
+        void onClickItem() {
+            listener.onClickFriendOnlineItem(mListFriendOnline.get(getAdapterPosition()));
         }
     }
 }

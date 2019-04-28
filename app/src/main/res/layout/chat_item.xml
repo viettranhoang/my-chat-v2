@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:gravity="center"
+    android:orientation="horizontal"
     android:paddingLeft="@dimen/margin_primary"
     android:paddingRight="@dimen/margin_primary"
-    android:paddingBottom="@dimen/margin_primary"
-    android:orientation="horizontal">
+    android:paddingTop="@dimen/margin_primary2"
+    android:paddingBottom="@dimen/margin_primary2">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -22,7 +26,7 @@
             android:id="@+id/image_online"
             style="@style/ImageOnline"
             android:layout_alignRight="@+id/image_avatar"
-            android:layout_alignBottom="@+id/image_avatar"/>
+            android:layout_alignBottom="@+id/image_avatar" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -33,31 +37,29 @@
         <TextView
             android:id="@+id/text_name"
             style="@style/TextTitle"
-            android:text="Vu Hanh"
             android:fontFamily="sans-serif-medium"
-            android:textSize="@dimen/text_input"
-            />
+            android:text="Vu Hanh"
+            android:textSize="@dimen/text_input" />
 
         <TextView
             android:id="@+id/text_message"
             style="@style/TextTitle"
-            android:textSize="@dimen/text_body"
-            android:fontFamily="sans-serif"
             android:layout_below="@+id/text_name"
+            android:fontFamily="sans-serif"
             android:text="Yeu bom nhat "
             android:textColor="@color/black40"
-            />
+            android:textSize="@dimen/text_body" />
 
         <TextView
             android:id="@+id/text_time_seen"
             style="@style/TextTitle"
-            android:textSize="@dimen/text_body"
-            android:fontFamily="sans-serif"
             android:layout_below="@+id/text_name"
             android:layout_marginLeft="@dimen/text_body"
             android:layout_toRightOf="@+id/text_message"
+            android:fontFamily="sans-serif"
             android:text="14:45"
-            android:textColor="@color/black40" />
+            android:textColor="@color/black40"
+            android:textSize="@dimen/text_body" />
 
         <ImageView
             android:id="@+id/image_seen"

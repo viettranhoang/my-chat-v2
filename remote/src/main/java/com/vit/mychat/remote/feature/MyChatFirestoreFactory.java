@@ -1,6 +1,7 @@
 package com.vit.mychat.remote.feature;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -12,6 +13,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.vit.mychat.remote.common.Constants;
 import com.vit.mychat.remote.common.RxFirebase;
+import com.vit.mychat.remote.feature.chat.model.ChatModel;
+import com.vit.mychat.remote.feature.group.model.GroupModel;
 import com.vit.mychat.remote.feature.message.model.MessageModel;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
@@ -27,21 +30,29 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import static com.vit.mychat.remote.common.Constants.GROUP_ID;
+import static com.vit.mychat.remote.common.Constants.TABLE_FRIEND;
+import static com.vit.mychat.remote.common.Constants.TABLE_GROUPS;
+import static com.vit.mychat.remote.common.Constants.TABLE_MESSAGE;
+import static com.vit.mychat.remote.common.Constants.TABLE_USER;
+
 @Singleton
 public class MyChatFirestoreFactory implements MyChatFirestore {
     public static final String TAG = MyChatFirestoreFactory.class.getSimpleName();
 
-    private FirebaseFirestore database;
+    private FirebaseFirestore firebaseFirestore;
     private DatabaseReference userDatabase;
     private DatabaseReference friendDatabase;
     private DatabaseReference messageDatabase;
+    private DatabaseReference database;
     private FirebaseAuth auth;
     private String currentUserId;
 
     @Inject
     public MyChatFirestoreFactory() {
-        database = FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE);
         userDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_USER);
         friendDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_FRIEND);
         messageDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_MESSAGE);
@@ -64,7 +75,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 
     @Override
     public Single<UserModel> getUserByIdSingle(String userId) {
-        return Single.create(emitter -> database
+        return Single.create(emitter -> firebaseFirestore
                 .collection(Constants.TABLE_USER)
                 .document(userId)
                 .get()
@@ -123,20 +134,24 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     }
 
     @Override
-    public Single<List<String>> getIdFriendList(String userId, String type) {
-        return Single.create(emitter -> friendDatabase
-                .child(userId)
-                .addValueEventListener(new ValueEventListener() {
+    public Observable<List<UserModel>> getFriendList(String userId, String type) {
+        return Observable.create(emitter ->
+                database.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<String> list = new ArrayList<>();
+                        List<UserModel> listUser = new ArrayList<>();
 
-                        for (DataSnapshot data : dataSnapshot.getChildren()) {
-                            if (data.getValue(String.class).equals(type)) {
-                                list.add(data.getKey());
+                        for (DataSnapshot data : dataSnapshot.child(TABLE_FRIEND).child(currentUserId).getChildren()) {
+
+                            if (data.getValue(String.class).contains(type)) {
+                                String idFriend = data.getKey();
+
+                                Log.i(TAG, "idFriend" + idFriend);
+
+                                listUser.add(dataSnapshot.child(TABLE_USER).child(idFriend).getValue(UserModel.class));
                             }
                         }
-                        emitter.onSuccess(list);
+                        emitter.onNext(listUser);
                     }
 
                     @Override
@@ -194,5 +209,52 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
         map.put(String.format(Constants.CHILDREN, userId, currentUserId, key), messageModel.toMap());
 
         return RxFirebase.updateChildren(messageDatabase, map);
+    }
+
+
+    /**
+     * chat
+     */
+    @Override
+    public Observable<List<ChatModel>> getChatList() {
+        return Observable.create(emitter ->
+                database.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<ChatModel> listChat = new ArrayList<>();
+
+                        for (DataSnapshot data : dataSnapshot.child(TABLE_MESSAGE).child(currentUserId).getChildren()) {
+
+                            ChatModel chatModel = new ChatModel();
+
+                            String idSender = data.getKey();
+
+                            Log.i(TAG, "onDataChange: idSender" + idSender);
+
+                            List<MessageModel> list = new ArrayList<>();
+
+                            for (DataSnapshot dataMessage : data.getChildren()) {
+                                list.add(dataMessage.getValue(MessageModel.class));
+                            }
+                            Log.i(TAG, "onDataChange: setLastMessage" + list.get(list.size() - 1).toString());
+
+                            chatModel.setLastMessage(list.get(list.size() - 1));
+
+                            if (idSender.contains(GROUP_ID)) {
+                                chatModel.setGroup(dataSnapshot.child(TABLE_GROUPS).child(idSender).getValue(GroupModel.class));
+                            } else {
+                                chatModel.setUser(dataSnapshot.child(TABLE_USER).child(idSender).getValue(UserModel.class));
+                            }
+
+                            listChat.add(chatModel);
+                        }
+                        emitter.onNext(listChat);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        emitter.onError(databaseError.toException());
+                    }
+                }));
     }
 }

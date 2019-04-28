@@ -27,6 +27,7 @@ import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.request_receive.RequestReceiveActivity;
 import com.vit.mychat.ui.request_sent.RequestSentActivity;
 import com.vit.mychat.ui.search.SearchActivity;
+import com.vit.mychat.util.Constants;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -80,6 +81,7 @@ public class MainActivity extends BaseActivity {
             AuthActivity.moveAuthActivity(this);
             finish();
         }
+        Constants.CURRENT_UID = authViewModel.getCurrentUserId();
 
         initToolbar();
         initBottomNavigationView();

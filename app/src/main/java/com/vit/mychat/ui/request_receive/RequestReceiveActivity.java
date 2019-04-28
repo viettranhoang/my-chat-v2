@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.vit.mychat.R;
-import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
 import com.vit.mychat.presentation.feature.user.UpdateUserRelationshipViewModel;
 import com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig;
@@ -17,6 +16,7 @@ import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.request_receive.adapter.RequestReceiveAdapter;
 import com.vit.mychat.ui.request_receive.listener.OnClickRequestReceiveItemListener;
+import com.vit.mychat.util.Constants;
 
 import java.util.List;
 
@@ -35,7 +35,6 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
     @Inject
     RequestReceiveAdapter requestReceiveAdapter;
 
-    private AuthViewModel authViewModel;
     private UpdateUserRelationshipViewModel updateUserRelationshipViewModel;
     private GetFriendListViewModel getFriendListViewModel;
 
@@ -54,7 +53,6 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
         initToolbar();
         initRcvReceiveUser();
 
-        authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
         updateUserRelationshipViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserRelationshipViewModel.class);
         getFriendListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetFriendListViewModel.class);
 
@@ -74,7 +72,7 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
 
     @Override
     public void onClickAcceptRequest(UserViewData user) {
-        updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), user.getId(), UserRelationshipConfig.FRIEND)
+        updateUserRelationshipViewModel.updateUserRelationship(Constants.CURRENT_UID, user.getId(), UserRelationshipConfig.FRIEND)
                 .observe(this, resource -> {
                     switch (resource.getStatus()) {
                         case LOADING:
@@ -94,7 +92,7 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
 
     @Override
     public void onClickCancelRequest(UserViewData user) {
-        updateUserRelationshipViewModel.updateUserRelationship(authViewModel.getCurrentUserId(), user.getId(), UserRelationshipConfig.NOT)
+        updateUserRelationshipViewModel.updateUserRelationship(Constants.CURRENT_UID, user.getId(), UserRelationshipConfig.NOT)
                 .observe(this, resource -> {
                     switch (resource.getStatus()) {
                         case LOADING:
@@ -126,7 +124,7 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
     }
 
     private void getListRequestReceive() {
-        getFriendListViewModel.getFriendList(authViewModel.getCurrentUserId(), UserRelationshipConfig.RECEIVE).observe(this, resource -> {
+        getFriendListViewModel.getFriendList(Constants.CURRENT_UID, UserRelationshipConfig.RECEIVE).observe(this, resource -> {
             switch (resource.getStatus()) {
                 case LOADING:
                     showHUD();

@@ -12,7 +12,6 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 
 @Singleton
 public class UserRepositoryImpl implements UserRepository {
@@ -58,10 +57,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Single<List<User>> getFriendList(String userId, String type) {
+    public Observable<List<User>> getFriendList(String userId, String type) {
         return userRemote.getFriendList(userId, type)
                 .flatMap(userEntities -> Observable.fromIterable(userEntities)
                         .map(userEntity -> mapper.mapFromEntity(userEntity))
-                        .toList());
+                        .toList()
+                        .toObservable());
     }
 }

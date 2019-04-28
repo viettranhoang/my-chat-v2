@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import com.vit.mychat.di.key.ViewModelKey;
 import com.vit.mychat.presentation.feature.MyChatViewModelFactory;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
+import com.vit.mychat.presentation.feature.chat.GetChatListViewModel;
 import com.vit.mychat.presentation.feature.message.GetMessageListViewModel;
 import com.vit.mychat.presentation.feature.message.SendMessageViewModel;
 import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
@@ -81,5 +82,11 @@ public abstract class ViewModelModule {
     @ViewModelKey(SendMessageViewModel.class)
     abstract ViewModel bindSendMessageViewModel(SendMessageViewModel sendMessageViewModel);
 
-
+    /**
+     * chat
+     */
+    @Binds
+    @IntoMap
+    @ViewModelKey(GetChatListViewModel.class)
+    abstract ViewModel bindGetChatListViewModel(GetChatListViewModel getChatListViewModel);
 }

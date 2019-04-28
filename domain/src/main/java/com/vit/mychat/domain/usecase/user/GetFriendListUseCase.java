@@ -1,7 +1,6 @@
 package com.vit.mychat.domain.usecase.user;
 
 import com.vit.mychat.domain.ObservableUseCase;
-import com.vit.mychat.domain.SingleUseCase;
 import com.vit.mychat.domain.usecase.user.model.User;
 import com.vit.mychat.domain.usecase.user.repository.UserRepository;
 
@@ -13,10 +12,9 @@ import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
 
 @Singleton
-public class GetFriendListUseCase extends SingleUseCase<List<User>, GetFriendListUseCase.Params> {
+public class GetFriendListUseCase extends ObservableUseCase<List<User>, GetFriendListUseCase.Params> {
 
     @Inject
     UserRepository userRepository;
@@ -28,7 +26,7 @@ public class GetFriendListUseCase extends SingleUseCase<List<User>, GetFriendLis
     }
 
     @Override
-    protected Single<List<User>> buildUseCaseSingle(Params params) {
+    protected Observable<List<User>> buildUseCaseSingle(Params params) {
         return userRepository.getFriendList(params.userId, params.type);
     }
 

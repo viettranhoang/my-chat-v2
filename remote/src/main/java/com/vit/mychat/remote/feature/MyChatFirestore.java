@@ -2,6 +2,7 @@ package com.vit.mychat.remote.feature;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
+import com.vit.mychat.remote.feature.chat.model.ChatModel;
 import com.vit.mychat.remote.feature.message.model.MessageModel;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
@@ -30,7 +31,7 @@ public interface MyChatFirestore {
 
     Observable<List<UserModel>> getUserList();
 
-    Single<List<String>> getIdFriendList(String userId, String type);
+    Observable<List<UserModel>> getFriendList(String userId, String type);
 
     /**
      * auth
@@ -47,5 +48,10 @@ public interface MyChatFirestore {
     Observable<List<MessageModel>> getMessageList(String userId);
 
     Completable sendMessage(String userId, String message);
+
+    /**
+     * chat
+     */
+    Observable<List<ChatModel>> getChatList();
 
 }

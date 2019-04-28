@@ -10,10 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vit.mychat.R;
-import com.vit.mychat.data.model.Chat;
 import com.vit.mychat.di.scope.PerFragment;
+import com.vit.mychat.presentation.feature.chat.model.ChatViewData;
 import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.ui.base.module.GlideApp;
+import com.vit.mychat.ui.chat.listener.OnClickChatItemListener;
+import com.vit.mychat.util.Constants;
 import com.vit.mychat.util.Utils;
 
 import java.util.ArrayList;
@@ -24,16 +26,20 @@ import javax.inject.Inject;
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 @PerFragment
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
-    private List<Chat> mChatList = new ArrayList<>();
+    private List<ChatViewData> mChatList = new ArrayList<>();
+
+    @Inject
+    OnClickChatItemListener listener;
 
     @Inject
     public ChatAdapter() {
     }
 
-    public void setChatList(List<Chat> chatList) {
+    public void setChatList(List<ChatViewData> chatList) {
         this.mChatList = chatList;
         notifyDataSetChanged();
     }
@@ -55,7 +61,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         return mChatList.size();
     }
 
-    class ChatViewHolder extends BaseViewHolder<Chat> {
+    class ChatViewHolder extends BaseViewHolder<ChatViewData> {
         @BindView(R.id.image_avatar)
         ImageView mAvatar;
 
@@ -77,42 +83,60 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         @BindColor(R.color.black87)
         int mBlack87;
 
+        boolean isUser = true;
+
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         @Override
-        public void bindData(Chat chatList) {
-            GlideApp.with(itemView.getContext())
-                    .load(chatList.getAvatar())
+        public void bindData(ChatViewData chatViewData) {
+
+            if (chatViewData.getUser() == null)
+                isUser = false;
+
+            String avatar = isUser ? chatViewData.getUser().getAvatar() : chatViewData.getGroup().getAvatar();
+            String name = isUser ? chatViewData.getUser().getName() : chatViewData.getGroup().getName();
+
+
+            GlideApp.with(itemView)
+                    .load(avatar)
                     .circleCrop()
                     .into(mAvatar);
 
-            // messlist
-            mTextTimeSeen.setText(Utils.getCurrentTime());
-            if (chatList.getOnline()) {
-                mImageOnline.setVisibility(View.VISIBLE);
-            } else {
-                mImageOnline.setVisibility(View.INVISIBLE);
-            }
-
-            GlideApp.with(itemView.getContext())
+            GlideApp.with(itemView)
                     .load(R.drawable.shape_oval_blue)
                     .centerCrop()
                     .into(mImageSeen);
-            mTextLastMessage.setText(chatList.getLastMessage());
-            if (chatList.getSeen() == false) {
+
+            mTextName.setText(name);
+            mTextLastMessage.setText(chatViewData.getLastMessage().getMessage());
+            mTextTimeSeen.setText(Utils.getTime(chatViewData.getLastMessage().getTime()));
+            mImageOnline.setVisibility(View.INVISIBLE);
+
+            if (isUser && chatViewData.getUser().getOnline() == Constants.ONLINE) {
+                mImageOnline.setVisibility(View.VISIBLE);
+            }
+
+            if (!chatViewData.getLastMessage().isSeen() &&
+                    !chatViewData.getLastMessage().getFrom().equals(Constants.CURRENT_UID)) {
                 mImageSeen.setVisibility(View.VISIBLE);
-                mTextName.setText(chatList.getName());
+
                 mTextName.setTypeface(mTextName.getTypeface(), Typeface.DEFAULT_BOLD.getStyle());
                 mTextLastMessage.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                 mTextLastMessage.setTextColor(mBlack87);
-
             } else {
                 mImageSeen.setVisibility(View.GONE);
-                mTextName.setText(chatList.getName());
             }
+        }
+
+        @OnClick(R.id.layout_root)
+        void onClickItem() {
+            if (isUser)
+                listener.onClickUserChatItem(mChatList.get(getAdapterPosition()).getUser());
+            else
+                listener.onClickGroupChatItem(mChatList.get(getAdapterPosition()).getGroup());
         }
     }
 }

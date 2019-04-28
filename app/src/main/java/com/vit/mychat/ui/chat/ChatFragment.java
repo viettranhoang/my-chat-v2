@@ -1,25 +1,31 @@
 package com.vit.mychat.ui.chat;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.vit.mychat.R;
-import com.vit.mychat.data.model.Chat;
+import com.vit.mychat.presentation.feature.chat.GetChatListViewModel;
+import com.vit.mychat.presentation.feature.chat.model.ChatViewData;
+import com.vit.mychat.presentation.feature.group.model.GroupViewData;
+import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseFragment;
 import com.vit.mychat.ui.chat.adapter.ChatAdapter;
+import com.vit.mychat.ui.chat.listener.OnClickChatItemListener;
+import com.vit.mychat.ui.message.MessageActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class ChatFragment extends BaseFragment {
+public class ChatFragment extends BaseFragment implements OnClickChatItemListener {
 
     public static final String TAG = ChatFragment.class.getSimpleName();
 
@@ -36,6 +42,8 @@ public class ChatFragment extends BaseFragment {
     @Inject
     ChatAdapter mChatAdapter;
 
+    private GetChatListViewModel getChatListViewModel;
+
     @Override
     public int getLayoutId() {
 
@@ -46,29 +54,39 @@ public class ChatFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mChatAdapter.setChatList(creatListMessage());
+        getChatListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetChatListViewModel.class);
+
         initRcv();
+
+        getChatListViewModel.getChatList().observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case SUCCESS:
+                    mChatAdapter.setChatList((List<ChatViewData>) resource.getData());
+                    break;
+                case ERROR:
+                    showToast(resource.getThrowable().getMessage());
+                    break;
+            }
+        });
+    }
+
+    @Override
+    public void onClickUserChatItem(UserViewData userViewData) {
+        MessageActivity.moveMessageActivity(mainActivity, userViewData);
+    }
+
+    @Override
+    public void onClickGroupChatItem(GroupViewData groupViewData) {
+
     }
 
     private void initRcv() {
-
         mRcvChat.setLayoutManager(new LinearLayoutManager(mainActivity));
         mRcvChat.setHasFixedSize(true);
+        mRcvChat.setItemAnimator(new DefaultItemAnimator());
         mRcvChat.setAdapter(mChatAdapter);
 
     }
 
-    private List<Chat> creatListMessage() {
-        List<Chat> listChat = new ArrayList<>();
-        listChat.add(new Chat("Vũ Hạnh", "https://gaubongonline.vn/wp-content/uploads/2018/10/qoobee-2.jpg", false, "", "Tối nay ăn cơm nhà tớ nhé", true));
-        listChat.add(new Chat("Vũ Hạnh", "https://gaubongonline.vn/wp-content/uploads/2018/10/qoobee-2.jpg", false, "", "Tối nay ăn cơm nhà tớ nhé", true));
-        listChat.add(new Chat("Vũ Hạnh", "https://gaubongonline.vn/wp-content/uploads/2018/10/qoobee-2.jpg", false, "", "Tối nay ăn cơm nhà tớ nhé", true));
-        listChat.add(new Chat("Trần Hoàng Việt", "http://gnemart.com/wp-content/uploads/2018/10/gau-bong-quobee-1.jpg", true, "", "Ok cậu", false));
-        listChat.add(new Chat("Trần Hoàng Việt", "http://gnemart.com/wp-content/uploads/2018/10/gau-bong-quobee-1.jpg", true, "", "Ok cậu ", false));
-        listChat.add(new Chat("Trần Hoàng Việt", "http://gnemart.com/wp-content/uploads/2018/10/gau-bong-quobee-1.jpg", true, "", "Ok cậu ", false));
-        listChat.add(new Chat("Kim Lê", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", true, "", "Nay học bài gì nhỉ ", true));
-        listChat.add(new Chat("Kim Lê", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", true, "", "Nay học bài gì nhỉ", true));
-        listChat.add(new Chat("Kim Lê", "https://i.pinimg.com/474x/1d/1d/4f/1d1d4fdd1b26179130054cb5403b6242.jpg", true, "", "Nay học bài gì nhỉ", true));
-        return listChat;
-    }
+
 }

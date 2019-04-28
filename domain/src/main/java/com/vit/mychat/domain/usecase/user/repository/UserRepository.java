@@ -6,7 +6,6 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 
 public interface UserRepository {
 
@@ -20,5 +19,5 @@ public interface UserRepository {
 
     Observable<List<User>> getUserList();
 
-    Single<List<User>> getFriendList(String userId, String type);
+    Observable<List<User>> getFriendList(String userId, String type);
 }
