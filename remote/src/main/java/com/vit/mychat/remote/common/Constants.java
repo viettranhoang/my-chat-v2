@@ -11,4 +11,6 @@ public class Constants {
     public static final String CHILDREN = "/%s/%s/%s";
 
     public static final String GROUP_ID = "group";
+
+    public static final String FRIEND_TYPE = "friend";
 }

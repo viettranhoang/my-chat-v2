@@ -26,6 +26,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        hideStatusBar();
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
@@ -39,6 +40,10 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
                 .setDimAmount(0.5f);
 
         initView();
+
+    }
+
+    protected void hideStatusBar() {
 
     }
 

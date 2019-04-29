@@ -30,6 +30,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import static com.vit.mychat.remote.common.Constants.FRIEND_TYPE;
 import static com.vit.mychat.remote.common.Constants.GROUP_ID;
 import static com.vit.mychat.remote.common.Constants.TABLE_FRIEND;
 import static com.vit.mychat.remote.common.Constants.TABLE_GROUPS;
@@ -146,8 +147,6 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                             if (data.getValue(String.class).contains(type)) {
                                 String idFriend = data.getKey();
 
-                                Log.i(TAG, "idFriend" + idFriend);
-
                                 listUser.add(dataSnapshot.child(TABLE_USER).child(idFriend).getValue(UserModel.class));
                             }
                         }
@@ -249,6 +248,38 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                             listChat.add(chatModel);
                         }
                         emitter.onNext(listChat);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        emitter.onError(databaseError.toException());
+                    }
+                }));
+    }
+
+
+    /**
+     * news
+     */
+    @Override
+    public Observable<List<String>> getNewsList() {
+        return Observable.create(emitter ->
+                database.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<String> list = new ArrayList<>();
+
+                        for (DataSnapshot data : dataSnapshot.child(TABLE_FRIEND).child(currentUserId).getChildren()) {
+
+                            if (data.getValue(String.class).contains(FRIEND_TYPE)) {
+                                String idFriend = data.getKey();
+
+                                UserModel userModel = dataSnapshot.child(TABLE_USER).child(idFriend).getValue(UserModel.class);
+                                list.add(userModel.getNews());
+                            }
+                        }
+
+                        emitter.onNext(list);
                     }
 
                     @Override

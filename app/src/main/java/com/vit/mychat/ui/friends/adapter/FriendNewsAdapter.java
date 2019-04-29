@@ -3,6 +3,7 @@ package com.vit.mychat.ui.friends.adapter;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,26 +78,26 @@ public class FriendNewsAdapter extends RecyclerView.Adapter<FriendNewsAdapter.Fr
         @Override
         public void bindData(UserViewData userViewData) {
 
-            GlideApp.with(itemView.getContext())
-                    .load(userViewData.getNews())
-                    .centerCrop()
-                    .transform(new RoundedCornersTransformation(50, 0, RoundedCornersTransformation.CornerType.ALL))
-                    .into(mImageFriendNews);
+            if (!TextUtils.isEmpty(userViewData.getNews())) {
+                GlideApp.with(itemView.getContext())
+                        .load(userViewData.getNews())
+                        .centerCrop()
+                        .transform(new RoundedCornersTransformation(50, 0, RoundedCornersTransformation.CornerType.ALL))
+                        .into(mImageFriendNews);
 
-            GlideApp.with(itemView.getContext())
-                    .load(userViewData.getAvatar())
-                    .circleCrop()
-                    .into(mImageAvatar);
+                GlideApp.with(itemView.getContext())
+                        .load(userViewData.getAvatar())
+                        .circleCrop()
+                        .into(mImageAvatar);
 
-            mTextName.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-            mTextName.setText(userViewData.getName());
+                mTextName.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                mTextName.setText(userViewData.getName());
+            }
         }
 
         @OnClick(R.id.layout_root)
         void onClickItem() {
-            listener.onClickFriendNewsItem(mListFriendNews.get(getAdapterPosition()));
+            listener.onClickFriendNewsItem(getAdapterPosition());
         }
-
-
     }
 }

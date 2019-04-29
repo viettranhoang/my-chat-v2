@@ -54,4 +54,9 @@ public interface MyChatFirestore {
      */
     Observable<List<ChatModel>> getChatList();
 
+    /**
+     * news
+     */
+    Observable<List<String>> getNewsList();
+
 }

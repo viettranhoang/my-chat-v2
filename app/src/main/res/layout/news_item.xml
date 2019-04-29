@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/image_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true" />
+
+    <include
+        android:layout_marginTop="@dimen/margin_primary"
+        layout="@layout/layout_avatar_online"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/margin_primary"
+        android:layout_marginRight="@dimen/margin_primary"
+        android:layout_marginBottom="@dimen/margin_primary">
+
+        <EditText
+            android:id="@+id/input_message"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/toolbar_image_avatar_size"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/image_heart"
+            android:background="@drawable/round_border_white_rect"
+            android:hint="@string/gui_tin_nhan"
+            android:paddingLeft="@dimen/margin_secondary"
+            android:paddingRight="@dimen/margin_secondary"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="@dimen/text_input" />
+
+        <ImageView
+            android:id="@+id/image_heart"
+            android:layout_width="@dimen/toolbar_image_avatar_size"
+            android:layout_height="@dimen/toolbar_image_avatar_size"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_primary"
+            android:clickable="true"
+            android:foreground="@drawable/ripple_effect"
+            android:padding="@dimen/_3dp"
+            android:src="@drawable/ic_heart" />
+
+        <ImageView
+            android:id="@+id/image_send"
+            android:layout_width="@dimen/toolbar_image_avatar_size"
+            android:layout_height="@dimen/toolbar_image_avatar_size"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_primary"
+            android:clickable="true"
+            android:foreground="@drawable/ripple_effect"
+            android:padding="@dimen/_3dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_send" />
+
+    </RelativeLayout>
+</RelativeLayout>

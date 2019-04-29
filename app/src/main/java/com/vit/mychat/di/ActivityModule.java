@@ -5,6 +5,8 @@ import com.vit.mychat.ui.MainActivity;
 import com.vit.mychat.ui.MainActivityModule;
 import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.auth.AuthModule;
+import com.vit.mychat.ui.news.NewsActivity;
+import com.vit.mychat.ui.news.module.NewsModule;
 import com.vit.mychat.ui.request_receive.RequestReceiveActivity;
 import com.vit.mychat.ui.request_receive.module.RequestReceiveModule;
 import com.vit.mychat.ui.request_sent.RequestSentActivity;
@@ -49,4 +51,8 @@ public abstract class ActivityModule {
     @PerActivity
     @ContributesAndroidInjector(modules = SearchModule.class)
     abstract SearchActivity searchActivityInjector();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = NewsModule.class)
+    abstract NewsActivity newsActivityInjector();
 }

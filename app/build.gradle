@@ -65,6 +65,8 @@ dependencies {
     implementation uiDependencies.materialDialogs
     implementation uiDependencies.parceler
     annotationProcessor uiDependencies.parcelerProcessor
+    implementation uiDependencies.photoView
+
 
     testImplementation testDependencies.junit
     testImplementation testDependencies.mockitoCore

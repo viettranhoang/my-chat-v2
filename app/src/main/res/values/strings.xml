@@ -40,4 +40,7 @@
     //request
     <string name="loi_moi_ket_ban_di">Lời mời kết bạn đi</string>
     <string name="loi_moi_ket_ban_den">Lời mời kết bạn đến</string>
+
+    //news
+    <string name="gui_tin_nhan">Gửi tin nhắn</string>
 </resources>

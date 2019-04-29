@@ -20,6 +20,7 @@ import com.vit.mychat.ui.friends.adapter.FriendOnlineAdapter;
 import com.vit.mychat.ui.friends.listener.OnClickFriendNewsItemListener;
 import com.vit.mychat.ui.friends.listener.OnClickFriendOnlineItemListener;
 import com.vit.mychat.ui.message.MessageActivity;
+import com.vit.mychat.ui.news.NewsActivity;
 import com.vit.mychat.util.Constants;
 
 import java.util.List;
@@ -97,8 +98,8 @@ public class FriendsFragment extends BaseFragment
     }
 
     @Override
-    public void onClickFriendNewsItem(UserViewData userViewData) {
-
+    public void onClickFriendNewsItem(int position) {
+        NewsActivity.moveNewsActivity(mainActivity, position);
     }
 
     @Override
