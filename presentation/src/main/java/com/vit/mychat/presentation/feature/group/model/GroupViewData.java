@@ -1,7 +1,10 @@
 package com.vit.mychat.presentation.feature.group.model;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 
+@Parcel(value = Parcel.Serialization.BEAN, analyze = GroupViewData.class)
 public class GroupViewData {
 
     private String id;

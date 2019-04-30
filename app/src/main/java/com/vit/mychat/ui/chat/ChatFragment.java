@@ -18,6 +18,7 @@ import com.vit.mychat.ui.base.BaseFragment;
 import com.vit.mychat.ui.chat.adapter.ChatAdapter;
 import com.vit.mychat.ui.chat.listener.OnClickChatItemListener;
 import com.vit.mychat.ui.message.MessageActivity;
+import com.vit.mychat.ui.message_group.MessageGroupActivity;
 
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class ChatFragment extends BaseFragment implements OnClickChatItemListene
 
     @Override
     public void onClickGroupChatItem(GroupViewData groupViewData) {
-
+        MessageGroupActivity.moveMessageActivity(mainActivity, groupViewData);
     }
 
     private void initRcv() {

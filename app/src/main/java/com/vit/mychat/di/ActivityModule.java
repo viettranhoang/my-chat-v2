@@ -7,6 +7,8 @@ import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.auth.AuthModule;
 import com.vit.mychat.ui.choose.ChooseActivity;
 import com.vit.mychat.ui.choose.module.ChooseModule;
+import com.vit.mychat.ui.message_group.MessageGroupActivity;
+import com.vit.mychat.ui.message_group.module.MessageGroupModule;
 import com.vit.mychat.ui.news.NewsActivity;
 import com.vit.mychat.ui.news.module.NewsModule;
 import com.vit.mychat.ui.request_receive.RequestReceiveActivity;
@@ -14,7 +16,7 @@ import com.vit.mychat.ui.request_receive.module.RequestReceiveModule;
 import com.vit.mychat.ui.request_sent.RequestSentActivity;
 import com.vit.mychat.ui.request_sent.module.RequestSentModule;
 import com.vit.mychat.ui.message.MessageActivity;
-import com.vit.mychat.ui.message.MessageModule;
+import com.vit.mychat.ui.message.module.MessageModule;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.profile.ProfileModule;
 import com.vit.mychat.ui.search.SearchActivity;
@@ -41,6 +43,10 @@ public abstract class ActivityModule {
     @PerActivity
     @ContributesAndroidInjector(modules = MessageModule.class)
     abstract MessageActivity messageActivityInjector();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = MessageGroupModule.class)
+    abstract MessageGroupActivity messageGroupActivityInjector();
 
     @PerActivity
     @ContributesAndroidInjector(modules = RequestReceiveModule.class)

@@ -1,6 +1,8 @@
 package com.vit.mychat.remote.feature.group.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GroupModel {
 
@@ -17,6 +19,22 @@ public class GroupModel {
         this.name = name;
         this.avatar = avatar;
         this.members = members;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", id);
+        result.put("name", name);
+        result.put("avatar", avatar);
+
+        HashMap<String, Object> membersMap = new HashMap<>();
+        for (String s : members) {
+            membersMap.put(s, "");
+        }
+
+        result.put("members", membersMap);
+
+        return result;
     }
 
     public String getId() {

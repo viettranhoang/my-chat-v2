@@ -32,6 +32,9 @@ import io.reactivex.Single;
 
 import static com.vit.mychat.remote.common.Constants.FRIEND_TYPE;
 import static com.vit.mychat.remote.common.Constants.GROUP_ID;
+import static com.vit.mychat.remote.common.Constants.ROW_AVATAR;
+import static com.vit.mychat.remote.common.Constants.ROW_MEMBERS;
+import static com.vit.mychat.remote.common.Constants.ROW_NAME;
 import static com.vit.mychat.remote.common.Constants.TABLE_FRIEND;
 import static com.vit.mychat.remote.common.Constants.TABLE_GROUPS;
 import static com.vit.mychat.remote.common.Constants.TABLE_MESSAGE;
@@ -45,6 +48,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     private DatabaseReference userDatabase;
     private DatabaseReference friendDatabase;
     private DatabaseReference messageDatabase;
+    private DatabaseReference groupDatabase;
     private DatabaseReference database;
     private FirebaseAuth auth;
     private String currentUserId;
@@ -57,9 +61,13 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
         userDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_USER);
         friendDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_FRIEND);
         messageDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_MESSAGE);
+        groupDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(TABLE_GROUPS);
         currentUserId = auth.getUid();
 
         database.keepSynced(true);
+        userDatabase.keepSynced(true);
+        friendDatabase.keepSynced(true);
+        messageDatabase.keepSynced(true);
     }
 
 
@@ -203,13 +211,51 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 
     @Override
     public Completable sendMessage(String userId, String message) {
-        MessageModel messageModel = new MessageModel(message, currentUserId, true, System.currentTimeMillis(), "text");
-        String key = messageDatabase.child(currentUserId).child(userId).push().getKey();
-        Map<String, Object> map = new HashMap<>();
-        map.put(String.format(Constants.CHILDREN, currentUserId, userId, key), messageModel.toMap());
-        map.put(String.format(Constants.CHILDREN, userId, currentUserId, key), messageModel.toMap());
+        return Completable.create(emitter -> {
+            MessageModel messageModel = new MessageModel(message, currentUserId, true, System.currentTimeMillis(), "text");
+            String key = messageDatabase.child(currentUserId).child(userId).push().getKey();
 
-        return RxFirebase.updateChildren(messageDatabase, map);
+            Map<String, Object> map = new HashMap<>();
+
+            if (!userId.contains(GROUP_ID)) {
+                map.put(String.format(Constants.CHILDREN, currentUserId, userId, key), messageModel.toMap());
+                map.put(String.format(Constants.CHILDREN, userId, currentUserId, key), messageModel.toMap());
+
+                messageDatabase.updateChildren(map, (databaseError, databaseReference) -> {
+                    if (!emitter.isDisposed()) {
+                        if (null != databaseError) {
+                            emitter.onError(databaseError.toException());
+                        } else {
+                            emitter.onComplete();
+                        }
+                    }
+                });
+            } else
+                groupDatabase.child(userId).child(ROW_MEMBERS).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            map.put(String.format(Constants.CHILDREN, data.getKey(), userId, key), messageModel.toMap());
+                        }
+
+                        messageDatabase.updateChildren(map, (databaseError, databaseReference) -> {
+                            if (!emitter.isDisposed()) {
+                                if (null != databaseError) {
+                                    emitter.onError(databaseError.toException());
+                                } else {
+                                    emitter.onComplete();
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        emitter.onError(databaseError.toException());
+                    }
+                });
+
+        });
     }
 
 
@@ -242,7 +288,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                             chatModel.setLastMessage(list.get(list.size() - 1));
 
                             if (idSender.contains(GROUP_ID)) {
-                                chatModel.setGroup(dataSnapshot.child(TABLE_GROUPS).child(idSender).getValue(GroupModel.class));
+                                chatModel.setGroup(getGroupModel(dataSnapshot, idSender));
                             } else {
                                 chatModel.setUser(dataSnapshot.child(TABLE_USER).child(idSender).getValue(UserModel.class));
                             }
@@ -257,6 +303,17 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                         emitter.onError(databaseError.toException());
                     }
                 }));
+    }
+
+    private GroupModel getGroupModel(DataSnapshot database, String groupId) {
+        List<String> members = new ArrayList<>();
+        for (DataSnapshot dataMember : database.child(TABLE_GROUPS).child(groupId).child(ROW_MEMBERS).getChildren()) {
+            members.add(dataMember.getKey());
+        }
+        String name = (String) database.child(TABLE_GROUPS).child(groupId).child(ROW_NAME).getValue();
+        String avatar = (String) database.child(TABLE_GROUPS).child(groupId).child(ROW_AVATAR).getValue();
+
+        return new GroupModel(groupId, name, avatar, members);
     }
 
 
@@ -289,5 +346,37 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                         emitter.onError(databaseError.toException());
                     }
                 }));
+    }
+
+
+    /**
+     * group
+     */
+    @Override
+    public Single<GroupModel> createGroup(GroupModel groupModel) {
+        return Single.create(emitter -> {
+
+            String groupId = String.format("%s_%s", GROUP_ID, groupDatabase.push().getKey());
+            groupModel.setId(groupId);
+            groupDatabase.child(groupId).updateChildren(groupModel.toMap(), (databaseError, databaseReference) -> {
+                if (!emitter.isDisposed()) {
+                    if (null != databaseError) {
+                        emitter.onError(databaseError.toException());
+                    } else {
+                        emitter.onSuccess(groupModel);
+                    }
+                }
+            });
+
+            sendMessage(groupId, "Hi");
+//            MessageModel messageModel = new MessageModel("Hi", currentUserId, true, System.currentTimeMillis(), "text");
+//            String key = messageDatabase.child(currentUserId).child(groupId).push().getKey();
+//            Map<String, Object> map = new HashMap<>();
+//            for (String member : groupModel.getMembers()) {
+//                map.put(String.format(Constants.CHILDREN, member, groupId, key), messageModel.toMap());
+//            }
+//            messageDatabase.updateChildren(map);
+
+        });
     }
 }

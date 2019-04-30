@@ -3,6 +3,7 @@ package com.vit.mychat.remote.feature;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.vit.mychat.remote.feature.chat.model.ChatModel;
+import com.vit.mychat.remote.feature.group.model.GroupModel;
 import com.vit.mychat.remote.feature.message.model.MessageModel;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
@@ -58,5 +59,10 @@ public interface MyChatFirestore {
      * news
      */
     Observable<List<String>> getNewsList();
+
+    /**
+     * group
+     */
+    Single<GroupModel> createGroup(GroupModel groupModel);
 
 }

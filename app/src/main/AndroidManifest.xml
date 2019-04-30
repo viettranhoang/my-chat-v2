@@ -27,6 +27,7 @@
         <activity android:name=".ui.search.SearchActivity"/>
         <activity android:name=".ui.news.NewsActivity"/>
         <activity android:name=".ui.choose.ChooseActivity"/>
+        <activity android:name=".ui.message_group.MessageGroupActivity"/>
     </application>
 
 </manifest>

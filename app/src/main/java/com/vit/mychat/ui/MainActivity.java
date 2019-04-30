@@ -93,8 +93,6 @@ public class MainActivity extends BaseActivity {
 
         initToolbar();
         initBottomNavigationView();
-
-
     }
 
     @OnClick(R.id.image_avatar)
@@ -130,20 +128,10 @@ public class MainActivity extends BaseActivity {
     private void initToolbar() {
         setSupportActionBar(findViewById(R.id.main_toolbar));
 
-        authViewModel.getCurrentUser().observe(this, resource -> {
-            switch (resource.getStatus()) {
-                case SUCCESS:
-                    UserViewData user = (UserViewData) resource.getData();
-                    GlideApp.with(this)
-                            .load(user.getAvatar())
-                            .circleCrop()
-                            .into(mImageAvatar);
-                    break;
-                case ERROR:
-                    showToast(resource.getThrowable().getMessage());
-                    break;
-            }
-        });
+        GlideApp.with(this)
+                .load(Constants.CURRENT_USER.getAvatar())
+                .circleCrop()
+                .into(mImageAvatar);
 
     }
 
