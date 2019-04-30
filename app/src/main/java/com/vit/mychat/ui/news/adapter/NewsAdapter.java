@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.chrisbanes.photoview.PhotoView;
@@ -20,16 +22,23 @@ import com.vit.mychat.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class NewsAdapter extends PagerAdapter {
+
+    @BindView(R.id.layout_avatar_online)
+    RelativeLayout mLayoutAvatarOnline;
 
     @BindView(R.id.image_news)
     PhotoView mImageNews;
@@ -55,6 +64,9 @@ public class NewsAdapter extends PagerAdapter {
     @BindView(R.id.image_heart)
     ImageView mImageHeart;
 
+//    @BindView(R.id.progress_bar_news)
+//    ProgressBar mProgressBarNews;
+
     @BindColor(R.color.gray)
     int mColorGray;
 
@@ -62,11 +74,12 @@ public class NewsAdapter extends PagerAdapter {
     OnClickNewsItemListener listener;
 
     private List<UserViewData> mListNews = new ArrayList<>();
+    private CompositeDisposable mCompositeDisposable;
 
-    private int userPosition = -1;
 
     @Inject
     public NewsAdapter() {
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     public void setList(List<UserViewData> listNews) {
@@ -91,7 +104,17 @@ public class NewsAdapter extends PagerAdapter {
         ButterKnife.bind(this, itemView);
 
         binData(mListNews.get(position));
-        userPosition = position;
+        setListener(position);
+
+        ProgressBar mProgressBarNews = itemView.findViewById(R.id.progress_bar_news);
+
+        mCompositeDisposable.add(Observable.interval(6000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    mCompositeDisposable.add(Observable.intervalRange(0L, 100, 1L, 60, TimeUnit.MILLISECONDS)
+                            .subscribe(aLoxng -> mProgressBarNews.setProgress(aLoxng.intValue())));
+                }));
 
         container.addView(itemView);
         return itemView;
@@ -99,18 +122,7 @@ public class NewsAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-       container.removeView((View) object);
-    }
-
-    @OnClick(R.id.image_heart)
-    void onClickHeart() {
-        listener.onClickHeart();
-    }
-
-    @OnClick(R.id.image_send)
-    void onClickSend() {
-        listener.onClickSend(mListNews.get(userPosition).getId(), mInputMessage.getText().toString());
-        mInputMessage.setText("");
+        container.removeView((View) object);
     }
 
     @OnTextChanged(R.id.input_message)
@@ -123,6 +135,7 @@ public class NewsAdapter extends PagerAdapter {
             mImageSend.setVisibility(View.INVISIBLE);
         }
     }
+
 
     private void binData(UserViewData userViewData) {
         GlideApp.with(mImageNews.getContext())
@@ -141,12 +154,23 @@ public class NewsAdapter extends PagerAdapter {
         if (userViewData.getOnline() == 1) {
             mImageOnline.setVisibility(View.VISIBLE);
             mTextOnline.setText(R.string.dang_hoat_dong);
-        }
-        else {
+        } else {
             mImageOnline.setVisibility(View.INVISIBLE);
-            mTextName.setText(Utils.getTime(userViewData.getOnline()));
+            mTextOnline.setText(Utils.getTime(userViewData.getOnline()));
         }
     }
 
+    private void setListener(int position) {
+        UserViewData userViewData = mListNews.get(position);
 
+        mLayoutAvatarOnline.setOnClickListener(v -> listener.onClickAvatar(userViewData));
+
+        mImageSend.setOnClickListener(v -> {
+            listener.onClickSend(userViewData.getId(), mInputMessage.getText().toString());
+            mInputMessage.setText("");
+        });
+
+        mImageHeart.setOnClickListener(v -> listener.onClickHeart(userViewData.getId(),
+                String.format("%s đã thích story của bạn", userViewData.getName())));
+    }
 }

@@ -58,6 +58,8 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
         friendDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_FRIEND);
         messageDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_MESSAGE);
         currentUserId = auth.getUid();
+
+        database.keepSynced(true);
     }
 
 

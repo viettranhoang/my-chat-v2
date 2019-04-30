@@ -10,11 +10,24 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar_news"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_2dp"
+        android:layout_marginTop="@dimen/margin_secondary"
+        android:layout_marginLeft="@dimen/margin_primary"
+        android:layout_marginRight="@dimen/margin_primary"
+        android:progressBackgroundTint="@color/white40"
+        android:max="100"
+        android:progress="0" />
+
     <include
-        android:layout_marginTop="@dimen/margin_primary"
         layout="@layout/layout_avatar_online"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:layout_below="@id/progress_bar_news"
+        android:layout_marginTop="@dimen/margin_secondary" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -61,8 +74,8 @@
             android:clickable="true"
             android:foreground="@drawable/ripple_effect"
             android:padding="@dimen/_3dp"
-            android:visibility="gone"
-            android:src="@drawable/ic_send" />
+            android:src="@drawable/ic_send"
+            android:visibility="gone" />
 
     </RelativeLayout>
 </RelativeLayout>

@@ -10,6 +10,7 @@
     <color name="black20">#33000000</color>
     <color name="black50">#80000000</color>
     <color name="white">#FFF</color>
+    <color name="white40">#66FFFFFF</color>
     <color name="gray">#99E5E5E5</color>
     <color name="gray_dark">#99B8B8B8</color>
     <color name="green">#00E676</color>
