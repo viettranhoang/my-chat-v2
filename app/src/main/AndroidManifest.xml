@@ -26,6 +26,7 @@
         <activity android:name=".ui.profile.ProfileActivity" />
         <activity android:name=".ui.search.SearchActivity"/>
         <activity android:name=".ui.news.NewsActivity"/>
+        <activity android:name=".ui.choose.ChooseActivity"/>
     </application>
 
 </manifest>

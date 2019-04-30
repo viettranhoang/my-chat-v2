@@ -22,6 +22,7 @@ import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
+import com.vit.mychat.ui.choose.ChooseActivity;
 import com.vit.mychat.ui.friends.FriendsFragment;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.request_receive.RequestReceiveActivity;
@@ -82,6 +83,13 @@ public class MainActivity extends BaseActivity {
             finish();
         }
         Constants.CURRENT_UID = authViewModel.getCurrentUserId();
+        authViewModel.getCurrentUser().observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case SUCCESS:
+                    Constants.CURRENT_USER = (UserViewData) resource.getData();
+                    break;
+            }
+        });
 
         initToolbar();
         initBottomNavigationView();
@@ -96,8 +104,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.image_create)
     void onClickCreate() {
-        Toast.makeText(this, "create", Toast.LENGTH_SHORT).show();
-        AuthActivity.moveAuthActivity(this);
+        ChooseActivity.moveChooseActivity(this);
     }
 
     @OnClick(R.id.image_camera)

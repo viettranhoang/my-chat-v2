@@ -11,6 +11,6 @@ public class Utils {
         if (currentDay.equals(day)) {
             return new SimpleDateFormat("HH:mm").format(minisecondTime);
         } else
-            return day;
+            return new SimpleDateFormat("E").format(minisecondTime);
     }
 }

@@ -18,6 +18,7 @@ import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.news.listener.OnClickNewsItemListener;
+import com.vit.mychat.util.Constants;
 import com.vit.mychat.util.Utils;
 
 import java.util.ArrayList;
@@ -108,6 +109,9 @@ public class NewsAdapter extends PagerAdapter {
 
         ProgressBar mProgressBarNews = itemView.findViewById(R.id.progress_bar_news);
 
+        mCompositeDisposable.add(Observable.intervalRange(0L, 100, 1L, 60, TimeUnit.MILLISECONDS)
+                .subscribe(aLoxng -> mProgressBarNews.setProgress(aLoxng.intValue())));
+
         mCompositeDisposable.add(Observable.interval(6000, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,6 +127,7 @@ public class NewsAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
+        mCompositeDisposable.clear();
     }
 
     @OnTextChanged(R.id.input_message)
@@ -171,6 +176,6 @@ public class NewsAdapter extends PagerAdapter {
         });
 
         mImageHeart.setOnClickListener(v -> listener.onClickHeart(userViewData.getId(),
-                String.format("%s đã thích story của bạn", userViewData.getName())));
+                String.format("%s đã thích story của bạn", Constants.CURRENT_USER.getName())));
     }
 }
