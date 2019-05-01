@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
 
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -20,6 +21,12 @@ public class ImageUtils {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(activity);
+    }
+
+    public static void openPickImageForFragment(Context context, Fragment fragment) {
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(context, fragment);
     }
 
     public static File getAvatarImage(Uri imageUri, Context context) {

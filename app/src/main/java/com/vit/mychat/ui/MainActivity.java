@@ -19,6 +19,7 @@ import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.base.BaseActivity;
+import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.bot.BotFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.choose.ChooseActivity;
@@ -81,14 +82,6 @@ public class MainActivity extends BaseActivity {
             AuthActivity.moveAuthActivity(this);
             finish();
         }
-        Constants.CURRENT_UID = authViewModel.getCurrentUserId();
-        authViewModel.getCurrentUser().observe(this, resource -> {
-            switch (resource.getStatus()) {
-                case SUCCESS:
-                    Constants.CURRENT_USER = (UserViewData) resource.getData();
-                    break;
-            }
-        });
 
         initToolbar();
         initBottomNavigationView();
@@ -127,11 +120,18 @@ public class MainActivity extends BaseActivity {
     private void initToolbar() {
         setSupportActionBar(findViewById(R.id.main_toolbar));
 
-//        GlideApp.with(this)
-//                .load(Constants.CURRENT_USER.getAvatar())
-//                .circleCrop()
-//                .into(mImageAvatar);
-
+        Constants.CURRENT_UID = authViewModel.getCurrentUserId();
+        authViewModel.getCurrentUser().observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case SUCCESS:
+                    Constants.CURRENT_USER = (UserViewData) resource.getData();
+                    GlideApp.with(this)
+                            .load(Constants.CURRENT_USER.getAvatar())
+                            .circleCrop()
+                            .into(mImageAvatar);
+                    break;
+            }
+        });
     }
 
     private void initBottomNavigationView() {

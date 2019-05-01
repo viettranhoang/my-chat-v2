@@ -29,6 +29,8 @@ import butterknife.OnClick;
 @PerFragment
 public class FriendNewsAdapter extends RecyclerView.Adapter<FriendNewsAdapter.FriendNewsViewHolder> {
 
+    public static final int FIRST_ITEM = 0;
+
     @Inject
     OnClickFriendNewsItemListener listener;
 
@@ -46,18 +48,32 @@ public class FriendNewsAdapter extends RecyclerView.Adapter<FriendNewsAdapter.Fr
     @NonNull
     @Override
     public FriendNewsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_news_item, viewGroup, false);
+        View view;
+        if (i == FIRST_ITEM) {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_news_item_first, viewGroup, false);
+        } else {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_news_item, viewGroup, false);
+        }
+
         return new FriendNewsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FriendNewsViewHolder friendNewsViewHolder, int i) {
-        friendNewsViewHolder.bindData(mListFriendNews.get(i));
+        if (i != 0) {
+            friendNewsViewHolder.bindData(mListFriendNews.get(--i));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mListFriendNews.size();
+        return mListFriendNews.size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) return FIRST_ITEM;
+        return 2;
     }
 
     public class FriendNewsViewHolder extends BaseViewHolder<UserViewData> {
@@ -99,5 +115,6 @@ public class FriendNewsAdapter extends RecyclerView.Adapter<FriendNewsAdapter.Fr
         void onClickItem() {
             listener.onClickFriendNewsItem(getAdapterPosition());
         }
+
     }
 }

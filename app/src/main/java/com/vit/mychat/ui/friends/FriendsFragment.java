@@ -1,6 +1,7 @@
 package com.vit.mychat.ui.friends;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,8 +11,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.theartofdev.edmodo.cropper.CropImage;
 import com.vit.mychat.R;
+import com.vit.mychat.presentation.feature.auth.AuthViewModel;
+import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
+import com.vit.mychat.presentation.feature.image.config.ImageTypeConfig;
 import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
+import com.vit.mychat.presentation.feature.user.UpdateUserViewModel;
 import com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseFragment;
@@ -22,7 +28,9 @@ import com.vit.mychat.ui.friends.listener.OnClickFriendOnlineItemListener;
 import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.news.NewsActivity;
 import com.vit.mychat.util.Constants;
+import com.vit.mychat.util.ImageUtils;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,7 +61,10 @@ public class FriendsFragment extends BaseFragment
     @Inject
     FriendOnlineAdapter friendOnlineAdapter;
 
+    private AuthViewModel authViewModel;
     private GetFriendListViewModel getFriendListViewModel;
+    private UploadImageViewModel uploadImageViewModel;
+    private UpdateUserViewModel updateUserViewModel;
 
     @Override
     public int getLayoutId() {
@@ -65,9 +76,29 @@ public class FriendsFragment extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
 
         getFriendListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetFriendListViewModel.class);
+        uploadImageViewModel = ViewModelProviders.of(this, viewModelFactory).get(UploadImageViewModel.class);
+        updateUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserViewModel.class);
+        authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
 
         initRcv();
         getFriendList();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == mainActivity.RESULT_OK) {
+
+                File image = ImageUtils.getImage(result.getUri(), mainActivity);
+
+                updateNewsImage(image);
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                showToast(result.getError().getMessage());
+            }
+        }
     }
 
     private void getFriendList() {
@@ -99,11 +130,37 @@ public class FriendsFragment extends BaseFragment
 
     @Override
     public void onClickFriendNewsItem(int position) {
-        NewsActivity.moveNewsActivity(mainActivity, position);
+        if (position == 0) {
+            ImageUtils.openPickImageForFragment(getContext(), this);
+
+            return;
+        }
+        NewsActivity.moveNewsActivity(mainActivity, --position);
     }
 
     @Override
     public void onClickFriendOnlineItem(UserViewData userViewData) {
         MessageActivity.moveMessageActivity(mainActivity, userViewData);
+    }
+
+    private void updateNewsImage(File image) {
+        uploadImageViewModel.uploadImage(image, ImageTypeConfig.NEWS).observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case LOADING:
+                    mainActivity.showHUD();
+                    break;
+                case SUCCESS:
+                    mainActivity.dismissHUD();
+                    String imageUrl = (String) resource.getData();
+                    Constants.CURRENT_USER.setNews(imageUrl);
+                    updateUserViewModel.updateUser(Constants.CURRENT_USER);
+
+                    break;
+                case ERROR:
+                    mainActivity.dismissHUD();
+                    showToast(resource.getThrowable().getMessage());
+                    break;
+            }
+        });
     }
 }

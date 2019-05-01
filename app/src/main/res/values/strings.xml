@@ -43,4 +43,7 @@
 
     //news
     <string name="gui_tin_nhan">Gửi tin nhắn</string>
+
+    //friends
+    <string name="them_tin">Thêm tin</string>
 </resources>
