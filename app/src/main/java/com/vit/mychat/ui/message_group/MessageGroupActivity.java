@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +16,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.vit.mychat.R;
+import com.vit.mychat.presentation.data.ResourceState;
 import com.vit.mychat.presentation.feature.group.model.GroupViewData;
+import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
+import com.vit.mychat.presentation.feature.image.config.ImageTypeConfig;
 import com.vit.mychat.presentation.feature.message.GetMessageListViewModel;
 import com.vit.mychat.presentation.feature.message.SendMessageViewModel;
+import com.vit.mychat.presentation.feature.message.config.MessageTypeConfig;
 import com.vit.mychat.presentation.feature.message.model.MessageViewData;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
@@ -27,6 +34,7 @@ import com.vit.mychat.ui.message_group.adapter.MessageGroupAdapter;
 
 import org.parceler.Parcels;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -90,6 +98,7 @@ public class MessageGroupActivity extends BaseActivity {
 
     private GetMessageListViewModel getMessageListViewModel;
     private SendMessageViewModel sendMessageViewModel;
+    private UploadImageViewModel uploadImageViewModel;
     private GroupViewData mGroup;
 
 
@@ -109,6 +118,7 @@ public class MessageGroupActivity extends BaseActivity {
 
         getMessageListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetMessageListViewModel.class);
         sendMessageViewModel = ViewModelProviders.of(this, viewModelFactory).get(SendMessageViewModel.class);
+        uploadImageViewModel = ViewModelProviders.of(this, viewModelFactory).get(UploadImageViewModel.class);
 
         initRcvMessage();
     }
@@ -135,17 +145,72 @@ public class MessageGroupActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            File file = ImagePicker.Companion.getFile(data);
+            uploadImageViewModel.uploadImage(file, ImageTypeConfig.MESSAGE).observe(this, resource -> {
+                switch (resource.getStatus()) {
+                    case LOADING:
+                        showHUD();
+                        break;
+                    case SUCCESS:
+                        dismissHUD();
+                        String url = (String) resource.getData();
+                        sendMessageViewModel.sendMessage(mGroup.getId(), url, MessageTypeConfig.IMAGE)
+                                .observe(this, resource1 -> {
+                                    if (resource1.getStatus() == ResourceState.SUCCESS) {
+                                        mRcvMessage.scrollToPosition(messageAdapter.getItemCount() - 1);
+                                    }
+                                });
+                        break;
+                    case ERROR:
+                        dismissHUD();
+                        showToast(resource.getThrowable().getMessage());
+                        break;
+                }
+            });
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(this, ImagePicker.Companion.getError(data), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @OnClick(R.id.image_send)
     void onClickSend() {
-        sendMessageViewModel.sendMessage(mGroup.getId(), mInputMessage.getText().toString());
-        mInputMessage.setText("");
-        mRcvMessage.scrollToPosition(messageAdapter.getItemCount());
+        sendMessageViewModel.sendMessage(mGroup.getId(), mInputMessage.getText().toString(), MessageTypeConfig.TEXT)
+                .observe(this, resource -> {
+                    if (resource.getStatus() == ResourceState.SUCCESS) {
+                        mRcvMessage.scrollToPosition(messageAdapter.getItemCount() - 1);
+                        mInputMessage.setText("");
+                    }
+                });
     }
 
     @OnClick(R.id.image_icon)
     void onClickIcon() {
-        sendMessageViewModel.sendMessage(mGroup.getId(), "\uD83D\uDD90");
-        mRcvMessage.scrollToPosition(messageAdapter.getItemCount());
+        sendMessageViewModel.sendMessage(mGroup.getId(), "\uD83D\uDD90", MessageTypeConfig.TEXT)
+                .observe(this, resource -> {
+                    if (resource.getStatus() == ResourceState.SUCCESS) {
+                        mRcvMessage.scrollToPosition(messageAdapter.getItemCount() - 1);
+                    }
+                });
+    }
+
+    @OnClick(R.id.image_camera)
+    void onClickCamera() {
+        ImagePicker.Companion.with(this)
+                .cameraOnly()
+                .compress(500)
+                .start();
+    }
+
+    @OnClick(R.id.image_picture)
+    void onClickPicture() {
+        ImagePicker.Companion.with(this)
+                .galleryOnly()
+                .compress(500)
+                .start();
     }
 
     @OnTextChanged(R.id.input_message)

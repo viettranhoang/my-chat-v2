@@ -10,8 +10,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
-import com.theartofdev.edmodo.cropper.CropImage;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
@@ -28,7 +29,6 @@ import com.vit.mychat.ui.friends.listener.OnClickFriendOnlineItemListener;
 import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.ui.news.NewsActivity;
 import com.vit.mychat.util.Constants;
-import com.vit.mychat.util.ImageUtils;
 
 import java.io.File;
 import java.util.List;
@@ -87,17 +87,12 @@ public class FriendsFragment extends BaseFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == mainActivity.RESULT_OK) {
+        if (resultCode == mainActivity.RESULT_OK) {
+            File file = ImagePicker.Companion.getFile(data);
+            updateNewsImage(file);
 
-                File image = ImageUtils.getImage(result.getUri(), mainActivity);
-
-                updateNewsImage(image);
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                showToast(result.getError().getMessage());
-            }
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(mainActivity, ImagePicker.Companion.getError(data), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -131,7 +126,10 @@ public class FriendsFragment extends BaseFragment
     @Override
     public void onClickFriendNewsItem(int position) {
         if (position == 0) {
-            ImageUtils.openPickImageForFragment(getContext(), this);
+            ImagePicker.Companion.with(this)
+                    .maxResultSize(1080, 1920)
+                    .compress(1024)
+                    .start();
 
             return;
         }

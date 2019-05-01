@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_secondary"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/margin_secondary">
+
+    <ImageView
+        android:id="@+id/image_avatar"
+        android:layout_width="@dimen/message_image_avatar_size"
+        android:layout_height="@dimen/message_image_avatar_size"
+        android:layout_alignBottom="@id/text_message"
+        android:layout_marginTop="@dimen/_10dp"
+        android:background="@drawable/shape_oval_while"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/text_time"
+        style="@style/TextTitle"
+        android:fontFamily="sans-serif"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_2dp"
+        android:textColor="@color/black40"
+        android:textSize="@dimen/text_min"
+        android:visibility="visible"
+        tools:text="12:45" />
+
+    <TextView
+        android:id="@+id/text_message"
+        style="@style/MessageItemTextMessage"
+        android:clickable="true"
+        android:layout_below="@id/text_time"
+        android:layout_marginLeft="@dimen/margin_secondary"
+        android:layout_marginRight="@dimen/_62dp"
+        android:layout_toRightOf="@+id/image_avatar"
+        android:visibility="visible"
+        tools:text="Hello I loveksnafjkalfmasl;fkbakjasfnlsdnfkbsakfbskfkabfnlaskfnsdbfs,afmaslfansdk  " />
+
+       <TextView
+        android:id="@+id/text_seen"
+        style="@style/TextTitle"
+        android:layout_below="@id/text_message"
+        android:layout_alignLeft="@id/text_message"
+        android:layout_marginLeft="@dimen/_17dp"
+        tools:text="da xem"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/black40"
+        android:textSize="@dimen/text_min"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/image_message"
+        android:layout_alignLeft="@id/text_message"
+        style="@style/MessageItemImageMessage" />
+</RelativeLayout>
+
+

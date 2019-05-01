@@ -37,7 +37,7 @@ public class MessageRepositoryImpl implements MessageRepository {
     }
 
     @Override
-    public Completable sendMessage(String userId, String message) {
-        return messageRemote.sendMessage(userId, message);
+    public Completable sendMessage(String userId, String message, String type) {
+        return messageRemote.sendMessage(userId, message, type);
     }
 }

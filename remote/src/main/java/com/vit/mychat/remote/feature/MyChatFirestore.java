@@ -49,7 +49,7 @@ public interface MyChatFirestore {
      */
     Observable<List<MessageModel>> getMessageList(String userId);
 
-    Completable sendMessage(String userId, String message);
+    Completable sendMessage(String userId, String message, String type);
 
     /**
      * chat

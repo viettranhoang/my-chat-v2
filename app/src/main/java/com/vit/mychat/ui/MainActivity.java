@@ -81,6 +81,7 @@ public class MainActivity extends BaseActivity {
         if (authViewModel.getCurrentUserId() == null) {
             AuthActivity.moveAuthActivity(this);
             finish();
+            return;
         }
 
         initToolbar();
@@ -121,6 +122,7 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(findViewById(R.id.main_toolbar));
 
         Constants.CURRENT_UID = authViewModel.getCurrentUserId();
+        showToast(Constants.CURRENT_UID);
         authViewModel.getCurrentUser().observe(this, resource -> {
             switch (resource.getStatus()) {
                 case SUCCESS:

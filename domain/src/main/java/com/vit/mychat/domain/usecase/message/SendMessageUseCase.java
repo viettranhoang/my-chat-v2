@@ -24,7 +24,7 @@ public class SendMessageUseCase extends CompletableUseCase<SendMessageUseCase.Pa
 
     @Override
     protected Completable buildUseCaseSingle(Params params) {
-        return messageRepository.sendMessage(params.userId, params.message);
+        return messageRepository.sendMessage(params.userId, params.message, params.type);
     }
 
     public static final class Params {
@@ -32,13 +32,16 @@ public class SendMessageUseCase extends CompletableUseCase<SendMessageUseCase.Pa
 
         private final String message;
 
-        public Params(String userId, String message) {
+        private final String type;
+
+        public Params(String userId, String message, String type) {
             this.userId = userId;
             this.message = message;
+            this.type = type;
         }
 
-        public static SendMessageUseCase.Params forSendMessage(String userId, String message) {
-            return new SendMessageUseCase.Params(userId, message);
+        public static SendMessageUseCase.Params forSendMessage(String userId, String message, String type) {
+            return new SendMessageUseCase.Params(userId, message, type);
         }
     }
 }

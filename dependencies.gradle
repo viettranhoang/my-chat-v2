@@ -45,8 +45,7 @@ ext {
     materialDialogsVersion = '0.9.6.0'
     parcelerVersion = '1.1.11'
     photoViewVersion = '2.1.3'
-    compressorVersion = '2.1.0'
-    imageCropperVersion = '2.7.0'
+    imagePickerVersion = '1.1'
 
     junitVersion = '4.12'
     powermockVersion = '2.0.0'
@@ -130,8 +129,7 @@ ext {
             parceler              : "org.parceler:parceler-api:${parcelerVersion}",
             parcelerProcessor     : "org.parceler:parceler:${parcelerVersion}",
             photoView             : "com.github.chrisbanes:PhotoView:${photoViewVersion}",
-            compressor            : "id.zelory:compressor:${compressorVersion}",
-            imageCropper         : "com.theartofdev.edmodo:android-image-cropper:${imageCropperVersion}"
+            imagePicker           : "com.github.dhaval2404:imagepicker-support:${imagePickerVersion}"
     ]
 
     testDependencies = [

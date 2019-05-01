@@ -218,9 +218,9 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     }
 
     @Override
-    public Completable sendMessage(String userId, String message) {
+    public Completable sendMessage(String userId, String message, String type) {
         return Completable.create(emitter -> {
-            MessageModel messageModel = new MessageModel(message, currentUserId, true, System.currentTimeMillis(), "text");
+            MessageModel messageModel = new MessageModel(message, currentUserId, true, System.currentTimeMillis(), type);
             String key = messageDatabase.child(currentUserId).child(userId).push().getKey();
 
             Map<String, Object> map = new HashMap<>();
@@ -376,7 +376,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                 }
             });
 
-            sendMessage(groupId, "Hi");
+            sendMessage(groupId, "Hi", "text");
 //            MessageModel messageModel = new MessageModel("Hi", currentUserId, true, System.currentTimeMillis(), "text");
 //            String key = messageDatabase.child(currentUserId).child(groupId).push().getKey();
 //            Map<String, Object> map = new HashMap<>();

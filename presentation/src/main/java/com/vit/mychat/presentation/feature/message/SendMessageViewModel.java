@@ -7,6 +7,7 @@ import com.vit.mychat.domain.usecase.message.SendMessageUseCase;
 import com.vit.mychat.presentation.SingleLiveEvent;
 import com.vit.mychat.presentation.data.Resource;
 import com.vit.mychat.presentation.data.ResourceState;
+import com.vit.mychat.presentation.feature.message.config.MessageTypeConfig;
 
 import javax.inject.Inject;
 
@@ -27,7 +28,7 @@ public class SendMessageViewModel extends ViewModel {
         compositeDisposable = new CompositeDisposable();
     }
 
-    public MutableLiveData<Resource> sendMessage(String userId, String message) {
+    public MutableLiveData<Resource> sendMessage(String userId, String message, @MessageTypeConfig String type) {
         messageLiveData.postValue(new Resource(ResourceState.LOADING, null, null));
 
         sendMessageUseCase.execute(new CompletableObserver() {
@@ -45,7 +46,7 @@ public class SendMessageViewModel extends ViewModel {
             public void onError(Throwable e) {
                 messageLiveData.postValue(new Resource<>(ResourceState.ERROR, null, e));
             }
-        }, SendMessageUseCase.Params.forSendMessage(userId, message));
+        }, SendMessageUseCase.Params.forSendMessage(userId, message, type));
 
         return messageLiveData;
     }

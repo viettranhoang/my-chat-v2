@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.theartofdev.edmodo.cropper.CropImage;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
@@ -26,7 +27,6 @@ import com.vit.mychat.ui.MainActivity;
 import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
-import com.vit.mychat.util.ImageUtils;
 import com.vit.mychat.util.RoundedCornersTransformation;
 
 import java.io.File;
@@ -157,18 +157,14 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            File file = ImagePicker.Companion.getFile(data);
+            updateImage(file);
 
-                File image = ImageUtils.getImage(result.getUri(), this);
-
-                updateImage(image);
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                showToast(result.getError().getMessage());
-            }
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(this, ImagePicker.Companion.getError(data), Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @OnCheckedChanged(R.id.switch_online)
@@ -189,13 +185,21 @@ public class ProfileActivity extends BaseActivity {
     @OnClick(R.id.image_edit_cover)
     void onClickEditCover() {
         mImageType = ImageTypeConfig.COVER;
-        ImageUtils.openPickImage(this);
+        ImagePicker.Companion.with(this)
+                .crop(1.5f, 1f)
+                .maxResultSize(1920, 1080)
+                .compress(1024)
+                .start();
     }
 
     @OnClick(R.id.image_edit_avatar)
     void onClickEditAvatar() {
         mImageType = ImageTypeConfig.AVATAR;
-        ImageUtils.openPickImage(this);
+        ImagePicker.Companion.with(this)
+                .cropSquare()
+                .maxResultSize(620, 620)
+                .compress(1024)
+                .start();
     }
 
     @OnClick(R.id.image_add_friend)

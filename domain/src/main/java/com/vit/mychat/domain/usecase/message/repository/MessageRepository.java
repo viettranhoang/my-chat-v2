@@ -11,7 +11,7 @@ public interface MessageRepository {
 
     Observable<List<Message>> getMessageList(String userId);
 
-    Completable sendMessage(String userId, String message);
+    Completable sendMessage(String userId, String message, String type);
 
 
 }

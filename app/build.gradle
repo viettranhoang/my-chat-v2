@@ -66,8 +66,7 @@ dependencies {
     implementation uiDependencies.parceler
     annotationProcessor uiDependencies.parcelerProcessor
     implementation uiDependencies.photoView
-    implementation uiDependencies.compressor
-    implementation uiDependencies.imageCropper
+    implementation uiDependencies.imagePicker
 
 
     testImplementation testDependencies.junit
@@ -79,6 +78,7 @@ dependencies {
     testImplementation testDependencies.powermockJunit
     androidTestImplementation testDependencies.testRunner
     androidTestImplementation testDependencies.espressoCore
+
 
 // Firebase
     implementation "com.google.firebase:firebase-core:$rootProject.firebaseCoreVersion"

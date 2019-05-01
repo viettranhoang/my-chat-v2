@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.message.SendMessageViewModel;
+import com.vit.mychat.presentation.feature.message.config.MessageTypeConfig;
 import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
 import com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
@@ -90,7 +91,7 @@ public class NewsActivity extends BaseActivity implements OnClickNewsItemListene
 
     @Override
     public void onClickSend(String userId, String message) {
-        sendMessageViewModel.sendMessage(userId, message)
+        sendMessageViewModel.sendMessage(userId, message, MessageTypeConfig.TEXT)
                 .observe(this, resource -> {
                     switch (resource.getStatus()) {
                         case LOADING:
@@ -109,7 +110,7 @@ public class NewsActivity extends BaseActivity implements OnClickNewsItemListene
 
     @Override
     public void onClickHeart(String userId, String message) {
-        sendMessageViewModel.sendMessage(userId, message)
+        sendMessageViewModel.sendMessage(userId, message, MessageTypeConfig.TEXT)
                 .observe(this, resource -> {
                     switch (resource.getStatus()) {
                         case LOADING:

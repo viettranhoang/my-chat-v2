@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.group.model.GroupViewData;
+import com.vit.mychat.presentation.feature.message.config.MessageTypeConfig;
 import com.vit.mychat.presentation.feature.message.model.MessageViewData;
 import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.util.Constants;
+import com.vit.mychat.util.RoundedCornersTransformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +24,15 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapter.MessageViewHolder> {
 
     private List<MessageViewData> mMessageList = new ArrayList<>();
     private GroupViewData mGroup;
+
+    public static final int MESSAGE_LEFT = 1;
+    public static final int MESSAGE_RIGHT = 2;
 
     private int selectedPosition = -100;
 
@@ -41,21 +45,33 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
         notifyDataSetChanged();
     }
 
-    public void setGroup(GroupViewData groupViewData) {
-        this.mGroup = groupViewData;
+    public void setGroup(GroupViewData group) {
+        this.mGroup = group;
     }
 
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_item, viewGroup, false);
-        return new MessageViewHolder(view);
+        if (i == MESSAGE_LEFT) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_item_left, viewGroup, false);
+            return new MessageViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_item_right, viewGroup, false);
+            return new MessageViewHolder(view);
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder messageViewHolder, int i) {
         messageViewHolder.bindData(mMessageList.get(i));
 
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mMessageList.get(position).getFrom().equals(Constants.CURRENT_UID))
+            return MESSAGE_RIGHT;
+        else return MESSAGE_LEFT;
     }
 
     @Override
@@ -68,24 +84,20 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
         @BindView(R.id.image_avatar)
         ImageView mImageAvatar;
 
-        @BindView(R.id.text_message_you)
-        TextView mTextMessageYou;
+        @BindView(R.id.image_message)
+        ImageView mImageMessage;
 
-        @BindView(R.id.text_message_me)
-        TextView mTextMessageMe;
+        @BindView(R.id.text_message)
+        TextView mTextMessage;
 
-        @BindView(R.id.text_seen_me)
-        TextView mTextSeenMe;
-
-        @BindView(R.id.text_seen_you)
-        TextView mTextSeenYou;
+        @BindView(R.id.text_seen)
+        TextView mTextSeen;
 
         @BindView(R.id.text_time)
         TextView mTextTime;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
 
         @Override
@@ -95,60 +107,36 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
                     .load(mGroup.getAvatar())
                     .circleCrop()
                     .into(mImageAvatar);
-
             mTextTime.setText(String.valueOf(message.getTime()));
-            mTextSeenMe.setText(message.isSeen() ? "Đã xem" : "Đã chuyển");
-            mTextSeenYou.setText(message.isSeen() ? "Đã xem" : "Đã chuyển");
-            mTextMessageMe.setText(message.getMessage());
-            mTextMessageYou.setText(message.getMessage());
+            mTextSeen.setText(message.isSeen() ? "Đã xem" : "Đã chuyển");
 
-
-            if (Constants.CURRENT_UID.equals(message.getFrom())) {
-                mImageAvatar.setVisibility(View.GONE);
-                mTextMessageYou.setVisibility(View.GONE);
-                mTextMessageMe.setVisibility(View.VISIBLE);
-
+            if (message.getType().equals(MessageTypeConfig.TEXT)) {
+                mTextMessage.setText(message.getMessage());
+                mImageMessage.setVisibility(View.INVISIBLE);
             } else {
-                mImageAvatar.setVisibility(View.VISIBLE);
-                mTextMessageYou.setVisibility(View.VISIBLE);
-                mTextMessageMe.setVisibility(View.GONE);
+                mTextMessage.setVisibility(View.INVISIBLE);
+                GlideApp.with(itemView)
+                        .load(message.getMessage())
+                        .transform(new RoundedCornersTransformation(50, 0, RoundedCornersTransformation.CornerType.ALL))
+                        .into(mImageMessage);
             }
 
-            if (selectedPosition != getLayoutPosition()) {
+            if (selectedPosition != getAdapterPosition()) {
                 mTextTime.setVisibility(View.GONE);
-                mTextSeenYou.setVisibility(View.GONE);
-                mTextSeenMe.setVisibility(View.GONE);
-                mTextMessageYou.setBackgroundResource(R.drawable.round_corner_gray_18);
-                mTextMessageMe.setBackgroundResource(R.drawable.round_corner_blue_18);
+                mTextSeen.setVisibility(View.GONE);
             }
         }
 
-        @OnClick(R.id.text_message_me)
+        @OnClick(R.id.text_message)
         void onClickMessageMe() {
             if (mTextTime.getVisibility() != View.VISIBLE) {
                 selectedPosition = getAdapterPosition();
-                Log.i("MMMM", "onClickMessageMe: " + selectedPosition);
-                mTextSeenMe.setVisibility(View.VISIBLE);
+                Log.i("", "onClickMessageMe: " + selectedPosition);
+                mTextSeen.setVisibility(View.VISIBLE);
                 mTextTime.setVisibility(View.VISIBLE);
-                mTextMessageMe.setBackgroundResource(R.drawable.round_corner_blue_dark_18);
             } else selectedPosition = -100;
 
             notifyDataSetChanged();
         }
-
-        @OnClick(R.id.text_message_you)
-        void onClickMessageYou() {
-            if (mTextTime.getVisibility() != View.VISIBLE) {
-                selectedPosition = getAdapterPosition();
-                Log.i("MMMM", "onClickMessageYou: " + selectedPosition);
-                mTextSeenYou.setVisibility(View.VISIBLE);
-                mTextTime.setVisibility(View.VISIBLE);
-                mTextMessageYou.setBackgroundResource(R.drawable.round_corner_gray_dark_18);
-            } else selectedPosition = -100;
-
-            notifyDataSetChanged();
-        }
-
-
     }
 }

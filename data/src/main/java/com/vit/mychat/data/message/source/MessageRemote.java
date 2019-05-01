@@ -11,5 +11,5 @@ public interface MessageRemote {
 
     Observable<List<MessageEntity>> getMessageList(String userId);
 
-    Completable sendMessage(String userId, String message);
+    Completable sendMessage(String userId, String message, String type);
 }
