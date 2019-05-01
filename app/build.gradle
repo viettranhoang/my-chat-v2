@@ -66,6 +66,8 @@ dependencies {
     implementation uiDependencies.parceler
     annotationProcessor uiDependencies.parcelerProcessor
     implementation uiDependencies.photoView
+    implementation uiDependencies.compressor
+    implementation uiDependencies.imageCropper
 
 
     testImplementation testDependencies.junit

@@ -3,6 +3,7 @@ package com.vit.mychat.ui.profile;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,8 +11,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.theartofdev.edmodo.cropper.CropImage;
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
+import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
+import com.vit.mychat.presentation.feature.image.config.ImageTypeConfig;
 import com.vit.mychat.presentation.feature.user.GetUserByIdViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserRelationshipViewModel;
 import com.vit.mychat.presentation.feature.user.UpdateUserRelationshipViewModel;
@@ -22,7 +26,10 @@ import com.vit.mychat.ui.MainActivity;
 import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
+import com.vit.mychat.util.ImageUtils;
 import com.vit.mychat.util.RoundedCornersTransformation;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -85,12 +92,17 @@ public class ProfileActivity extends BaseActivity {
     private AuthViewModel authViewModel;
     private GetUserRelationshipViewModel getUserRelationshipViewModel;
     private UpdateUserRelationshipViewModel updateUserRelationshipViewModel;
+    private UploadImageViewModel uploadImageViewModel;
+
 
     private String mUserId;
     private UserViewData mUserViewData;
 
     @UserRelationshipConfig
     private String mCurrentRelationship;
+
+    @ImageTypeConfig
+    private String mImageType;
 
     private MaterialDialog mNameInputDialog;
     private MaterialDialog mStatusInputDialog;
@@ -111,6 +123,7 @@ public class ProfileActivity extends BaseActivity {
         authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
         getUserRelationshipViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetUserRelationshipViewModel.class);
         updateUserRelationshipViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserRelationshipViewModel.class);
+        uploadImageViewModel = ViewModelProviders.of(this, viewModelFactory).get(UploadImageViewModel.class);
 
         loadUI();
 
@@ -141,6 +154,23 @@ public class ProfileActivity extends BaseActivity {
         super.onBackPressed();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+
+                File image = ImageUtils.getImage(result.getUri(), this);
+
+                updateImage(image);
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                showToast(result.getError().getMessage());
+            }
+        }
+    }
+
     @OnCheckedChanged(R.id.switch_online)
     void onCheckedOnline() {
         if (mUserViewData != null) {
@@ -158,12 +188,14 @@ public class ProfileActivity extends BaseActivity {
 
     @OnClick(R.id.image_edit_cover)
     void onClickEditCover() {
-
+        mImageType = ImageTypeConfig.COVER;
+        ImageUtils.openPickImage(this);
     }
 
     @OnClick(R.id.image_edit_avatar)
     void onClickEditAvatar() {
-
+        mImageType = ImageTypeConfig.AVATAR;
+        ImageUtils.openPickImage(this);
     }
 
     @OnClick(R.id.image_add_friend)
@@ -272,6 +304,29 @@ public class ProfileActivity extends BaseActivity {
                 .into(mImageBackground);
 
         mSwitchOnline.setChecked(user.getOnline() == 1);
+    }
+
+    private void updateImage(File image) {
+        uploadImageViewModel.uploadImage(image, mImageType).observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case LOADING:
+                    showHUD();
+                    break;
+                case SUCCESS:
+                    dismissHUD();
+                    String imageUrl = (String) resource.getData();
+                    if (mImageType == ImageTypeConfig.AVATAR) {
+                        mUserViewData.setAvatar(imageUrl);
+                    }
+                    mUserViewData.setCover(imageUrl);
+                    updateUserViewModel.updateUser(mUserViewData);
+                    break;
+                case ERROR:
+                    dismissHUD();
+                    showToast(resource.getThrowable().getMessage());
+                    break;
+            }
+        });
     }
 
     private MaterialDialog getNameInputDialog() {

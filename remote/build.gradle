@@ -47,6 +47,7 @@ dependencies {
     implementation remoteDependencies.firebaseAuth
     implementation remoteDependencies.googleAuth
     implementation remoteDependencies.firebaseFirestore
+    implementation remoteDependencies.firebaseStorage
 }
 
 sourceCompatibility = "8"

@@ -6,7 +6,8 @@ public class Constants {
     public static final String TABLE_USER = "users";
     public static final String TABLE_FRIEND = "friends";
     public static final String TABLE_MESSAGE = "messages";
-    public static final String TABLE_GROUPS = "groups";
+    public static final String TABLE_GROUP = "groups";
+    public static final String TABLE_IMAGE = "images";
 
 
     public static final String ROW_MEMBERS = "members";
@@ -18,4 +19,6 @@ public class Constants {
     public static final String GROUP_ID = "group";
 
     public static final String FRIEND_TYPE = "friend";
+
+    public static final String JPG_IMAGE = ".jpg";
 }

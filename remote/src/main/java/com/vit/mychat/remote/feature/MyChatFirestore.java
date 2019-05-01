@@ -7,6 +7,7 @@ import com.vit.mychat.remote.feature.group.model.GroupModel;
 import com.vit.mychat.remote.feature.message.model.MessageModel;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
+import java.io.File;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -64,5 +65,11 @@ public interface MyChatFirestore {
      * group
      */
     Single<GroupModel> createGroup(GroupModel groupModel);
+
+
+    /**
+     * image
+     */
+    Single<String> updateImage(File image, String type);
 
 }

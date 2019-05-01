@@ -1,5 +1,6 @@
 package com.vit.mychat.remote.feature;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -11,13 +12,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.vit.mychat.remote.common.Constants;
 import com.vit.mychat.remote.common.RxFirebase;
+import com.vit.mychat.remote.common.Utils;
 import com.vit.mychat.remote.feature.chat.model.ChatModel;
 import com.vit.mychat.remote.feature.group.model.GroupModel;
 import com.vit.mychat.remote.feature.message.model.MessageModel;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +37,13 @@ import io.reactivex.Single;
 
 import static com.vit.mychat.remote.common.Constants.FRIEND_TYPE;
 import static com.vit.mychat.remote.common.Constants.GROUP_ID;
+import static com.vit.mychat.remote.common.Constants.JPG_IMAGE;
 import static com.vit.mychat.remote.common.Constants.ROW_AVATAR;
 import static com.vit.mychat.remote.common.Constants.ROW_MEMBERS;
 import static com.vit.mychat.remote.common.Constants.ROW_NAME;
 import static com.vit.mychat.remote.common.Constants.TABLE_FRIEND;
-import static com.vit.mychat.remote.common.Constants.TABLE_GROUPS;
+import static com.vit.mychat.remote.common.Constants.TABLE_GROUP;
+import static com.vit.mychat.remote.common.Constants.TABLE_IMAGE;
 import static com.vit.mychat.remote.common.Constants.TABLE_MESSAGE;
 import static com.vit.mychat.remote.common.Constants.TABLE_USER;
 
@@ -44,6 +51,7 @@ import static com.vit.mychat.remote.common.Constants.TABLE_USER;
 public class MyChatFirestoreFactory implements MyChatFirestore {
     public static final String TAG = MyChatFirestoreFactory.class.getSimpleName();
 
+    private StorageReference storage;
     private FirebaseFirestore firebaseFirestore;
     private DatabaseReference userDatabase;
     private DatabaseReference friendDatabase;
@@ -55,16 +63,16 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 
     @Inject
     public MyChatFirestoreFactory() {
+        storage = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE);
         userDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_USER);
         friendDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_FRIEND);
         messageDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_MESSAGE);
-        groupDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(TABLE_GROUPS);
+        groupDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(TABLE_GROUP);
         currentUserId = auth.getUid();
 
-        database.keepSynced(true);
         userDatabase.keepSynced(true);
         friendDatabase.keepSynced(true);
         messageDatabase.keepSynced(true);
@@ -307,11 +315,11 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 
     private GroupModel getGroupModel(DataSnapshot database, String groupId) {
         List<String> members = new ArrayList<>();
-        for (DataSnapshot dataMember : database.child(TABLE_GROUPS).child(groupId).child(ROW_MEMBERS).getChildren()) {
+        for (DataSnapshot dataMember : database.child(TABLE_GROUP).child(groupId).child(ROW_MEMBERS).getChildren()) {
             members.add(dataMember.getKey());
         }
-        String name = (String) database.child(TABLE_GROUPS).child(groupId).child(ROW_NAME).getValue();
-        String avatar = (String) database.child(TABLE_GROUPS).child(groupId).child(ROW_AVATAR).getValue();
+        String name = (String) database.child(TABLE_GROUP).child(groupId).child(ROW_NAME).getValue();
+        String avatar = (String) database.child(TABLE_GROUP).child(groupId).child(ROW_AVATAR).getValue();
 
         return new GroupModel(groupId, name, avatar, members);
     }
@@ -377,6 +385,26 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 //            }
 //            messageDatabase.updateChildren(map);
 
+        });
+    }
+
+
+    /**
+     * image
+     */
+    @Override
+    public Single<String> updateImage(File image, String type) {
+        return Single.create(emitter -> {
+            StorageReference filePath = storage.child(TABLE_IMAGE).child(currentUserId).child(type)
+                    .child(Utils.getRandomString() + JPG_IMAGE);
+
+            filePath.putFile(Uri.fromFile(image))
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            filePath.getDownloadUrl().addOnSuccessListener(uri -> emitter.onSuccess(uri.toString()));
+                        }
+                    })
+                    .addOnFailureListener(e -> emitter.onError(e));
         });
     }
 }
