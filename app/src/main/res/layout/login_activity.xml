@@ -49,6 +49,7 @@
         android:layout_marginTop="@dimen/_8dp"
         android:background="@drawable/round_corner_gray_16"
         android:text="@string/dang_nhap"
+        android:clickable="false"
         android:textColor="@color/black20" />
 
     <Button

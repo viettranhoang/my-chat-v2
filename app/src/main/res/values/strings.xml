@@ -16,6 +16,9 @@
     <string name="quen_mat_khau">Quên mật khẩu</string>
     <string name="ten_cua_ban">Tên của bạn</string>
     <string name="status_cua_ban">Status của bạn</string>
+    <string name="sai_dinh_dang_email">Sai định dạng email</string>
+    <string name="mat_khau_phai_tren_6_ki_tu">Mật khẩu phải trên 6 kí tự</string>
+    <string name="nhap_lai_mat_khau_khong_dung">Nhập lại mật khẩu không đúng</string>
 
     // Message
     <string name="call">Call</string>

@@ -3,6 +3,7 @@ package com.vit.mychat.ui.auth;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
@@ -32,12 +32,14 @@ import com.vit.mychat.ui.MainActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.profile.ProfileActivity;
+import com.vit.mychat.util.Utils;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
+import butterknife.OnTextChanged;
 
 public class AuthActivity extends BaseActivity {
     private static final int RC_GOOGLE_SIGN_IN = 001;
@@ -159,30 +161,30 @@ public class AuthActivity extends BaseActivity {
         } else {
             String email = mInputEmail.getText().toString();
             String password = mInputPassword.getText().toString();
+            String rePassword = mInputPasswordConfirm.getText().toString();
 
-            authViewModel.register(email, password)
-                    .observe(this, resource -> {
-                        switch (resource.getStatus()) {
-                            case LOADING:
-                                showHUD();
-                                break;
+            String errorInform = validInput(email, password, rePassword);
 
-                            case SUCCESS:
-                                dismissHUD();
-                                updateUserViewModel.updateUser(new UserViewData(authViewModel.getCurrentUserId(),
-                                        getString(R.string.ten_cua_ban), getString(R.string.status_cua_ban),
-                                        "", "", "", System.currentTimeMillis()));
+            if (errorInform == null) {
+                authViewModel.register(email, password)
+                        .observe(this, resource -> {
+                            switch (resource.getStatus()) {
+                                case LOADING:
+                                    showHUD();
+                                    break;
 
-                                ProfileActivity.moveProfileActivity(this, authViewModel.getCurrentUserId());
-                                finish();
-                                break;
+                                case SUCCESS:
+                                    dismissHUD();
+                                    registerInfoNewUser(authViewModel.getCurrentUserId());
+                                    break;
 
-                            case ERROR:
-                                dismissHUD();
-                                showToast(resource.getThrowable().getMessage());
-                                break;
-                        }
-                    });
+                                case ERROR:
+                                    dismissHUD();
+                                    showToast(resource.getThrowable().getMessage());
+                                    break;
+                            }
+                        });
+            } else showToast(errorInform);
         }
 
     }
@@ -207,6 +209,19 @@ public class AuthActivity extends BaseActivity {
         mImageMessenger.setVisibility(View.GONE);
     }
 
+    @OnTextChanged({R.id.input_email, R.id.input_password})
+    void onTextChanged() {
+        if (validInput(mInputEmail.getText().toString(), mInputPassword.getText().toString(), null) == null) {
+            mButtonLogin.setBackgroundResource(R.drawable.round_corner_blue_16);
+            mButtonLogin.setTextColor(Color.WHITE);
+            mButtonLogin.setClickable(true);
+        } else {
+            mButtonLogin.setBackgroundResource(R.drawable.round_corner_gray_16);
+            mButtonLogin.setTextColor(getResources().getColor(R.color.black20));
+            mButtonLogin.setClickable(false);
+        }
+    }
+
     private void switchRegisterUi(boolean isRegister) {
         mInputPasswordConfirm.setVisibility(isRegister ? View.VISIBLE : View.GONE);
         mViewLine.setVisibility(isRegister ? View.VISIBLE : View.GONE);
@@ -222,32 +237,21 @@ public class AuthActivity extends BaseActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
-
-                            boolean newuser = task.getResult().getAdditionalUserInfo().isNewUser();
-
-
-                            if (newuser) {
-
-                                //Do Stuffs for new user
+                            if (task.getResult().getAdditionalUserInfo().isNewUser()) {
+                                registerInfoNewUser(mAuth.getCurrentUser().getUid());
 
                             } else {
-
-                                //Continue with Sign fade_in
+                                MainActivity.moveMainActivity(AuthActivity.this);
+                                finish();
                             }
-
                         } else {
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            showToast(task.getException().getMessage());
                         }
                     }
                 });
@@ -271,5 +275,27 @@ public class AuthActivity extends BaseActivity {
                 this, isOpen -> {
                     if (!isOpen) mImageMessenger.setVisibility(View.VISIBLE);
                 });
+    }
+
+    private String validInput(String email, String password, String rePassword) {
+        if (!Utils.isValidEmail(email)) {
+            return getString(R.string.sai_dinh_dang_email);
+        }
+        if (!Utils.isValidPassword(password)) {
+            return getString(R.string.mat_khau_phai_tren_6_ki_tu);
+        }
+        if (rePassword != null && !rePassword.equals(password)) {
+            return getString(R.string.nhap_lai_mat_khau_khong_dung);
+        }
+        return null;
+    }
+
+    private void registerInfoNewUser(String userId) {
+        updateUserViewModel.updateUser(new UserViewData(userId,
+                getString(R.string.ten_cua_ban), getString(R.string.status_cua_ban),
+                "", "", "", System.currentTimeMillis()));
+
+        ProfileActivity.moveProfileActivity(this, userId);
+        finish();
     }
 }
