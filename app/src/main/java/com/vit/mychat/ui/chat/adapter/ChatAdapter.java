@@ -95,6 +95,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
             if (chatViewData.getUser() == null)
                 isUser = false;
+            else if (chatViewData.getGroup() == null)
+                isUser = true;
+            else return;
 
             String avatar = isUser ? chatViewData.getUser().getAvatar() : chatViewData.getGroup().getAvatar();
             String name = isUser ? chatViewData.getUser().getName() : chatViewData.getGroup().getName();

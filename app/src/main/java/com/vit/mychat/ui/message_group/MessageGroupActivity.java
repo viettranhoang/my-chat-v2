@@ -137,27 +137,15 @@ public class MessageGroupActivity extends BaseActivity {
 
     @OnClick(R.id.image_send)
     void onClickSend() {
-        sendMessageViewModel.sendMessage(mGroup.getId(), mInputMessage.getText().toString())
-                .observe(this, resource -> {
-                    switch (resource.getStatus()) {
-                        case LOADING:
-                            showHUD();
-                            break;
-                        case SUCCESS:
-                            dismissHUD();
-                            break;
-                        case ERROR:
-                            dismissHUD();
-                            showToast(resource.getThrowable().getMessage());
-                            break;
-                    }
-                });
+        sendMessageViewModel.sendMessage(mGroup.getId(), mInputMessage.getText().toString());
         mInputMessage.setText("");
+        mRcvMessage.scrollToPosition(messageAdapter.getItemCount());
     }
 
     @OnClick(R.id.image_icon)
     void onClickIcon() {
-        showToast("Icon");
+        sendMessageViewModel.sendMessage(mGroup.getId(), "\uD83D\uDD90");
+        mRcvMessage.scrollToPosition(messageAdapter.getItemCount());
     }
 
     @OnTextChanged(R.id.input_message)

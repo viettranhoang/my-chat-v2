@@ -143,27 +143,15 @@ public class MessageActivity extends BaseActivity {
 
     @OnClick(R.id.image_send)
     void onClickSend() {
-        sendMessageViewModel.sendMessage(mUser.getId(), mInputMessage.getText().toString())
-                .observe(this, resource -> {
-                    switch (resource.getStatus()) {
-                        case LOADING:
-                            showHUD();
-                            break;
-                        case SUCCESS:
-                            dismissHUD();
-                            break;
-                        case ERROR:
-                            dismissHUD();
-                            showToast(resource.getThrowable().getMessage());
-                            break;
-                    }
-                });
+        sendMessageViewModel.sendMessage(mUser.getId(), mInputMessage.getText().toString());
         mInputMessage.setText("");
+        mRcvMessage.scrollToPosition(messageAdapter.getItemCount());
     }
 
     @OnClick(R.id.image_icon)
     void onClickIcon() {
-        showToast("Icon");
+        sendMessageViewModel.sendMessage(mUser.getId(), "\uD83D\uDCA9");
+        mRcvMessage.scrollToPosition(messageAdapter.getItemCount());
     }
 
     @OnTextChanged(R.id.input_message)

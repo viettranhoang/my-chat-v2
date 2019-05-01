@@ -11,7 +11,7 @@
         android:id="@+id/list_mess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/margin_primary"
+        android:layout_marginBottom="@dimen/margin_primary2"
         android:layout_above="@+id/view_line_bottom"
         android:layout_below="@id/toolbar_message"/>
 
