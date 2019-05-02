@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <include
+        android:id="@+id/choose_friend"
+        layout="@layout/choose_toolbar"/>
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_2dp"
+        android:layout_below="@id/choose_friend"
+        android:background="@drawable/round_toolbar" />
+
+    <TextView
+        android:id="@+id/text_search"
+        android:layout_below="@id/choose_friend"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_43dp"
+        android:layout_marginLeft="@dimen/margin_primary"
+        android:layout_marginTop="@dimen/_7dp"
+        android:layout_marginRight="@dimen/margin_primary"
+        android:background="@drawable/round_corner_gray_16"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawableLeft="@drawable/ic_search"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/_10dp"
+        android:text="@string/tim_kiem"
+        android:textSize="@dimen/_16sp" />
+
+    <!--/<View-->
+        android:id="@+id/view_line_bottom"
+        style="@style/Line"
+        android:layout_below="@id/text_search"
+        android:layout_above="@+id/list_choose_friend_horizontal" />
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:layout_below="@+id/choose_friend"-->
+        <!--android:id="@+id/list_choose_friend_horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="@dimen/_8dp" />-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_choose_friend_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/list_choose_friend_horizontal"
+        android:layout_marginLeft="@dimen/margin_primary"
+        android:layout_marginTop="@dimen/margin_primary"
+        android:layout_marginRight="@dimen/margin_primary" />
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_choose_friend_horizontal"
+        android:layout_width="match_parent"
+        android:layout_below="@id/text_search"
+        android:layout_marginTop="@dimen/_13dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_primary" />
+
+
+
+</RelativeLayout>

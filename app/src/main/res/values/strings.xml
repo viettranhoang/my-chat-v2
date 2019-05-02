@@ -49,4 +49,7 @@
 
     //friends
     <string name="them_tin">Thêm tin</string>
+
+    // choose
+    <string name="chon_ban_be">Chọn bạn bè</string>
 </resources>

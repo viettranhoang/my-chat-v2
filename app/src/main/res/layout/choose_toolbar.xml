@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Toolbar">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text_choose_friend"
+            style="@style/TextTitle"
+            android:textSize="@dimen/text_headline_2"
+            android:text="@string/chon_ban_be" />
+
+        <TextView
+            android:id="@+id/text_ok"
+            android:text="OK"
+            style="@style/TextTitle"
+            android:layout_marginRight="@dimen/_25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:textSize="@dimen/text_input" />
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.Toolbar>

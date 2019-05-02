@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/image_avatar"
+
+        style="@style/SearchImageItemAvatar"
+        android:layout_height="@dimen/message_image_avatar_size"
+        android:layout_width="@dimen/message_image_avatar_size"
+        android:layout_marginLeft="@dimen/margin_primary2"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/_6dp"
+        android:layout_alignParentLeft="true"
+
+        />
+
+    <ImageView
+        android:id="@+id/image_online"
+        android:layout_width="@dimen/message_image_online_size"
+        android:layout_height="@dimen/message_image_online_size"
+        android:layout_alignRight="@id/image_avatar"
+        android:layout_alignBottom="@id/image_avatar"
+        android:background="@drawable/shape_oval_border_green" />
+
+    <TextView
+        android:id="@+id/text_name"
+        style="@style/TextTitle"
+        android:layout_toRightOf="@id/image_avatar"
+        android:layout_centerInParent="true"
+        android:textSize="@dimen/text_input"
+        android:text="Vũ Hạnh" />
+
+   <CheckBox
+        android:id="@+id/check_choose_friend"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/_15dp"
+        android:layout_centerInParent="true"
+       android:buttonTint="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>
