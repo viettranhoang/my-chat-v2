@@ -64,7 +64,7 @@ public interface MyChatFirestore {
     /**
      * group
      */
-    Single<GroupModel> createGroup(GroupModel groupModel);
+    Single<GroupModel> createGroup(List<UserModel> userModelList);
 
 
     /**

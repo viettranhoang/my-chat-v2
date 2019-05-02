@@ -3,6 +3,9 @@ package com.vit.mychat.domain.usecase.group;
 import com.vit.mychat.domain.SingleUseCase;
 import com.vit.mychat.domain.usecase.group.model.Group;
 import com.vit.mychat.domain.usecase.group.repository.GroupRepository;
+import com.vit.mychat.domain.usecase.user.model.User;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,18 +28,18 @@ public class CreateGroupUseCase extends SingleUseCase<Group, CreateGroupUseCase.
 
     @Override
     protected Single<Group> buildUseCaseSingle(Params params) {
-        return groupRepository.createGroup(params.group);
+        return groupRepository.createGroup(params.userList);
     }
 
     public static final class Params {
-        private final Group group;
+        private final List<User> userList;
 
-        public Params(Group group) {
-            this.group = group;
+        public Params(List<User> userList) {
+            this.userList = userList;
         }
 
-        public static Params forCreateGroup(Group group) {
-            return new Params(group);
+        public static Params forCreateGroup(List<User> userList) {
+            return new Params(userList);
         }
     }
 }

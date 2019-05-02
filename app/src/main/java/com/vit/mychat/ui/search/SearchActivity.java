@@ -134,7 +134,7 @@ public class SearchActivity extends BaseActivity implements OnClickSearchItemLis
                     .distinctUntilChanged()
                     .switchMap(text ->
                             Observable.fromIterable(mSearchList)
-                                    .filter(userViewData -> userViewData.getName().contains(text))
+                                    .filter(userViewData -> userViewData.getName().toLowerCase().contains(text.toLowerCase()))
                                     .toList()
                                     .toObservable())
                     .subscribeOn(Schedulers.io())

@@ -43,7 +43,10 @@ public class ChooseVerticalAdapter extends RecyclerView.Adapter<ChooseVerticalAd
     public void setListVertical(List<UserViewData> mListUserSearch) {
         this.list = mListUserSearch;
         notifyDataSetChanged();
+    }
 
+    public List<UserViewData> getList() {
+        return list;
     }
     @NonNull
     @Override

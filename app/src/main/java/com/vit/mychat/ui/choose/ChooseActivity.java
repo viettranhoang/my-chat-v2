@@ -7,9 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.vit.mychat.R;
+import com.vit.mychat.presentation.feature.group.CreateGroupViewModel;
+import com.vit.mychat.presentation.feature.group.model.GroupViewData;
 import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
 import com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
@@ -18,13 +21,23 @@ import com.vit.mychat.ui.choose.adapter.ChooseHorizontalAdapter;
 import com.vit.mychat.ui.choose.adapter.ChooseVerticalAdapter;
 import com.vit.mychat.ui.choose.listener.OnClickChooseHorizontalItemListener;
 import com.vit.mychat.ui.choose.listener.OnClickChooseVerticalItemListener;
+import com.vit.mychat.ui.message_group.MessageGroupActivity;
 import com.vit.mychat.util.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 public class ChooseActivity extends BaseActivity implements
         OnClickChooseHorizontalItemListener, OnClickChooseVerticalItemListener {
@@ -40,8 +53,8 @@ public class ChooseActivity extends BaseActivity implements
     @BindView(R.id.list_choose_friend_vertical)
     RecyclerView mRcvChooseVertical;
 
-    @BindView(R.id.choose_friend)
-    Toolbar mToolbar_choose;
+    @BindView(R.id.choose_toolbar)
+    Toolbar mToolbarChoose;
 
     @BindView(R.id.text_choose_friend)
     TextView mTextCloseChoose;
@@ -49,8 +62,8 @@ public class ChooseActivity extends BaseActivity implements
     @BindView(R.id.text_ok)
     TextView mTextOk;
 
-    @BindView(R.id.text_search)
-    TextView mTextSearch;
+    @BindView(R.id.input_search)
+    EditText mInputSearch;
 
     @Inject
     ChooseHorizontalAdapter chooseHorizontalAdapter;
@@ -59,6 +72,11 @@ public class ChooseActivity extends BaseActivity implements
     ChooseVerticalAdapter chooseVerticalAdapter;
 
     private GetFriendListViewModel getFriendListViewModel;
+    private CreateGroupViewModel createGroupViewModel;
+
+    private PublishSubject<String> mPublishSubject;
+    private CompositeDisposable compositeDisposable;
+    private List<UserViewData> mSearchList = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -68,11 +86,44 @@ public class ChooseActivity extends BaseActivity implements
     @Override
     protected void initView() {
         getFriendListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetFriendListViewModel.class);
+        createGroupViewModel = ViewModelProviders.of(this, viewModelFactory).get(CreateGroupViewModel.class);
+        compositeDisposable = new CompositeDisposable();
 
         initToolbar();
         initRcvChoose();
 
         getFriendList();
+    }
+
+    @Override
+    protected void onStop() {
+        if (!compositeDisposable.isDisposed()) {
+            compositeDisposable.dispose();
+        }
+        super.onStop();
+    }
+
+    @OnClick(R.id.text_ok)
+    void onClickOk() {
+        List<UserViewData> userList = chooseHorizontalAdapter.getList();
+        userList.add(Constants.CURRENT_USER);
+
+        createGroupViewModel.createGroup(userList).observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case SUCCESS:
+                    MessageGroupActivity.moveMessageActivity(this, (GroupViewData) resource.getData());
+                    finish();
+                    break;
+                case ERROR:
+                    showToast(resource.getThrowable().getMessage());
+                    break;
+            }
+        });
+    }
+
+    @OnTextChanged(R.id.input_search)
+    void onTextSearchChanged() {
+        search(mInputSearch.getText().toString());
     }
 
     @Override
@@ -96,6 +147,7 @@ public class ChooseActivity extends BaseActivity implements
             switch (resource.getStatus()) {
                 case SUCCESS:
                     chooseVerticalAdapter.setListVertical((List<UserViewData>) resource.getData());
+                    mSearchList = chooseVerticalAdapter.getList();
                     break;
                 case ERROR:
                     showToast(resource.getThrowable().getMessage());
@@ -115,9 +167,8 @@ public class ChooseActivity extends BaseActivity implements
         mRcvChooseHorizon.setAdapter(chooseHorizontalAdapter);
     }
 
-
     private void initToolbar() {
-        setSupportActionBar(mToolbar_choose);
+        setSupportActionBar(mToolbarChoose);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -129,5 +180,29 @@ public class ChooseActivity extends BaseActivity implements
         } else {
             mTextOk.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void search(String keyword) {
+        if (mPublishSubject == null) {
+            mPublishSubject = PublishSubject.create();
+            compositeDisposable.add(mPublishSubject
+                    .debounce(300, TimeUnit.MILLISECONDS)
+                    .map(text -> text.trim())
+                    .distinctUntilChanged()
+                    .switchMap(text ->
+                            Observable.fromIterable(mSearchList)
+                                    .filter(userViewData -> userViewData.getName().toLowerCase().contains(text.toLowerCase()))
+                                    .toList()
+                                    .toObservable())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(userViewDataList -> {
+                                chooseVerticalAdapter.setListVertical(userViewDataList);
+                            },
+                            throwable -> showToast(throwable.getMessage()))
+            );
+        }
+
+        mPublishSubject.onNext(keyword);
     }
 }

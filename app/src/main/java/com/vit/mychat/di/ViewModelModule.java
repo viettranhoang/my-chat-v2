@@ -7,6 +7,7 @@ import com.vit.mychat.di.key.ViewModelKey;
 import com.vit.mychat.presentation.feature.MyChatViewModelFactory;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.chat.GetChatListViewModel;
+import com.vit.mychat.presentation.feature.group.CreateGroupViewModel;
 import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
 import com.vit.mychat.presentation.feature.message.GetMessageListViewModel;
 import com.vit.mychat.presentation.feature.message.SendMessageViewModel;
@@ -107,4 +108,12 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(UploadImageViewModel.class)
     abstract ViewModel bindUploadImageViewModel(UploadImageViewModel uploadImageViewModel);
+
+    /**
+     * group
+     */
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreateGroupViewModel.class)
+    abstract ViewModel bindCreateGroupViewModel(CreateGroupViewModel createGroupViewModel);
 }

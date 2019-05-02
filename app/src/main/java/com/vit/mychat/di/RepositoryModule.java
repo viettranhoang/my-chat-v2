@@ -7,6 +7,8 @@ import com.vit.mychat.data.auth.source.AuthCache;
 import com.vit.mychat.data.auth.source.AuthRemote;
 import com.vit.mychat.data.chat.ChatRepositoryImpl;
 import com.vit.mychat.data.chat.source.ChatRemote;
+import com.vit.mychat.data.group.GroupRepositoryImpl;
+import com.vit.mychat.data.group.source.GroupRemote;
 import com.vit.mychat.data.image.ImageRepositoryImpl;
 import com.vit.mychat.data.image.source.ImageRemote;
 import com.vit.mychat.data.message.MessageRepositoryImpl;
@@ -17,12 +19,14 @@ import com.vit.mychat.data.user.UserRepositoryImpl;
 import com.vit.mychat.data.user.source.UserRemote;
 import com.vit.mychat.domain.usecase.auth.repository.AuthRepository;
 import com.vit.mychat.domain.usecase.chat.repository.ChatRepository;
+import com.vit.mychat.domain.usecase.group.repository.GroupRepository;
 import com.vit.mychat.domain.usecase.image.repository.ImageRepository;
 import com.vit.mychat.domain.usecase.message.repository.MessageRepository;
 import com.vit.mychat.domain.usecase.news.repository.NewsRepository;
 import com.vit.mychat.domain.usecase.user.repository.UserRepository;
 import com.vit.mychat.remote.feature.auth.AuthRemoteImpl;
 import com.vit.mychat.remote.feature.chat.ChatRemoteImpl;
+import com.vit.mychat.remote.feature.group.GroupRemoteImpl;
 import com.vit.mychat.remote.feature.image.ImageRemoteImpl;
 import com.vit.mychat.remote.feature.message.MessageRemoteImpl;
 import com.vit.mychat.remote.feature.news.NewsRemoteImpl;
@@ -88,5 +92,11 @@ public abstract class RepositoryModule {
     @Binds
     abstract ImageRemote imageRemote(ImageRemoteImpl imageRemote);
 
+    @Singleton
+    @Binds
+    abstract GroupRepository groupRepository(GroupRepositoryImpl groupRepository);
 
+    @Singleton
+    @Binds
+    abstract GroupRemote groupRemote(GroupRemoteImpl groupRemote);
 }

@@ -361,12 +361,12 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
      * group
      */
     @Override
-    public Single<GroupModel> createGroup(GroupModel groupModel) {
+    public Single<GroupModel> createGroup(List<UserModel> userModelList) {
         return Single.create(emitter -> {
 
-            String groupId = String.format("%s_%s", GROUP_ID, groupDatabase.push().getKey());
-            groupModel.setId(groupId);
-            groupDatabase.child(groupId).updateChildren(groupModel.toMap(), (databaseError, databaseReference) -> {
+            GroupModel groupModel = createGroupModel(userModelList);
+
+            groupDatabase.child(groupModel.getId()).updateChildren(groupModel.toMap(), (databaseError, databaseReference) -> {
                 if (!emitter.isDisposed()) {
                     if (null != databaseError) {
                         emitter.onError(databaseError.toException());
@@ -376,16 +376,28 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                 }
             });
 
-            sendMessage(groupId, "Hi", "text");
-//            MessageModel messageModel = new MessageModel("Hi", currentUserId, true, System.currentTimeMillis(), "text");
-//            String key = messageDatabase.child(currentUserId).child(groupId).push().getKey();
-//            Map<String, Object> map = new HashMap<>();
-//            for (String member : groupModel.getMembers()) {
-//                map.put(String.format(Constants.CHILDREN, member, groupId, key), messageModel.toMap());
-//            }
-//            messageDatabase.updateChildren(map);
+            MessageModel messageModel = new MessageModel("Hi", currentUserId, true, System.currentTimeMillis(), "text");
+            String key = messageDatabase.child(currentUserId).child(groupModel.getId()).push().getKey();
+            Map<String, Object> map = new HashMap<>();
+            for (String member : groupModel.getMembers()) {
+                map.put(String.format(Constants.CHILDREN, member, groupModel.getId(), key), messageModel.toMap());
+            }
+            messageDatabase.updateChildren(map);
 
         });
+    }
+
+    private GroupModel createGroupModel(List<UserModel> userModelList) {
+        String name = "";
+        String id = String.format("%s_%s", GROUP_ID, groupDatabase.push().getKey());
+        String avatar = "http://gnemart.com/wp-content/uploads/2018/10/gau-bong-quobee-600x600.jpg";
+        List<String> members = new ArrayList<>();
+
+        for (UserModel userModel : userModelList) {
+            name += String.format("%s, ", userModel.getName());
+            members.add(userModel.getId());
+        }
+        return new GroupModel(id, name, avatar, members);
     }
 
 
