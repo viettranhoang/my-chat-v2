@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/image_avatar"
 
         style="@style/SearchImageItemAvatar"
-        android:layout_height="@dimen/message_image_avatar_size"
         android:layout_width="@dimen/message_image_avatar_size"
-        android:layout_marginLeft="@dimen/margin_primary2"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="@dimen/_6dp"
+        android:layout_height="@dimen/message_image_avatar_size"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_primary2"
+        android:layout_marginTop="@dimen/_6dp"
 
         />
 
@@ -27,19 +30,20 @@
     <TextView
         android:id="@+id/text_name"
         style="@style/TextTitle"
+        android:layout_centerInParent="true"
         android:layout_toRightOf="@id/image_avatar"
-        android:layout_centerInParent="true"
-        android:textSize="@dimen/text_input"
-        android:text="Vũ Hạnh" />
+        android:text="Vũ Hạnh"
+        android:textSize="@dimen/text_input" />
 
-   <CheckBox
+    <CheckBox
         android:id="@+id/check_choose_friend"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/_15dp"
-        android:layout_centerInParent="true"
-       android:buttonTint="@color/black"
+        android:clickable="false"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/_15dp"
+        android:buttonTint="@color/black" />
 
 
 </RelativeLayout>

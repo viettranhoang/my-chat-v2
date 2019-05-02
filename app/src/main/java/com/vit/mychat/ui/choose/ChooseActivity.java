@@ -34,17 +34,11 @@ public class ChooseActivity extends BaseActivity implements
         activity.startActivity(intent);
     }
 
-    @Inject
-    ChooseHorizontalAdapter chooseHorizontalAdapter;
-
-    @Inject
-    ChooseVerticalAdapter chooseVerticalAdapter;
-
     @BindView(R.id.list_choose_friend_horizontal)
-    RecyclerView RcvChooseHorizon;
+    RecyclerView mRcvChooseHorizon;
 
     @BindView(R.id.list_choose_friend_vertical)
-    RecyclerView RcvChooseVertical;
+    RecyclerView mRcvChooseVertical;
 
     @BindView(R.id.choose_friend)
     Toolbar mToolbar_choose;
@@ -58,11 +52,13 @@ public class ChooseActivity extends BaseActivity implements
     @BindView(R.id.text_search)
     TextView mTextSearch;
 
+    @Inject
+    ChooseHorizontalAdapter chooseHorizontalAdapter;
 
+    @Inject
+    ChooseVerticalAdapter chooseVerticalAdapter;
 
     private GetFriendListViewModel getFriendListViewModel;
-
-//    private List<UserViewData> mChooseList = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -77,38 +73,46 @@ public class ChooseActivity extends BaseActivity implements
         initRcvChoose();
 
         getFriendList();
+    }
 
+    @Override
+    public void onClickChooseHorizontalItem(UserViewData userViewData) {
+        chooseHorizontalAdapter.removeItem(userViewData);
+        checkEmptyItem();
+    }
 
+    @Override
+    public void onClickChooseVerticalItem(UserViewData userViewData, boolean isChoosed) {
+        if (isChoosed) {
+            chooseHorizontalAdapter.addItem(userViewData);
+        } else {
+            chooseHorizontalAdapter.removeItem(userViewData);
+        }
+        checkEmptyItem();
     }
 
     private void getFriendList() {
-
         getFriendListViewModel.getFriendList(Constants.CURRENT_UID, UserRelationshipConfig.FRIEND).observe(this, resource -> {
             switch (resource.getStatus()) {
                 case SUCCESS:
-                    List<UserViewData> list = (List<UserViewData>) resource.getData();
-                    chooseVerticalAdapter.setListVertical(list);
-                    chooseHorizontalAdapter.setListHorizontal(list);
+                    chooseVerticalAdapter.setListVertical((List<UserViewData>) resource.getData());
                     break;
                 case ERROR:
                     showToast(resource.getThrowable().getMessage());
                     break;
             }
         });
-
     }
 
     private void initRcvChoose() {
 
-        RcvChooseVertical.setLayoutManager(new LinearLayoutManager(this));
-        RcvChooseVertical.setHasFixedSize(true);
-        RcvChooseVertical.setAdapter(chooseVerticalAdapter);
+        mRcvChooseVertical.setLayoutManager(new LinearLayoutManager(this));
+        mRcvChooseVertical.setHasFixedSize(true);
+        mRcvChooseVertical.setAdapter(chooseVerticalAdapter);
 
-        RcvChooseHorizon.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        RcvChooseHorizon.setHasFixedSize(true);
-        RcvChooseHorizon.setAdapter(chooseHorizontalAdapter);
-
-
+        mRcvChooseHorizon.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mRcvChooseHorizon.setHasFixedSize(true);
+        mRcvChooseHorizon.setAdapter(chooseHorizontalAdapter);
     }
 
 
@@ -119,17 +123,11 @@ public class ChooseActivity extends BaseActivity implements
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    @Override
-    public void onClickChooseHorizontalItem(UserViewData userViewData) {
-
-        mTextOk.setVisibility(View.GONE);
-
-    }
-
-    @Override
-    public void onClickChooseVerticalItem(UserViewData userViewData) {
-
-        mTextOk.setVisibility(View.VISIBLE);
-
+    private void checkEmptyItem() {
+        if (chooseHorizontalAdapter.getItemCount() == 0) {
+            mTextOk.setVisibility(View.INVISIBLE);
+        } else {
+            mTextOk.setVisibility(View.VISIBLE);
+        }
     }
 }

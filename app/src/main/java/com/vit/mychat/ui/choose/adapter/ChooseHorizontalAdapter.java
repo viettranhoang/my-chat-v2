@@ -30,9 +30,6 @@ public class ChooseHorizontalAdapter extends RecyclerView.Adapter<ChooseHorizont
 
     private List<UserViewData> list = new ArrayList<>();
 
-
-    private int selectedPosition = -100;
-
     @Inject
     public ChooseHorizontalAdapter() {
     }
@@ -40,7 +37,20 @@ public class ChooseHorizontalAdapter extends RecyclerView.Adapter<ChooseHorizont
     public void setListHorizontal(List<UserViewData> mListUserSearch) {
         this.list = mListUserSearch;
         notifyDataSetChanged();
+    }
 
+    public List<UserViewData> getList() {
+        return list;
+    }
+
+    public void addItem(UserViewData userViewData) {
+        list.add(userViewData);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(UserViewData userViewData) {
+        list.remove(userViewData);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -63,13 +73,10 @@ public class ChooseHorizontalAdapter extends RecyclerView.Adapter<ChooseHorizont
     class ChooseHorizontalViewHolder extends BaseViewHolder<UserViewData> {
 
         @BindView(R.id.image_avatar)
-        ImageView mAvatar;
+        ImageView mImageAvatar;
 
         @BindView(R.id.text_name)
         TextView mTextName;
-
-        @BindView(R.id.image_cancel)
-        ImageView mCancel;
 
         public ChooseHorizontalViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,30 +88,15 @@ public class ChooseHorizontalAdapter extends RecyclerView.Adapter<ChooseHorizont
             GlideApp.with(itemView)
                     .load(userViewData.getAvatar())
                     .circleCrop()
-                    .into(mAvatar);
+                    .into(mImageAvatar);
 
             mTextName.setText(userViewData.getName());
-
-            if (selectedPosition != getLayoutPosition()) {
-                mAvatar.setVisibility(View.VISIBLE);
-                mCancel.setVisibility(View.VISIBLE);
-                mTextName.setVisibility(View.VISIBLE);
-            }
-
         }
 
         @OnClick(R.id.image_avatar)
         void onClickChooseHorizontalItem() {
             listener.onClickChooseHorizontalItem(list.get(getLayoutPosition()));
-            selectedPosition = getLayoutPosition();
-            mAvatar.setVisibility(View.GONE);
-            mTextName.setVisibility(View.GONE);
-            mCancel.setVisibility(View.GONE);
-
-            notifyDataSetChanged();
-
         }
-
 
 
     }

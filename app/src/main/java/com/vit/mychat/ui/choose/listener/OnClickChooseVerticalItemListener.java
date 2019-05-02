@@ -4,6 +4,6 @@ import com.vit.mychat.presentation.feature.user.model.UserViewData;
 
 public interface OnClickChooseVerticalItemListener {
 
-    void onClickChooseVerticalItem(UserViewData userViewData);
+    void onClickChooseVerticalItem(UserViewData userViewData, boolean isChoosed);
 
 }

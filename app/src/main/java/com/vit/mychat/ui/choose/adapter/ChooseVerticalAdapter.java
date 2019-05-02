@@ -2,7 +2,6 @@ package com.vit.mychat.ui.choose.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,8 @@ public class ChooseVerticalAdapter extends RecyclerView.Adapter<ChooseVerticalAd
     class ChooseVerticalViewHolder extends BaseViewHolder<UserViewData> {
 
         @BindView(R.id.image_avatar)
-        ImageView mAvatar;
+        ImageView mImageAvatar;
+
         @BindView(R.id.image_online)
         ImageView mImageOnline;
 
@@ -88,45 +88,23 @@ public class ChooseVerticalAdapter extends RecyclerView.Adapter<ChooseVerticalAd
         @Override
         public void bindData(UserViewData userViewData) {
 
+            mTextName.setText(userViewData.getName());
             GlideApp.with(itemView)
                     .load(userViewData.getAvatar())
                     .circleCrop()
-                    .into(mAvatar);
-
-            mImageOnline.setVisibility(View.INVISIBLE);
+                    .into(mImageAvatar);
 
             if (userViewData.getOnline() == Constants.ONLINE) {
                 mImageOnline.setVisibility(View.VISIBLE);
-
             } else {
                 mImageOnline.setVisibility(View.INVISIBLE);
             }
-
-            mTextName.setText(userViewData.getName());
-
-            if (selectedPosition != getLayoutPosition()) {
-                mAvatar.setVisibility(View.VISIBLE);
-                mTextName.setVisibility(View.VISIBLE);
-            }
-
         }
 
-        @OnClick(R.id.check_choose_friend)
-        void OnClickChoose(){
-            listener.onClickChooseVerticalItem(list.get(getLayoutPosition()));
-            selectedPosition= getLayoutPosition();
-            Log.i("MMMM", "onClickCheck: " + selectedPosition);
-            if(mCheckChoose.isChecked()){
-                mCheckChoose.setChecked(true);
-//                setListVertical(list);
-            }
-            else {
-                mCheckChoose.setChecked(false);
-            }
-
-            notifyDataSetChanged();
+        @OnClick(R.id.layout_root)
+        void OnClickItem(){
+            mCheckChoose.setChecked(!mCheckChoose.isChecked());
+            listener.onClickChooseVerticalItem(list.get(getLayoutPosition()), mCheckChoose.isChecked());
         }
-
-
     }
 }
