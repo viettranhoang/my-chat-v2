@@ -2,7 +2,6 @@ package com.vit.mychat.ui.message.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +124,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
 
             if (selectedPosition != getLayoutPosition()) {
-                Log.i("", "onClickMessageMe: " + selectedPosition);
                 mTextTime.setVisibility(View.GONE);
                 mTextSeen.setVisibility(View.GONE);
             }
@@ -135,7 +133,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         void onClickMessage() {
             if (mTextSeen.getVisibility() != View.VISIBLE) {
                 selectedPosition = getLayoutPosition();
-                Log.i("", "onClickMessageMe:bindData " + selectedPosition);
                 mTextSeen.setVisibility(View.VISIBLE);
                 mTextTime.setVisibility(View.VISIBLE);
             } else selectedPosition = -100;

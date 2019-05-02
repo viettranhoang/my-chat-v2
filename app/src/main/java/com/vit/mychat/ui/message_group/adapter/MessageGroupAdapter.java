@@ -2,7 +2,6 @@ package com.vit.mychat.ui.message_group.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.util.Constants;
 import com.vit.mychat.util.RoundedCornersTransformation;
+import com.vit.mychat.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,14 +107,16 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
                     .load(mGroup.getAvatar())
                     .circleCrop()
                     .into(mImageAvatar);
-            mTextTime.setText(String.valueOf(message.getTime()));
+            mTextTime.setText(Utils.getTime(message.getTime()));
             mTextSeen.setText(message.isSeen() ? "Đã xem" : "Đã chuyển");
 
             if (message.getType().equals(MessageTypeConfig.TEXT)) {
                 mTextMessage.setText(message.getMessage());
-                mImageMessage.setVisibility(View.INVISIBLE);
+                mTextMessage.setVisibility(View.VISIBLE);
+                mImageMessage.setVisibility(View.GONE);
             } else {
                 mTextMessage.setVisibility(View.INVISIBLE);
+                mImageMessage.setVisibility(View.VISIBLE);
                 GlideApp.with(itemView)
                         .load(message.getMessage())
                         .transform(new RoundedCornersTransformation(50, 0, RoundedCornersTransformation.CornerType.ALL))
@@ -131,7 +133,6 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
         void onClickMessageMe() {
             if (mTextTime.getVisibility() != View.VISIBLE) {
                 selectedPosition = getAdapterPosition();
-                Log.i("", "onClickMessageMe: " + selectedPosition);
                 mTextSeen.setVisibility(View.VISIBLE);
                 mTextTime.setVisibility(View.VISIBLE);
             } else selectedPosition = -100;

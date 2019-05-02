@@ -20,6 +20,7 @@ import com.vit.mychat.remote.common.Utils;
 import com.vit.mychat.remote.feature.chat.model.ChatModel;
 import com.vit.mychat.remote.feature.group.model.GroupModel;
 import com.vit.mychat.remote.feature.message.model.MessageModel;
+import com.vit.mychat.remote.feature.user.config.UserRelationshipConfig;
 import com.vit.mychat.remote.feature.user.model.UserModel;
 
 import java.io.File;
@@ -141,8 +142,13 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     @Override
     public Completable updateUserRelationship(String fromId, String toId, String type) {
         Map<String, String> map = new HashMap<>();
-        map.put("/" + fromId + "/" + toId, type);
-        map.put("/" + toId + "/" + fromId, type);
+        if(type.equals(UserRelationshipConfig.SENT)) {
+            map.put("/" + fromId + "/" + toId, UserRelationshipConfig.SENT);
+            map.put("/" + toId + "/" + fromId, UserRelationshipConfig.RECEIVE);
+        } else {
+            map.put("/" + fromId + "/" + toId, type);
+            map.put("/" + toId + "/" + fromId, type);
+        }
 
         return RxFirebase.updateChildren(friendDatabase, map);
     }
@@ -220,7 +226,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     @Override
     public Completable sendMessage(String userId, String message, String type) {
         return Completable.create(emitter -> {
-            MessageModel messageModel = new MessageModel(message, currentUserId, true, System.currentTimeMillis(), type);
+            MessageModel messageModel = new MessageModel(message, currentUserId, false, System.currentTimeMillis(), type);
             String key = messageDatabase.child(currentUserId).child(userId).push().getKey();
 
             Map<String, Object> map = new HashMap<>();

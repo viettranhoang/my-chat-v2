@@ -269,6 +269,7 @@ public class MessageActivity extends BaseActivity {
                 case SUCCESS:
                     dismissHUD();
                     messageAdapter.setList((List<MessageViewData>) resource.getData());
+                    mRcvMessage.scrollToPosition(messageAdapter.getItemCount() - 1);
                     break;
                 case ERROR:
                     dismissHUD();
