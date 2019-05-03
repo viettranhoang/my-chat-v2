@@ -115,11 +115,13 @@
                     android:src="@drawable/ic_mess"
                     android:visibility="visible" />
 
-                <Switch
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/switch_online"
-                    style="@style/Switch"
+                    android:theme="@style/Switch"
                     android:layout_weight="4"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
 
                 <TextView
                     android:id="@+id/text_message"

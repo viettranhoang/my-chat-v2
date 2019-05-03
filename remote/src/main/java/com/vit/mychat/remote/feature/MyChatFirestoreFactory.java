@@ -184,6 +184,11 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                 }));
     }
 
+    @Override
+    public void setOnline(boolean isOnline) {
+        userDatabase.child(currentUserId).child("online").setValue(isOnline ? 1 : System.currentTimeMillis());
+    }
+
 
     /**
      * auth
@@ -212,6 +217,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 
     @Override
     public void signOut() {
+        setOnline(false);
         auth.signOut();
     }
 

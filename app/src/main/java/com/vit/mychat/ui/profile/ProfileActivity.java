@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +27,7 @@ import com.vit.mychat.ui.MainActivity;
 import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
+import com.vit.mychat.ui.message.MessageActivity;
 import com.vit.mychat.util.RoundedCornersTransformation;
 
 import java.io.File;
@@ -82,10 +83,16 @@ public class ProfileActivity extends BaseActivity {
     TextView mTextAddFriend;
 
     @BindView(R.id.switch_online)
-    Switch mSwitchOnline;
+    SwitchCompat mSwitchOnline;
 
     @BindView(R.id.image_logout)
     ImageView mImageLogout;
+
+    @BindView(R.id.image_edit_avatar)
+    ImageView mImageEditAvatar;
+
+    @BindView(R.id.image_edit_cover)
+    ImageView mImageEditCover;
 
     private GetUserByIdViewModel getUserByIdViewModel;
     private UpdateUserViewModel updateUserViewModel;
@@ -224,16 +231,21 @@ public class ProfileActivity extends BaseActivity {
 
     @OnClick(R.id.text_name)
     void onClickEditName() {
-        if (mUserViewData != null) {
+        if (mUserViewData != null && authViewModel.getCurrentUserId().equals(mUserId)) {
             getNameInputDialog().show();
         }
     }
 
     @OnClick(R.id.text_status)
     void onClickEditStatus() {
-        if (mUserViewData != null) {
+        if (mUserViewData != null && authViewModel.getCurrentUserId().equals(mUserId)) {
             getStatusInputDialog().show();
         }
+    }
+
+    @OnClick(R.id.image_message)
+    void onClickMessage() {
+        MessageActivity.moveMessageActivity(this, mUserViewData);
     }
 
     private void getRelationship() {
@@ -287,6 +299,8 @@ public class ProfileActivity extends BaseActivity {
             mSwitchOnline.setVisibility(View.VISIBLE);
             mImageLogout.setVisibility(View.VISIBLE);
         } else {
+            mImageEditAvatar.setVisibility(View.INVISIBLE);
+            mImageEditCover.setVisibility(View.INVISIBLE);
             getRelationship();
         }
     }

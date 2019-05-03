@@ -35,6 +35,8 @@ public interface MyChatFirestore {
 
     Observable<List<UserModel>> getFriendList(String userId, String type);
 
+    void setOnline(boolean isOnline);
+
     /**
      * auth
      */
