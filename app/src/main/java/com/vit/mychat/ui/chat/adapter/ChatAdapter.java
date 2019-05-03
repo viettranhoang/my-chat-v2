@@ -83,6 +83,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         @BindColor(R.color.black87)
         int mBlack87;
 
+        @BindColor(R.color.black40)
+        int mBlack40;
+
         boolean isUser = true;
 
         public ChatViewHolder(@NonNull View itemView) {
@@ -131,6 +134,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                 mTextLastMessage.setTextColor(mBlack87);
             } else {
                 mImageSeen.setVisibility(View.GONE);
+                mTextName.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                mTextLastMessage.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                mTextLastMessage.setTextColor(mBlack40);
             }
         }
 

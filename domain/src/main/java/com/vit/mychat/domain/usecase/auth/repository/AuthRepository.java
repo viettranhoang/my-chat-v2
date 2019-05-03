@@ -15,5 +15,7 @@ public interface AuthRepository {
 
     String getCurrentUserId();
 
+    void setCurrentUserId(String uid);
+
     Observable<User> getCurentUser();
 }

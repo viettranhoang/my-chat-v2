@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.vit.mychat.R;
-import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
 import com.vit.mychat.presentation.feature.image.config.ImageTypeConfig;
 import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
@@ -61,7 +60,6 @@ public class FriendsFragment extends BaseFragment
     @Inject
     FriendOnlineAdapter friendOnlineAdapter;
 
-    private AuthViewModel authViewModel;
     private GetFriendListViewModel getFriendListViewModel;
     private UploadImageViewModel uploadImageViewModel;
     private UpdateUserViewModel updateUserViewModel;
@@ -78,7 +76,6 @@ public class FriendsFragment extends BaseFragment
         getFriendListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetFriendListViewModel.class);
         uploadImageViewModel = ViewModelProviders.of(this, viewModelFactory).get(UploadImageViewModel.class);
         updateUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(UpdateUserViewModel.class);
-        authViewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel.class);
 
         initRcv();
         getFriendList();

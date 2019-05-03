@@ -22,6 +22,11 @@ public class AuthCacheImpl implements AuthCache {
     }
 
     @Override
+    public void setCurrentUserId(String uid) {
+        prefUtils.set(PrefUtils.PREF_KEY.CURRENT_USER_ID, uid);
+    }
+
+    @Override
     public void saveCurrentUserId(String id) {
         prefUtils.set(PrefUtils.PREF_KEY.CURRENT_USER_ID, id);
     }

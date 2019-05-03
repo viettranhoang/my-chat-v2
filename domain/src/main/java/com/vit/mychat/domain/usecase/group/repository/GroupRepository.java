@@ -10,4 +10,6 @@ import io.reactivex.Single;
 public interface GroupRepository {
 
     Single<Group> createGroup(List<User> userList);
+
+
 }

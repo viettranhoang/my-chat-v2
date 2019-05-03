@@ -84,6 +84,7 @@ public class NewsAdapter extends PagerAdapter {
     }
 
     public void setList(List<UserViewData> listNews) {
+        listNews.add(0, Constants.CURRENT_USER);
         this.mListNews = listNews;
         notifyDataSetChanged();
     }

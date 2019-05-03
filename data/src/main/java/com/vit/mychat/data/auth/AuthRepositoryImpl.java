@@ -62,6 +62,11 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
+    public void setCurrentUserId(String uid) {
+        authCache.setCurrentUserId(uid);
+    }
+
+    @Override
     public Observable<User> getCurentUser() {
         return userRemote.getUserById(getCurrentUserId())
                 .map(userEntity -> mapper.mapFromEntity(userEntity));

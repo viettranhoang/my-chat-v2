@@ -13,6 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -22,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.vit.mychat.R;
@@ -35,6 +41,8 @@ import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.util.Utils;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -75,6 +83,7 @@ public class AuthActivity extends BaseActivity {
     Button mButtonRegister;
 
     private GoogleSignInClient mGoogleSignInClient;
+    private CallbackManager mCallbackManager;
     private FirebaseAuth mAuth;
 
     private boolean isRegister = false;
@@ -91,6 +100,7 @@ public class AuthActivity extends BaseActivity {
     protected void initView() {
         mAuth = FirebaseAuth.getInstance();
         initGoogleSignIn();
+        initFacebookSignIn();
 
         GlideApp.with(this)
                 .load(R.drawable.ic_messenger)
@@ -110,11 +120,13 @@ public class AuthActivity extends BaseActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
+                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                firebaseAuthWithCredential(credential);
             } catch (ApiException e) {
                 Log.w(TAG, "Google sign in failed", e);
             }
         }
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -191,12 +203,14 @@ public class AuthActivity extends BaseActivity {
 
     @OnClick(R.id.image_google)
     void onClickGoogle() {
-        signInGoogle();
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
 
     @OnClick(R.id.image_facebook)
     void onClickFacebook() {
-
+        LoginManager.getInstance().logInWithReadPermissions(this,
+                Arrays.asList("public_profile"));
     }
 
     @OnFocusChange({R.id.input_password_confirm, R.id.input_password, R.id.input_email})
@@ -236,15 +250,45 @@ public class AuthActivity extends BaseActivity {
 
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+    private void initGoogleSignIn() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+    private void initFacebookSignIn() {
+        mCallbackManager = CallbackManager.Factory.create();
+
+        LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                AuthCredential credential = FacebookAuthProvider.getCredential(loginResult.getAccessToken().getToken());
+                firebaseAuthWithCredential(credential);
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "onCancel: Login canceled");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.e(TAG, "onError: Login failed");
+            }
+        });
+    }
+
+    private void firebaseAuthWithCredential(AuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            authViewModel.setCurrentUserId(mAuth.getUid());
                             if (task.getResult().getAdditionalUserInfo().isNewUser()) {
-                                registerInfoNewUser(mAuth.getCurrentUser().getUid());
+                                registerInfoNewUser(mAuth.getUid());
 
                             } else {
                                 MainActivity.moveMainActivity(AuthActivity.this);
@@ -255,19 +299,6 @@ public class AuthActivity extends BaseActivity {
                         }
                     }
                 });
-    }
-
-    private void initGoogleSignIn() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-    }
-
-    private void signInGoogle() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
 
     private void setKeyboardVisibilityListener() {

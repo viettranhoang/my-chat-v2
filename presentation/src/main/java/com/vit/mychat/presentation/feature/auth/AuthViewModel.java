@@ -128,4 +128,8 @@ public class AuthViewModel extends ViewModel {
     public String getCurrentUserId() {
         return currentUserUseCase.getCurrentUserId();
     }
+
+    public void setCurrentUserId(String uid) {
+        currentUserUseCase.setCurrentUserId(uid);
+    }
 }

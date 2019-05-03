@@ -220,6 +220,19 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
      */
     @Override
     public Observable<List<MessageModel>> getMessageList(String userId) {
+        //set last message seen true
+        messageDatabase.child(currentUserId).child(userId).limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    messageDatabase.child(currentUserId).child(userId).child(data.getKey()).child("seen").setValue(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
         return RxFirebase.getList(messageDatabase.child(currentUserId).child(userId), MessageModel.class);
     }
 

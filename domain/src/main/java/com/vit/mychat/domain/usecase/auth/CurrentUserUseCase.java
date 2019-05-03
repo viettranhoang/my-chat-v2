@@ -32,4 +32,8 @@ public class CurrentUserUseCase extends ObservableUseCase<User, Void> {
         return authRepository.getCurrentUserId();
     }
 
+    public void setCurrentUserId(String uid) {
+        authRepository.setCurrentUserId(uid);
+    }
+
 }

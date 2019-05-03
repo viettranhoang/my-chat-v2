@@ -16,6 +16,7 @@ import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.friends.listener.OnClickFriendNewsItemListener;
+import com.vit.mychat.util.Constants;
 import com.vit.mychat.util.RoundedCornersTransformation;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class FriendNewsAdapter extends RecyclerView.Adapter<FriendNewsAdapter.Fr
     }
 
     public void setList(List<UserViewData> listFriendNews) {
+        listFriendNews.add(0, Constants.CURRENT_USER);
         this.mListFriendNews = listFriendNews;
         notifyDataSetChanged();
     }
