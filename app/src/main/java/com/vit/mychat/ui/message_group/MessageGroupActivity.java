@@ -233,6 +233,7 @@ public class MessageGroupActivity extends BaseActivity {
         GlideApp.with(this)
                 .load(mGroup.getAvatar())
                 .circleCrop()
+                .placeholder(R.drawable.ic_group)
                 .into(mImageAvatar);
 
         mTextName.setText(mGroup.getName());

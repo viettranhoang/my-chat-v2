@@ -82,7 +82,6 @@ public class NewsActivity extends BaseActivity implements OnClickNewsItemListene
         mCompositeDisposable.clear();
     }
 
-    @Override
     protected void hideStatusBar() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

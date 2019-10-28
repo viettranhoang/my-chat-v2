@@ -109,6 +109,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             GlideApp.with(itemView)
                     .load(avatar)
                     .circleCrop()
+                    .placeholder(R.drawable.ic_avatar_user)
                     .into(mAvatar);
 
             GlideApp.with(itemView)

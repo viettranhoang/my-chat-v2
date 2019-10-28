@@ -37,6 +37,8 @@
         <TextView
             android:id="@+id/text_name"
             style="@style/TextTitle"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:text="Vu Hanh"
             android:textSize="@dimen/text_input" />
@@ -45,6 +47,7 @@
             android:id="@+id/text_message"
             style="@style/TextTitle"
             android:maxLines="1"
+            android:ellipsize="end"
             android:inputType="text"
             android:layout_below="@+id/text_name"
             android:fontFamily="sans-serif"

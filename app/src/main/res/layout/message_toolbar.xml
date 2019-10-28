@@ -35,6 +35,8 @@
             <TextView
                 android:id="@+id/text_name"
                 style="@style/TextTitle"
+                android:maxLines="1"
+                android:ellipsize="end"
                 tools:text="Vũ Hạnh"
                 android:textSize="@dimen/text_input" />
 

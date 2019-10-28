@@ -31,8 +31,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     private List<MessageViewData> mMessageList = new ArrayList<>();
     private UserViewData mUser;
 
-    public static final int MESSAGE_LEFT = 1;
-    public static final int MESSAGE_RIGHT = 2;
+    private static final int MESSAGE_LEFT = 1;
+    private static final int MESSAGE_RIGHT = 2;
 
     private int selectedPosition = -100;
 
@@ -123,21 +123,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                         .into(mImageMessage);
             }
 
-            if (selectedPosition != getLayoutPosition()) {
-                mTextTime.setVisibility(View.GONE);
-                mTextSeen.setVisibility(View.GONE);
-            }
+            mTextTime.setVisibility(View.GONE);
+            mTextSeen.setVisibility(View.GONE);
         }
 
         @OnClick(R.id.text_message)
         void onClickMessage() {
-            if (mTextSeen.getVisibility() != View.VISIBLE) {
-                selectedPosition = getLayoutPosition();
+            if (selectedPosition != -100 && selectedPosition != getAdapterPosition() || mTextSeen.getVisibility() == View.VISIBLE) {
+                notifyItemChanged(selectedPosition);
+            }
+            if (mTextSeen.getVisibility() != View.VISIBLE){
                 mTextSeen.setVisibility(View.VISIBLE);
                 mTextTime.setVisibility(View.VISIBLE);
-            } else selectedPosition = -100;
-
-            notifyDataSetChanged();
+                selectedPosition = getAdapterPosition();
+            }
         }
     }
 }

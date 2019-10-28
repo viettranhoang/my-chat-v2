@@ -129,6 +129,7 @@ public class ChooseActivity extends BaseActivity implements
     @Override
     public void onClickChooseHorizontalItem(UserViewData userViewData) {
         chooseHorizontalAdapter.removeItem(userViewData);
+        chooseVerticalAdapter.unCheckItem(userViewData);
         checkEmptyItem();
     }
 

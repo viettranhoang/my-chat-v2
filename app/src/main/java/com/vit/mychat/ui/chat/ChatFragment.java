@@ -47,7 +47,6 @@ public class ChatFragment extends BaseFragment implements OnClickChatItemListene
 
     @Override
     public int getLayoutId() {
-
         return R.layout.chat_fragment;
     }
 

@@ -303,31 +303,34 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<ChatModel> listChat = new ArrayList<>();
 
-                        for (DataSnapshot data : dataSnapshot.child(TABLE_MESSAGE).child(currentUserId).getChildren()) {
+                        if (currentUserId != null) {
+                            for (DataSnapshot data : dataSnapshot.child(TABLE_MESSAGE).child(currentUserId).getChildren()) {
 
-                            ChatModel chatModel = new ChatModel();
+                                ChatModel chatModel = new ChatModel();
 
-                            String idSender = data.getKey();
+                                String idSender = data.getKey();
 
-                            Log.i(TAG, "onDataChange: idSender" + idSender);
+                                Log.i(TAG, "onDataChange: idSender" + idSender);
 
-                            List<MessageModel> list = new ArrayList<>();
+                                List<MessageModel> list = new ArrayList<>();
 
-                            for (DataSnapshot dataMessage : data.getChildren()) {
-                                list.add(dataMessage.getValue(MessageModel.class));
+                                for (DataSnapshot dataMessage : data.getChildren()) {
+                                    list.add(dataMessage.getValue(MessageModel.class));
+                                }
+                                Log.i(TAG, "onDataChange: setLastMessage" + list.get(list.size() - 1).toString());
+
+                                chatModel.setLastMessage(list.get(list.size() - 1));
+
+                                if (idSender.contains(GROUP_ID)) {
+                                    chatModel.setGroup(getGroupModel(dataSnapshot, idSender));
+                                } else {
+                                    chatModel.setUser(dataSnapshot.child(TABLE_USER).child(idSender).getValue(UserModel.class));
+                                }
+
+                                listChat.add(chatModel);
                             }
-                            Log.i(TAG, "onDataChange: setLastMessage" + list.get(list.size() - 1).toString());
-
-                            chatModel.setLastMessage(list.get(list.size() - 1));
-
-                            if (idSender.contains(GROUP_ID)) {
-                                chatModel.setGroup(getGroupModel(dataSnapshot, idSender));
-                            } else {
-                                chatModel.setUser(dataSnapshot.child(TABLE_USER).child(idSender).getValue(UserModel.class));
-                            }
-
-                            listChat.add(chatModel);
                         }
+
                         emitter.onNext(listChat);
                     }
 
@@ -422,7 +425,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
             name += String.format("%s, ", userModel.getName());
             members.add(userModel.getId());
         }
-        return new GroupModel(id, name, avatar, members);
+        return new GroupModel(id, name.substring(0, name.length() - 2), avatar, members);
     }
 
 

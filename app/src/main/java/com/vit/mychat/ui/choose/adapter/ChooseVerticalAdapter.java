@@ -27,18 +27,14 @@ import butterknife.OnClick;
 
 public class ChooseVerticalAdapter extends RecyclerView.Adapter<ChooseVerticalAdapter.ChooseVerticalViewHolder> {
 
-
     @Inject
     OnClickChooseVerticalItemListener listener;
 
     private List<UserViewData> list = new ArrayList<>();
 
-    private int selectedPosition = -100;
-
     @Inject
     public ChooseVerticalAdapter() {
     }
-
 
     public void setListVertical(List<UserViewData> mListUserSearch) {
         this.list = mListUserSearch;
@@ -48,6 +44,22 @@ public class ChooseVerticalAdapter extends RecyclerView.Adapter<ChooseVerticalAd
     public List<UserViewData> getList() {
         return list;
     }
+
+    public void unCheckItem(UserViewData userViewData) {
+        int position = getPositionByUser(userViewData);
+        if (position != -1) {
+            notifyItemChanged(position);
+        }
+    }
+
+    private int getPositionByUser(UserViewData userViewData) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId().equals(userViewData.getId()))
+                return i;
+        }
+        return -1;
+    }
+
     @NonNull
     @Override
     public ChooseVerticalViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -59,7 +71,6 @@ public class ChooseVerticalAdapter extends RecyclerView.Adapter<ChooseVerticalAd
     @Override
     public void onBindViewHolder(@NonNull ChooseVerticalViewHolder chooseVerticalViewHolder, int i) {
         chooseVerticalViewHolder.bindData(list.get(i));
-
     }
 
     @Override
@@ -102,10 +113,12 @@ public class ChooseVerticalAdapter extends RecyclerView.Adapter<ChooseVerticalAd
             } else {
                 mImageOnline.setVisibility(View.INVISIBLE);
             }
+
+            mCheckChoose.setChecked(false);
         }
 
         @OnClick(R.id.layout_root)
-        void OnClickItem(){
+        void OnClickItem() {
             mCheckChoose.setChecked(!mCheckChoose.isChecked());
             listener.onClickChooseVerticalItem(list.get(getLayoutPosition()), mCheckChoose.isChecked());
         }
