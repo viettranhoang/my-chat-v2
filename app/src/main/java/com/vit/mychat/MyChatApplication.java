@@ -12,8 +12,6 @@ import dagger.android.DaggerApplication;
 
 public class MyChatApplication extends DaggerApplication {
 
-    public static final String TAG = MyChatApplication.class.getSimpleName();
-
     private AppLifecycleObserver appLifecycleObserver;
 
     @Override
@@ -24,7 +22,7 @@ public class MyChatApplication extends DaggerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        appLifecycleObserver= new AppLifecycleObserver();
+        appLifecycleObserver = new AppLifecycleObserver();
         ProcessLifecycleOwner.get().getLifecycle().addObserver(appLifecycleObserver);
     }
 

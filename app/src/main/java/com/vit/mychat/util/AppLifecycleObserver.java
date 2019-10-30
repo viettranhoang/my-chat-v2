@@ -16,6 +16,7 @@ public class AppLifecycleObserver implements LifecycleObserver {
     private FirebaseAuth auth;
 
     public AppLifecycleObserver() {
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         auth = FirebaseAuth.getInstance();
         userDatabase = FirebaseDatabase.getInstance().getReference(com.vit.mychat.remote.common.Constants.TABLE_DATABASE).child(Constants.TABLE_USER);
     }
