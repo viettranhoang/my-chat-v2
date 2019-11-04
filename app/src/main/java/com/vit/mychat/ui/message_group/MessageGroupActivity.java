@@ -10,8 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -123,7 +121,7 @@ public class MessageGroupActivity extends BaseActivity {
         initRcvMessage();
     }
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.message_menu, menu);
         return true;
@@ -143,7 +141,7 @@ public class MessageGroupActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -242,7 +240,6 @@ public class MessageGroupActivity extends BaseActivity {
     }
 
     private void initRcvMessage() {
-        messageAdapter.setGroup(mGroup);
         mRcvMessage.setLayoutManager(new LinearLayoutManager(this));
         mRcvMessage.setHasFixedSize(true);
         mRcvMessage.setItemAnimator(new DefaultItemAnimator());

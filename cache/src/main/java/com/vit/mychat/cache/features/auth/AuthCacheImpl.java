@@ -31,5 +31,8 @@ public class AuthCacheImpl implements AuthCache {
         prefUtils.set(PrefUtils.PREF_KEY.CURRENT_USER_ID, id);
     }
 
-
+    @Override
+    public void signOut() {
+        prefUtils.clearAllKey();
+    }
 }

@@ -7,4 +7,6 @@ public interface AuthCache {
     void setCurrentUserId(String uid);
 
     void saveCurrentUserId(String id);
+
+    void signOut();
 }

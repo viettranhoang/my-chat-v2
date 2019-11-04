@@ -124,11 +124,17 @@ public class MainActivity extends BaseActivity {
         Constants.CURRENT_UID = authViewModel.getCurrentUserId();
         authViewModel.getCurrentUser().observe(this, resource -> {
             switch (resource.getStatus()) {
+                case LOADING:
+                    showHUD();
+                    break;
                 case SUCCESS:
+                    dismissHUD();
                     Constants.CURRENT_USER = (UserViewData) resource.getData();
+                    com.vit.mychat.remote.common.Constants.CURRENT_USER_AVATAR = Constants.CURRENT_USER.getAvatar();
                     GlideApp.with(this)
                             .load(Constants.CURRENT_USER.getAvatar())
                             .circleCrop()
+                            .placeholder(R.drawable.ic_avatar_user)
                             .into(mImageAvatar);
                     break;
             }

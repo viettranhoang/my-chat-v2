@@ -7,16 +7,18 @@ public class MessageEntity {
     private boolean seen;
     private long time;
     private String type;
+    private String avatar;
 
     public MessageEntity() {
     }
 
-    public MessageEntity(String message, String from, boolean seen, long time, String type) {
+    public MessageEntity(String message, String from, boolean seen, long time, String type, String avatar) {
         this.message = message;
         this.from = from;
         this.seen = seen;
         this.time = time;
         this.type = type;
+        this.avatar = avatar;
     }
 
     public String getMessage() {
@@ -57,5 +59,13 @@ public class MessageEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

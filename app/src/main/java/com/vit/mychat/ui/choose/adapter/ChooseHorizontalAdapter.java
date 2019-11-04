@@ -88,6 +88,7 @@ public class ChooseHorizontalAdapter extends RecyclerView.Adapter<ChooseHorizont
             GlideApp.with(itemView)
                     .load(userViewData.getAvatar())
                     .circleCrop()
+                    .placeholder(R.drawable.ic_avatar_user)
                     .into(mImageAvatar);
 
             mTextName.setText(userViewData.getName());

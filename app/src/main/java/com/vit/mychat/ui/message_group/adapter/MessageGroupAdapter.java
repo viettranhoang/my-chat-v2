@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vit.mychat.R;
-import com.vit.mychat.presentation.feature.group.model.GroupViewData;
 import com.vit.mychat.presentation.feature.message.config.MessageTypeConfig;
 import com.vit.mychat.presentation.feature.message.model.MessageViewData;
 import com.vit.mychat.ui.base.BaseViewHolder;
@@ -29,7 +28,6 @@ import butterknife.OnClick;
 public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapter.MessageViewHolder> {
 
     private List<MessageViewData> mMessageList = new ArrayList<>();
-    private GroupViewData mGroup;
 
     private static final int MESSAGE_LEFT = 1;
     private static final int MESSAGE_RIGHT = 2;
@@ -43,10 +41,6 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
     public void setList(List<MessageViewData> messageList) {
         this.mMessageList = messageList;
         notifyDataSetChanged();
-    }
-
-    public void setGroup(GroupViewData group) {
-        this.mGroup = group;
     }
 
     @NonNull
@@ -102,11 +96,13 @@ public class MessageGroupAdapter extends RecyclerView.Adapter<MessageGroupAdapte
 
         @Override
         public void bindData(MessageViewData message) {
-
-            GlideApp.with(itemView)
-                    .load(mGroup.getAvatar())
-                    .circleCrop()
-                    .into(mImageAvatar);
+            if (getAdapterPosition() > 0 && message.getFrom().equals(mMessageList.get(getAdapterPosition() - 1).getFrom())) {
+                mImageAvatar.setVisibility(View.INVISIBLE);
+            } else
+                GlideApp.with(itemView)
+                        .load(message.getAvatar())
+                        .circleCrop()
+                        .into(mImageAvatar);
             mTextTime.setText(Utils.getTime(message.getTime()));
             mTextSeen.setText(message.isSeen() ? "Đã xem" : "Đã chuyển");
 

@@ -36,6 +36,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import static com.vit.mychat.remote.common.Constants.CURRENT_USER_AVATAR;
 import static com.vit.mychat.remote.common.Constants.FRIEND_TYPE;
 import static com.vit.mychat.remote.common.Constants.GROUP_ID;
 import static com.vit.mychat.remote.common.Constants.JPG_IMAGE;
@@ -245,7 +246,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     @Override
     public Completable sendMessage(String userId, String message, String type) {
         return Completable.create(emitter -> {
-            MessageModel messageModel = new MessageModel(message, currentUserId, false, System.currentTimeMillis(), type);
+            MessageModel messageModel = new MessageModel(message, currentUserId, false, System.currentTimeMillis(), type, CURRENT_USER_AVATAR);
             String key = messageDatabase.child(currentUserId).child(userId).push().getKey();
 
             Map<String, Object> map = new HashMap<>();
@@ -404,7 +405,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                 }
             });
 
-            MessageModel messageModel = new MessageModel("Hi", currentUserId, true, System.currentTimeMillis(), "text");
+            MessageModel messageModel = new MessageModel("Hi", currentUserId, true, System.currentTimeMillis(), "text", CURRENT_USER_AVATAR);
             String key = messageDatabase.child(currentUserId).child(groupModel.getId()).push().getKey();
             Map<String, Object> map = new HashMap<>();
             for (String member : groupModel.getMembers()) {

@@ -21,4 +21,6 @@ public class Constants {
     public static final String FRIEND_TYPE = "friend";
 
     public static final String JPG_IMAGE = ".jpg";
+
+    public static String CURRENT_USER_AVATAR = "";
 }

@@ -89,6 +89,7 @@ public class RequestSentAdapter extends RecyclerView.Adapter<RequestSentAdapter.
             GlideApp.with(itemView.getContext())
                     .load(userViewData.getAvatar())
                     .circleCrop()
+                    .placeholder(R.drawable.ic_avatar_user)
                     .into(mImageAvatar);
 
             mTextName.setText(userViewData.getName());

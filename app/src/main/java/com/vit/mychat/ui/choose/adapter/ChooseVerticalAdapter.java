@@ -106,6 +106,7 @@ public class ChooseVerticalAdapter extends RecyclerView.Adapter<ChooseVerticalAd
             GlideApp.with(itemView)
                     .load(userViewData.getAvatar())
                     .circleCrop()
+                    .placeholder(R.drawable.ic_avatar_user)
                     .into(mImageAvatar);
 
             if (userViewData.getOnline() == Constants.ONLINE) {

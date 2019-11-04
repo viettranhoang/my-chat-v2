@@ -20,7 +20,7 @@ public class MessageViewDataMapper implements Mapper<Message, MessageViewData> {
         if (type == null) {
             return null;
         }
-        return new MessageViewData(type.getMessage(), type.getFrom(), type.isSeen(), type.getTime(), type.getType());
+        return new MessageViewData(type.getMessage(), type.getFrom(), type.isSeen(), type.getTime(), type.getType(), type.getAvatar());
     }
 
     @Override
@@ -28,6 +28,6 @@ public class MessageViewDataMapper implements Mapper<Message, MessageViewData> {
         if (type == null) {
             return null;
         }
-        return new Message(type.getMessage(), type.getFrom(), type.isSeen(), type.getTime(), type.getType());
+        return new Message(type.getMessage(), type.getFrom(), type.isSeen(), type.getTime(), type.getType(), type.getAvatar());
     }
 }

@@ -79,6 +79,7 @@ public class FriendOnlineAdapter extends RecyclerView.Adapter<FriendOnlineAdapte
             GlideApp.with(itemView.getContext())
                     .load(userViewData.getAvatar())
                     .circleCrop()
+                    .placeholder(R.drawable.ic_avatar_user)
                     .into(mImageAvatar);
 
             if(userViewData.getOnline() == Constants.ONLINE){

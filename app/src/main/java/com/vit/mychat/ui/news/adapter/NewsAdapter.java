@@ -151,6 +151,7 @@ public class NewsAdapter extends PagerAdapter {
         GlideApp.with(mImageNews.getContext())
                 .load(userViewData.getAvatar())
                 .circleCrop()
+                .placeholder(R.drawable.ic_avatar_user)
                 .into(mImageAvatar);
         mTextName.setText(userViewData.getName());
         mTextName.setTextColor(Color.WHITE);

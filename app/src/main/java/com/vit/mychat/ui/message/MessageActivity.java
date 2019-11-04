@@ -188,9 +188,11 @@ public class MessageActivity extends BaseActivity {
     void onClickSend() {
         sendMessageViewModel.sendMessage(mUser.getId(), mInputMessage.getText().toString(), MessageTypeConfig.TEXT)
                 .observe(this, resource -> {
+                    if (resource.getStatus() == ResourceState.LOADING) {
+                        mInputMessage.setText("");
+                    }
                     if (resource.getStatus() == ResourceState.SUCCESS) {
                         mRcvMessage.scrollToPosition(messageAdapter.getItemCount() - 1);
-                        mInputMessage.setText("");
                     }
                 });
     }
@@ -241,6 +243,7 @@ public class MessageActivity extends BaseActivity {
         GlideApp.with(this)
                 .load(mUser.getAvatar())
                 .circleCrop()
+                .placeholder(R.drawable.ic_avatar_user)
                 .into(mImageAvatar);
 
         mTextName.setText(mUser.getName());
@@ -255,7 +258,6 @@ public class MessageActivity extends BaseActivity {
     }
 
     private void initRcvMessage() {
-        messageAdapter.setUser(mUser);
         mRcvMessage.setLayoutManager(new LinearLayoutManager(this));
         mRcvMessage.setHasFixedSize(true);
         mRcvMessage.setItemAnimator(new DefaultItemAnimator());

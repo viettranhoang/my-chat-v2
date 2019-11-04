@@ -20,7 +20,7 @@ public class MessageModelMapper implements Mapper<MessageModel, MessageEntity> {
         if (type == null) {
             return null;
         }
-        return new MessageEntity(type.getMessage(), type.getFrom(), type.isSeen(), type.getTime(), type.getType());
+        return new MessageEntity(type.getMessage(), type.getFrom(), type.isSeen(), type.getTime(), type.getType(), type.getAvatar());
     }
 
     @Override
@@ -28,6 +28,6 @@ public class MessageModelMapper implements Mapper<MessageModel, MessageEntity> {
         if (type == null) {
             return null;
         }
-        return new MessageModel(type.getMessage(), type.getFrom(), type.isSeen(), type.getTime(), type.getType());
+        return new MessageModel(type.getMessage(), type.getFrom(), type.isSeen(), type.getTime(), type.getType(), type.getAvatar());
     }
 }

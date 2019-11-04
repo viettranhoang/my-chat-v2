@@ -81,4 +81,17 @@ public class UserViewData {
     public long getOnline() {
         return online;
     }
+
+    @Override
+    public String toString() {
+        return "UserViewData{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", cover='" + cover + '\'' +
+                ", news='" + news + '\'' +
+                ", online=" + online +
+                '}';
+    }
 }

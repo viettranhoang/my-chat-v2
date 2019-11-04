@@ -106,6 +106,7 @@ public class FriendNewsAdapter extends RecyclerView.Adapter<FriendNewsAdapter.Fr
                 GlideApp.with(itemView.getContext())
                         .load(userViewData.getAvatar())
                         .circleCrop()
+                        .placeholder(R.drawable.ic_avatar_user)
                         .into(mImageAvatar);
 
                 mTextName.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));

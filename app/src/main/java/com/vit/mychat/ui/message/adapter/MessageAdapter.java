@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.vit.mychat.R;
 import com.vit.mychat.presentation.feature.message.config.MessageTypeConfig;
 import com.vit.mychat.presentation.feature.message.model.MessageViewData;
-import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseViewHolder;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.util.Constants;
@@ -29,7 +28,6 @@ import butterknife.OnClick;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
     private List<MessageViewData> mMessageList = new ArrayList<>();
-    private UserViewData mUser;
 
     private static final int MESSAGE_LEFT = 1;
     private static final int MESSAGE_RIGHT = 2;
@@ -43,10 +41,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void setList(List<MessageViewData> messageList) {
         this.mMessageList = messageList;
         notifyDataSetChanged();
-    }
-
-    public void setUser(UserViewData userViewData) {
-        this.mUser = userViewData;
     }
 
     @NonNull
@@ -103,9 +97,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         @Override
         public void bindData(MessageViewData message) {
 
-            GlideApp.with(itemView)
-                    .load(mUser.getAvatar())
+            if (getAdapterPosition() > 0 && message.getFrom().equals(mMessageList.get(getAdapterPosition() - 1).getFrom())) {
+                mImageAvatar.setVisibility(View.INVISIBLE);
+            } else
+                GlideApp.with(itemView)
+                    .load(message.getAvatar())
                     .circleCrop()
+                    .placeholder(R.drawable.ic_avatar_user)
                     .into(mImageAvatar);
             mTextTime.setText(Utils.getTime(message.getTime()));
             mTextSeen.setText(message.isSeen() ? "Đã xem" : "Đã chuyển");

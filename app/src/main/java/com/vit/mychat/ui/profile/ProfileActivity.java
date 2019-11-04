@@ -313,6 +313,7 @@ public class ProfileActivity extends BaseActivity {
         GlideApp.with(this)
                 .load(user.getAvatar())
                 .circleCrop()
+                .placeholder(R.drawable.ic_avatar_user)
                 .into(mImageAvatar);
 
         GlideApp.with(this)
