@@ -20,7 +20,7 @@ import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
-import com.vit.mychat.ui.bot.BotFragment;
+import com.vit.mychat.ui.secret.SecretFragment;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.choose.ChooseActivity;
 import com.vit.mychat.ui.friends.FriendsFragment;
@@ -28,6 +28,7 @@ import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.request_receive.RequestReceiveActivity;
 import com.vit.mychat.ui.request_sent.RequestSentActivity;
 import com.vit.mychat.ui.search.SearchActivity;
+import com.vit.mychat.ui.secret.pick_friend.SecretPickFriendActivity;
 import com.vit.mychat.util.Constants;
 
 import butterknife.BindView;
@@ -60,6 +61,9 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.image_add_friends)
     ImageView mImageAddFriends;
+
+    @BindView(R.id.image_send_lock)
+    ImageView mImageSendLock;
 
     @BindView(R.id.text_title)
     TextView mTextTitle;
@@ -113,6 +117,11 @@ public class MainActivity extends BaseActivity {
         RequestReceiveActivity.moveRequestReceiveActivity(this);
     }
 
+    @OnClick(R.id.image_send_lock)
+    void onClickSendLock() {
+        SecretPickFriendActivity.moveSecretPickFriendActivity(this);
+    }
+
     @OnClick(R.id.text_search)
     void onClickSearch() {
         SearchActivity.moveSearchActivity(this);
@@ -149,17 +158,17 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 case R.id.menu_chat:
                     switchFragment(ChatFragment.newInstance(), ChatFragment.TAG, false, false);
-                    setUpScreen(R.string.chat, View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.VISIBLE);
+                    setUpScreen(R.string.chat, View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
                     return true;
 
                 case R.id.menu_friends:
                     switchFragment(FriendsFragment.newInstance(), FriendsFragment.TAG, false, false);
-                    setUpScreen(R.string.friends, View.VISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
+                    setUpScreen(R.string.friends, View.VISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                     return true;
 
                 case R.id.menu_bot:
-                    switchFragment(BotFragment.newInstance(), BotFragment.TAG, false, false);
-                    setUpScreen(R.string.bot, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
+                    switchFragment(SecretFragment.Companion.newInstance(), SecretFragment.Companion.getTAG(), false, false);
+                    setUpScreen(R.string.bot, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.VISIBLE);
                     return true;
             }
             return false;
@@ -168,12 +177,13 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void setUpScreen(int title, int contact, int addFriends, int camera, int create) {
+    private void setUpScreen(int title, int contact, int addFriends, int camera, int create, int lock) {
         mTextTitle.setText(getString(title));
         mImageContacts.setVisibility(contact);
         mImageAddFriends.setVisibility(addFriends);
         mImageCamera.setVisibility(camera);
         mImageCreate.setVisibility(create);
+        mImageSendLock.setVisibility(lock);
         mViewScrollMain.post(() -> mViewScrollMain.scrollTo(0, 0));
     }
 

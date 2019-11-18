@@ -3,7 +3,7 @@ package com.vit.mychat.di;
 import android.app.Application;
 
 import com.vit.mychat.MyChatApplication;
-import com.vit.mychat.cache.PrefUtils;
+import com.vit.mychat.cache.common.PrefUtils;
 import com.vit.mychat.remote.feature.MyChatFirestore;
 import com.vit.mychat.remote.feature.MyChatFirestoreFactory;
 

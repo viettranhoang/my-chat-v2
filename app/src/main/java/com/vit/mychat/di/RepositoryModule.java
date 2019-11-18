@@ -2,6 +2,7 @@ package com.vit.mychat.di;
 
 
 import com.vit.mychat.cache.features.auth.AuthCacheImpl;
+import com.vit.mychat.cache.features.secret_message.SecretMessageCacheImpl;
 import com.vit.mychat.data.auth.AuthRepositoryImpl;
 import com.vit.mychat.data.auth.source.AuthCache;
 import com.vit.mychat.data.auth.source.AuthRemote;
@@ -15,6 +16,7 @@ import com.vit.mychat.data.message.MessageRepositoryImpl;
 import com.vit.mychat.data.message.source.MessageRemote;
 import com.vit.mychat.data.news.NewsRepositoryImpl;
 import com.vit.mychat.data.news.source.NewsRemote;
+import com.vit.mychat.data.secret_message.source.SecretMessageCache;
 import com.vit.mychat.data.user.UserRepositoryImpl;
 import com.vit.mychat.data.user.source.UserRemote;
 import com.vit.mychat.domain.usecase.auth.repository.AuthRepository;
@@ -99,4 +101,8 @@ public abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract GroupRemote groupRemote(GroupRemoteImpl groupRemote);
+
+    @Singleton
+    @Binds
+    abstract SecretMessageCache secretMessageCache(SecretMessageCacheImpl secretMessageCache);
 }

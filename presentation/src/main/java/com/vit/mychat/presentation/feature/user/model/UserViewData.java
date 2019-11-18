@@ -94,4 +94,8 @@ public class UserViewData {
                 ", online=" + online +
                 '}';
     }
+
+    interface OnClickUserItemListener{
+        void onClickUserItem(UserViewData userViewData);
+    }
 }

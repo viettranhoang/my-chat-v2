@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -78,6 +80,8 @@ dependencies {
     testImplementation testDependencies.powermockJunit
     androidTestImplementation testDependencies.testRunner
     androidTestImplementation testDependencies.espressoCore
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
 // Firebase

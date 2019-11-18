@@ -50,6 +50,7 @@
         <activity android:name=".ui.news.NewsActivity" />
         <activity android:name=".ui.choose.ChooseActivity" />
         <activity android:name=".ui.message_group.MessageGroupActivity" />
+        <activity android:name=".ui.secret.pick_friend.SecretPickFriendActivity" />
 
 
         <service android:name=".util.MyFirebaseService">

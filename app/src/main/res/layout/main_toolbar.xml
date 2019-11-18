@@ -51,6 +51,12 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_account_arrow_right" />
 
+        <ImageView
+            android:id="@+id/image_send_lock"
+            style="@style/ToolbarMenuItem"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_send_lock" />
+
     </RelativeLayout>
 
 </android.support.v7.widget.Toolbar>

@@ -21,6 +21,8 @@ import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.profile.ProfileModule;
 import com.vit.mychat.ui.search.SearchActivity;
 import com.vit.mychat.ui.search.module.SearchModule;
+import com.vit.mychat.ui.secret.pick_friend.SecretPickFriendActivity;
+import com.vit.mychat.ui.secret.pick_friend.module.SecretPickFriendModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -67,4 +69,8 @@ public abstract class ActivityModule {
     @PerActivity
     @ContributesAndroidInjector(modules = ChooseModule.class)
     abstract ChooseActivity chooseActivityInjector();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = SecretPickFriendModule.class)
+    abstract SecretPickFriendActivity secretPickFriendActivity();
 }

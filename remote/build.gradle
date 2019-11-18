@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -48,7 +50,11 @@ dependencies {
     implementation remoteDependencies.googleAuth
     implementation remoteDependencies.firebaseFirestore
     implementation remoteDependencies.firebaseStorage
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 sourceCompatibility = "8"
 targetCompatibility = "8"
+repositories {
+    mavenCentral()
+}

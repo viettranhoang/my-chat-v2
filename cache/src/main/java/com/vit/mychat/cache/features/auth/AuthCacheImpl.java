@@ -1,6 +1,6 @@
 package com.vit.mychat.cache.features.auth;
 
-import com.vit.mychat.cache.PrefUtils;
+import com.vit.mychat.cache.common.PrefUtils;
 import com.vit.mychat.data.auth.source.AuthCache;
 
 import javax.inject.Inject;

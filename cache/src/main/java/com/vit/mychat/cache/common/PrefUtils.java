@@ -1,4 +1,4 @@
-package com.vit.mychat.cache;
+package com.vit.mychat.cache.common;
 
 import android.app.Application;
 import android.content.Context;

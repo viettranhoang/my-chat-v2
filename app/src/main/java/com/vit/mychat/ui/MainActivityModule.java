@@ -2,8 +2,8 @@ package com.vit.mychat.ui;
 
 import com.vit.mychat.di.scope.PerFragment;
 import com.vit.mychat.ui.base.module.BaseActivityModule;
-import com.vit.mychat.ui.bot.BotFragment;
-import com.vit.mychat.ui.bot.module.BotModule;
+import com.vit.mychat.ui.secret.SecretFragment;
+import com.vit.mychat.ui.secret.module.SecretModule;
 import com.vit.mychat.ui.chat.ChatFragment;
 import com.vit.mychat.ui.chat.module.ChatModule;
 import com.vit.mychat.ui.friends.FriendsFragment;
@@ -24,6 +24,6 @@ public abstract class MainActivityModule {
     abstract FriendsFragment friendFragmentInjector();
 
     @PerFragment
-    @ContributesAndroidInjector(modules = BotModule.class)
-    abstract BotFragment botFragmentInjector();
+    @ContributesAndroidInjector(modules = SecretModule.class)
+    abstract SecretFragment botFragmentInjector();
 }
