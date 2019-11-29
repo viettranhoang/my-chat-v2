@@ -33,4 +33,13 @@ public class ChatRepositoryImpl implements ChatRepository {
                         .toList()
                         .toObservable());
     }
+
+    @Override
+    public Observable<List<Chat>> getSecretChatList() {
+        return chatRemote.getSecretChatList()
+                .flatMap(chatEntities -> Observable.fromIterable(chatEntities)
+                        .map(mapper::mapFromEntity)
+                        .toList()
+                        .toObservable());
+    }
 }

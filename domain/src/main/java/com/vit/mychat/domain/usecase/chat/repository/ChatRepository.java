@@ -9,4 +9,6 @@ import io.reactivex.Observable;
 public interface ChatRepository {
 
     Observable<List<Chat>> getChatList();
+
+    Observable<List<Chat>> getSecretChatList();
 }

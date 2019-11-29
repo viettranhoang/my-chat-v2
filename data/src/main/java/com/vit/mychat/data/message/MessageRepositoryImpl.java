@@ -37,6 +37,15 @@ public class MessageRepositoryImpl implements MessageRepository {
     }
 
     @Override
+    public Observable<List<Message>> getSecretMessageList(String userId) {
+        return messageRemote.getSecretMessageList(userId)
+                .flatMap(messageEntities -> Observable.fromIterable(messageEntities)
+                        .map(messageEntity -> mapper.mapFromEntity(messageEntity))
+                        .toList()
+                        .toObservable());
+    }
+
+    @Override
     public Completable sendMessage(String userId, String message, String type) {
         return messageRemote.sendMessage(userId, message, type);
     }

@@ -62,6 +62,8 @@ public interface MyChatFirestore {
      */
     Observable<List<ChatModel>> getChatList();
 
+    Observable<List<ChatModel>> getSecretChatList();
+
     /**
      * news
      */

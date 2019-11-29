@@ -44,4 +44,8 @@ public class ChatViewData {
     public void setLastMessage(MessageViewData lastMessage) {
         this.lastMessage = lastMessage;
     }
+
+    public interface OnClickChatItemListener {
+        void onClickUserChatItem(UserViewData userViewData);
+    }
 }

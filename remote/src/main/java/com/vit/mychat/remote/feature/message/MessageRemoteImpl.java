@@ -36,6 +36,15 @@ public class MessageRemoteImpl implements MessageRemote {
     }
 
     @Override
+    public Observable<List<MessageEntity>> getSecretMessageList(String userId) {
+        return myChatFirestore.getSecretMessageList(userId)
+                .flatMap(messageModels -> Observable.fromIterable(messageModels)
+                        .map(messageModel -> mapper.mapToEntity(messageModel))
+                        .toList()
+                        .toObservable());
+    }
+
+    @Override
     public Completable sendMessage(String userId, String message, String type) {
         return myChatFirestore.sendMessage(userId, message, type);
     }

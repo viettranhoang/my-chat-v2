@@ -48,6 +48,7 @@ import static com.vit.mychat.remote.common.Constants.TABLE_GROUP;
 import static com.vit.mychat.remote.common.Constants.TABLE_IMAGE;
 import static com.vit.mychat.remote.common.Constants.TABLE_MESSAGE;
 import static com.vit.mychat.remote.common.Constants.TABLE_PUBLIC_KEY;
+import static com.vit.mychat.remote.common.Constants.TABLE_SECRET_MESSSAGE;
 import static com.vit.mychat.remote.common.Constants.TABLE_USER;
 
 @Singleton
@@ -362,6 +363,39 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                                 } else {
                                     chatModel.setUser(dataSnapshot.child(TABLE_USER).child(idSender).getValue(UserModel.class));
                                 }
+
+                                listChat.add(chatModel);
+                            }
+                        }
+
+                        emitter.onNext(listChat);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        emitter.onError(databaseError.toException());
+                    }
+                }));
+    }
+
+    @Override
+    public Observable<List<ChatModel>> getSecretChatList() {
+        return Observable.create(emitter ->
+                database.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<ChatModel> listChat = new ArrayList<>();
+
+                        if (currentUserId != null) {
+                            for (DataSnapshot data : dataSnapshot.child(TABLE_SECRET_MESSSAGE).child(currentUserId).getChildren()) {
+
+                                ChatModel chatModel = new ChatModel();
+
+                                String idSender = data.getKey();
+
+                                Log.i(TAG, "onDataChange: idSender" + idSender);
+
+                                chatModel.setUser(dataSnapshot.child(TABLE_USER).child(idSender).getValue(UserModel.class));
 
                                 listChat.add(chatModel);
                             }

@@ -25,9 +25,10 @@ import com.vit.mychat.domain.usecase.secret.repository.SecretRepository;
 import com.vit.mychat.presentation.data.ResourceState;
 import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
 import com.vit.mychat.presentation.feature.image.config.ImageTypeConfig;
-import com.vit.mychat.presentation.feature.message.GetMessageListViewModel;
+import com.vit.mychat.presentation.feature.message.GetSecretMessageListViewModel;
 import com.vit.mychat.presentation.feature.message.SendSecretMessageViewModel;
 import com.vit.mychat.presentation.feature.message.config.MessageTypeConfig;
+import com.vit.mychat.presentation.feature.message.model.MessageViewData;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.remote.feature.MyChatFirestore;
 import com.vit.mychat.ui.base.BaseActivity;
@@ -40,12 +41,14 @@ import com.vit.mychat.util.Utils;
 import org.parceler.Parcels;
 
 import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import io.reactivex.Observable;
 
 public class MessageSecretActivity extends BaseActivity {
 
@@ -100,7 +103,7 @@ public class MessageSecretActivity extends BaseActivity {
     @Inject
     MessageSecretAdapter messageSecretAdapter;
 
-    private GetMessageListViewModel getMessageListViewModel;
+    private GetSecretMessageListViewModel getMessageListViewModel;
     private SendSecretMessageViewModel sendMessageViewModel;
     private UploadImageViewModel uploadImageViewModel;
     private UserViewData mUser;
@@ -120,7 +123,7 @@ public class MessageSecretActivity extends BaseActivity {
 
         initToolbar();
 
-        getMessageListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetMessageListViewModel.class);
+        getMessageListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetSecretMessageListViewModel.class);
         sendMessageViewModel = ViewModelProviders.of(this, viewModelFactory).get(SendSecretMessageViewModel.class);
         uploadImageViewModel = ViewModelProviders.of(this, viewModelFactory).get(UploadImageViewModel.class);
 
@@ -287,14 +290,16 @@ public class MessageSecretActivity extends BaseActivity {
         mRcvMessage.setItemAnimator(new DefaultItemAnimator());
         mRcvMessage.setAdapter(messageSecretAdapter);
 
-        /*getMessageListViewModel.getMessageList(mUser.getId()).observe(this, resource -> {
+        getMessageListViewModel.getMessageList(mUser.getId()).observe(this, resource -> {
             switch (resource.getStatus()) {
                 case LOADING:
                     showHUD();
                     break;
                 case SUCCESS:
                     dismissHUD();
-                    messageSecretAdapter.setList((List<MessageViewData>) resource.getData());
+                    List<MessageViewData> messages = decryptMessageList((List<MessageViewData>) resource.getData());
+                    Log.i(TAG, "initRcvMessage: " + messages);
+                    messageSecretAdapter.setList(messages);
                     mRcvMessage.scrollToPosition(messageSecretAdapter.getItemCount() - 1);
                     break;
                 case ERROR:
@@ -302,6 +307,16 @@ public class MessageSecretActivity extends BaseActivity {
                     showToast(resource.getThrowable().getMessage());
                     break;
             }
-        });*/
+        });
+    }
+
+    private List<MessageViewData> decryptMessageList(List<MessageViewData> messages) {
+        return Observable.fromIterable(messages)
+                .map(messageViewData -> {
+                    messageViewData.setMessage(diffieHellman.decrypt(messageViewData.getMessage()));
+                    return messageViewData;
+                })
+                .toList()
+                .blockingGet();
     }
 }

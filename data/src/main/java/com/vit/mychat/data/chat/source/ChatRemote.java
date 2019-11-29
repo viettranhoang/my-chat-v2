@@ -9,4 +9,6 @@ import io.reactivex.Observable;
 public interface ChatRemote {
 
     Observable<List<ChatEntity>> getChatList();
+
+    Observable<List<ChatEntity>> getSecretChatList();
 }

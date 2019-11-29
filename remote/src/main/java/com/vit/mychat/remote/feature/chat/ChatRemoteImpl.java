@@ -34,4 +34,14 @@ public class ChatRemoteImpl implements ChatRemote {
                                 .compareTo(Long.valueOf(o1.getLastMessage().getTime())))
                         .toObservable());
     }
+
+    @Override
+    public Observable<List<ChatEntity>> getSecretChatList() {
+        return myChatFirestore.getSecretChatList()
+                .flatMap(chatModels -> Observable.fromIterable(chatModels)
+                        .map(mapper::mapToEntity)
+                        .toSortedList((o1, o2) -> Long.valueOf(o2.getLastMessage().getTime())
+                                .compareTo(Long.valueOf(o1.getLastMessage().getTime())))
+                        .toObservable());
+    }
 }

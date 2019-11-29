@@ -7,9 +7,11 @@ import com.vit.mychat.di.key.ViewModelKey;
 import com.vit.mychat.presentation.feature.MyChatViewModelFactory;
 import com.vit.mychat.presentation.feature.auth.AuthViewModel;
 import com.vit.mychat.presentation.feature.chat.GetChatListViewModel;
+import com.vit.mychat.presentation.feature.chat.GetSecretChatListViewModel;
 import com.vit.mychat.presentation.feature.group.CreateGroupViewModel;
 import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
 import com.vit.mychat.presentation.feature.message.GetMessageListViewModel;
+import com.vit.mychat.presentation.feature.message.GetSecretMessageListViewModel;
 import com.vit.mychat.presentation.feature.message.SendMessageViewModel;
 import com.vit.mychat.presentation.feature.message.SendSecretMessageViewModel;
 import com.vit.mychat.presentation.feature.news.GetNewsListViewModel;
@@ -91,6 +93,11 @@ public abstract class ViewModelModule {
     @ViewModelKey(SendSecretMessageViewModel.class)
     abstract ViewModel bindSendSecretMessageViewModel(SendSecretMessageViewModel sendMessageViewModel);
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(GetSecretMessageListViewModel.class)
+    abstract ViewModel bindGetSecretMessageListViewModel(GetSecretMessageListViewModel getMessageListViewModel);
+
     /**
      * chat
      */
@@ -98,6 +105,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(GetChatListViewModel.class)
     abstract ViewModel bindGetChatListViewModel(GetChatListViewModel getChatListViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GetSecretChatListViewModel.class)
+    abstract ViewModel bindGetSecretChatListUseCase(GetSecretChatListViewModel getChatListViewModel);
 
     /**
      * news

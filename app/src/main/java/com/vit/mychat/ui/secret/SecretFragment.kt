@@ -1,35 +1,64 @@
 package com.vit.mychat.ui.secret
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.google.firebase.database.FirebaseDatabase
 import com.vit.mychat.R
-import com.vit.mychat.data.secret_message.source.SecretCache
-import com.vit.mychat.remote.common.Constants
-import com.vit.mychat.remote.feature.MyChatFirestore
+import com.vit.mychat.presentation.data.ResourceState
+import com.vit.mychat.presentation.feature.chat.GetSecretChatListViewModel
+import com.vit.mychat.presentation.feature.chat.model.ChatViewData
+import com.vit.mychat.presentation.feature.group.model.GroupViewData
+import com.vit.mychat.presentation.feature.user.model.UserViewData
 import com.vit.mychat.ui.base.BaseFragment
-import com.vit.mychat.util.DiffieHellman
+import com.vit.mychat.ui.chat.adapter.ChatAdapter
+import com.vit.mychat.ui.chat.listener.OnClickChatItemListener
+import com.vit.mychat.ui.message_secret.MessageSecretActivity
+import kotlinx.android.synthetic.main.bot_fragment.*
 import javax.inject.Inject
 
 
-class SecretFragment : BaseFragment() {
+class SecretFragment : BaseFragment(), OnClickChatItemListener {
 
     @Inject
-    lateinit var myChatFirestore: MyChatFirestore
+    lateinit var mChatAdapter: ChatAdapter
 
-    @Inject
-    lateinit var secretCache: SecretCache
-
-    @Inject
-    lateinit var diffieHellman: DiffieHellman
-
-    private val database by lazy { FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_SECRET_MESSSAGE) }
+    private lateinit var getChatListViewModel: GetSecretChatListViewModel
 
     override fun getLayoutId(): Int = R.layout.bot_fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getChatListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetSecretChatListViewModel::class.java)
+
+        initRcv()
+
+        getChatListViewModel.chatList.observe(this, Observer{ resource ->
+            when (resource!!.status) {
+                ResourceState.SUCCESS -> mChatAdapter.setChatList(resource.data as List<ChatViewData>)
+                ResourceState.ERROR -> showToast(resource.throwable.message)
+            }
+        })
+    }
+
+    override fun onClickUserChatItem(userViewData: UserViewData?) {
+        MessageSecretActivity.moveMessageSecretActivity(mainActivity, userViewData)
+    }
+
+    override fun onClickGroupChatItem(groupViewData: GroupViewData?) {
+
+    }
+
+    private fun initRcv() {
+        listMessage.apply {
+            layoutManager = LinearLayoutManager(mainActivity)
+            setHasFixedSize(true)
+            itemAnimator = DefaultItemAnimator()
+            adapter = mChatAdapter
+        }
     }
 
     companion object {

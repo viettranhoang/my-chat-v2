@@ -51,7 +51,6 @@
             android:inputType="text"
             android:layout_below="@+id/text_name"
             android:fontFamily="sans-serif"
-            android:text="Yeu bom nhat "
             android:textColor="@color/black40"
             android:textSize="@dimen/text_body" />
 
@@ -62,7 +61,6 @@
             android:layout_marginLeft="@dimen/text_body"
             android:layout_toRightOf="@+id/text_message"
             android:fontFamily="sans-serif"
-            android:text="14:45"
             android:textColor="@color/black40"
             android:textSize="@dimen/text_body" />
 
