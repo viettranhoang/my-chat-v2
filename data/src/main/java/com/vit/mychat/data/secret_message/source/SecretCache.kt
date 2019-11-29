@@ -1,6 +1,6 @@
 package com.vit.mychat.data.secret_message.source
 
-interface SecretMessageCache {
+interface SecretCache {
 
     fun savePublicKey(uid: String, publicKey: String)
 

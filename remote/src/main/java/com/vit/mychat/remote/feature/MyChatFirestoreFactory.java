@@ -47,6 +47,7 @@ import static com.vit.mychat.remote.common.Constants.TABLE_FRIEND;
 import static com.vit.mychat.remote.common.Constants.TABLE_GROUP;
 import static com.vit.mychat.remote.common.Constants.TABLE_IMAGE;
 import static com.vit.mychat.remote.common.Constants.TABLE_MESSAGE;
+import static com.vit.mychat.remote.common.Constants.TABLE_PUBLIC_KEY;
 import static com.vit.mychat.remote.common.Constants.TABLE_USER;
 
 @Singleton
@@ -58,6 +59,8 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     private DatabaseReference userDatabase;
     private DatabaseReference friendDatabase;
     private DatabaseReference messageDatabase;
+    private DatabaseReference secretMessageDatabase;
+    private DatabaseReference publicKeyDatabase;
     private DatabaseReference groupDatabase;
     private DatabaseReference database;
     private FirebaseAuth auth;
@@ -72,7 +75,9 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
         userDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_USER);
         friendDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_FRIEND);
         messageDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_MESSAGE);
+        secretMessageDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_SECRET_MESSSAGE);
         groupDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(TABLE_GROUP);
+        publicKeyDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(TABLE_PUBLIC_KEY);
         currentUserId = auth.getUid();
 
         userDatabase.keepSynced(true);
@@ -292,6 +297,36 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
         });
     }
 
+    @Override
+    public Completable sendSecretMessage(String userId, String message, String type) {
+        return Completable.create(emitter -> {
+                    MessageModel messageModel = new MessageModel(message, currentUserId, false, System.currentTimeMillis(), type, CURRENT_USER_AVATAR);
+                    String key = secretMessageDatabase.child(currentUserId).child(userId).push().getKey();
+
+                    Map<String, Object> map = new HashMap<>();
+
+                    if (!userId.contains(GROUP_ID)) {
+                        map.put(String.format(Constants.CHILDREN, currentUserId, userId, key), messageModel.toMap());
+                        map.put(String.format(Constants.CHILDREN, userId, currentUserId, key), messageModel.toMap());
+
+                        secretMessageDatabase.updateChildren(map, (databaseError, databaseReference) -> {
+                            if (!emitter.isDisposed()) {
+                                if (null != databaseError) {
+                                    emitter.onError(databaseError.toException());
+                                } else {
+                                    emitter.onComplete();
+                                }
+                            }
+                        });
+                    }
+        });
+    }
+
+    @Override
+    public Observable<List<MessageModel>> getSecretMessageList(String userId) {
+        return RxFirebase.getList(secretMessageDatabase.child(currentUserId).child(userId), MessageModel.class);
+    }
+
 
     /**
      * chat
@@ -447,5 +482,18 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                     })
                     .addOnFailureListener(e -> emitter.onError(e));
         });
+    }
+
+    /**
+     * secret
+     */
+    @Override
+    public Completable savePublicKey(String uid, String publicKey) {
+        return RxFirebase.setValue(publicKeyDatabase.child(uid), publicKey);
+    }
+
+    @Override
+    public Single<String> getPublicKey(String uid) {
+        return RxFirebase.getValueSingle(publicKeyDatabase.child(uid), String.class);
     }
 }

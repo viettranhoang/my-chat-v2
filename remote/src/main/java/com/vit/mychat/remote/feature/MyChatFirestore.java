@@ -53,6 +53,10 @@ public interface MyChatFirestore {
 
     Completable sendMessage(String userId, String message, String type);
 
+    Completable sendSecretMessage(String userId, String message, String type);
+
+    Observable<List<MessageModel>> getSecretMessageList(String userId);
+
     /**
      * chat
      */
@@ -73,5 +77,13 @@ public interface MyChatFirestore {
      * image
      */
     Single<String> updateImage(File image, String type);
+
+    /**
+     * secret
+     */
+    Completable savePublicKey(String uid, String publicKey);
+
+    Single<String> getPublicKey(String uid);
+
 
 }

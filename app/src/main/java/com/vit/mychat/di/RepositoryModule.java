@@ -2,7 +2,7 @@ package com.vit.mychat.di;
 
 
 import com.vit.mychat.cache.features.auth.AuthCacheImpl;
-import com.vit.mychat.cache.features.secret_message.SecretMessageCacheImpl;
+import com.vit.mychat.cache.features.secret_message.SecretCacheImpl;
 import com.vit.mychat.data.auth.AuthRepositoryImpl;
 import com.vit.mychat.data.auth.source.AuthCache;
 import com.vit.mychat.data.auth.source.AuthRemote;
@@ -16,7 +16,9 @@ import com.vit.mychat.data.message.MessageRepositoryImpl;
 import com.vit.mychat.data.message.source.MessageRemote;
 import com.vit.mychat.data.news.NewsRepositoryImpl;
 import com.vit.mychat.data.news.source.NewsRemote;
-import com.vit.mychat.data.secret_message.source.SecretMessageCache;
+import com.vit.mychat.data.secret_message.SecretRepositoryImpl;
+import com.vit.mychat.data.secret_message.source.SecretCache;
+import com.vit.mychat.data.secret_message.source.SecretRemote;
 import com.vit.mychat.data.user.UserRepositoryImpl;
 import com.vit.mychat.data.user.source.UserRemote;
 import com.vit.mychat.domain.usecase.auth.repository.AuthRepository;
@@ -25,6 +27,7 @@ import com.vit.mychat.domain.usecase.group.repository.GroupRepository;
 import com.vit.mychat.domain.usecase.image.repository.ImageRepository;
 import com.vit.mychat.domain.usecase.message.repository.MessageRepository;
 import com.vit.mychat.domain.usecase.news.repository.NewsRepository;
+import com.vit.mychat.domain.usecase.secret.repository.SecretRepository;
 import com.vit.mychat.domain.usecase.user.repository.UserRepository;
 import com.vit.mychat.remote.feature.auth.AuthRemoteImpl;
 import com.vit.mychat.remote.feature.chat.ChatRemoteImpl;
@@ -32,6 +35,7 @@ import com.vit.mychat.remote.feature.group.GroupRemoteImpl;
 import com.vit.mychat.remote.feature.image.ImageRemoteImpl;
 import com.vit.mychat.remote.feature.message.MessageRemoteImpl;
 import com.vit.mychat.remote.feature.news.NewsRemoteImpl;
+import com.vit.mychat.remote.feature.secret.SecretRemoteImpl;
 import com.vit.mychat.remote.feature.user.UserRemoteImpl;
 
 import javax.inject.Singleton;
@@ -104,5 +108,13 @@ public abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract SecretMessageCache secretMessageCache(SecretMessageCacheImpl secretMessageCache);
+    abstract SecretCache secretMessageCache(SecretCacheImpl secretMessageCache);
+
+    @Singleton
+    @Binds
+    abstract SecretRemote secretRemote(SecretRemoteImpl secretRemote);
+
+    @Singleton
+    @Binds
+    abstract SecretRepository SecretRepository(SecretRepositoryImpl secretRepository);
 }

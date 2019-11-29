@@ -40,4 +40,9 @@ public class MessageRepositoryImpl implements MessageRepository {
     public Completable sendMessage(String userId, String message, String type) {
         return messageRemote.sendMessage(userId, message, type);
     }
+
+    @Override
+    public Completable sendSecretMessage(String userId, String message, String type) {
+        return messageRemote.sendSecretMessage(userId, message, type);
+    }
 }

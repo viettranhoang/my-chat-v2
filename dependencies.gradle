@@ -74,7 +74,10 @@ ext {
             rx2Java        : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
-            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
+            room           : "android.arch.persistence.room:runtime:${roomVersion}",
+            roomProcessor  : "android.arch.persistence.room:compiler:${roomVersion}",
+            roomRx2        : "android.arch.persistence.room:rxjava2:${roomVersion}"
     ]
 
     remoteDependencies = [

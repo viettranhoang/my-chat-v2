@@ -3,12 +3,12 @@ package com.vit.mychat.cache.features.secret_message
 
 import com.vit.mychat.cache.common.PrefUtils
 import com.vit.mychat.data.auth.source.AuthCache
-import com.vit.mychat.data.secret_message.source.SecretMessageCache
+import com.vit.mychat.data.secret_message.source.SecretCache
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SecretMessageCacheImpl @Inject constructor() : SecretMessageCache{
+class SecretCacheImpl @Inject constructor() : SecretCache{
 
     @Inject
     lateinit var prefUtils: PrefUtils
@@ -21,7 +21,7 @@ class SecretMessageCacheImpl @Inject constructor() : SecretMessageCache{
     }
 
     override fun getPublicKey(uid: String): String {
-        return prefUtils.get(uid, null)
+        return prefUtils.get(uid, "")
     }
 
     override fun getCurrentUserPrivateKey(): String {

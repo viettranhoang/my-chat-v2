@@ -39,4 +39,9 @@ public class MessageRemoteImpl implements MessageRemote {
     public Completable sendMessage(String userId, String message, String type) {
         return myChatFirestore.sendMessage(userId, message, type);
     }
+
+    @Override
+    public Completable sendSecretMessage(String userId, String message, String type) {
+        return myChatFirestore.sendSecretMessage(userId, message, type);
+    }
 }

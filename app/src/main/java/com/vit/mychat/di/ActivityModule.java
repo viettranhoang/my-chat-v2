@@ -9,6 +9,8 @@ import com.vit.mychat.ui.choose.ChooseActivity;
 import com.vit.mychat.ui.choose.module.ChooseModule;
 import com.vit.mychat.ui.message_group.MessageGroupActivity;
 import com.vit.mychat.ui.message_group.module.MessageGroupModule;
+import com.vit.mychat.ui.message_secret.MessageSecretActivity;
+import com.vit.mychat.ui.message_secret.module.MessageSecretModule;
 import com.vit.mychat.ui.news.NewsActivity;
 import com.vit.mychat.ui.news.module.NewsModule;
 import com.vit.mychat.ui.request_receive.RequestReceiveActivity;
@@ -73,4 +75,9 @@ public abstract class ActivityModule {
     @PerActivity
     @ContributesAndroidInjector(modules = SecretPickFriendModule.class)
     abstract SecretPickFriendActivity secretPickFriendActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = MessageSecretModule.class)
+    abstract MessageSecretActivity messageSecretActivity();
+
 }

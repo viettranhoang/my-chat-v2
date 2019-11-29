@@ -11,6 +11,7 @@ import com.vit.mychat.presentation.feature.group.CreateGroupViewModel;
 import com.vit.mychat.presentation.feature.image.UploadImageViewModel;
 import com.vit.mychat.presentation.feature.message.GetMessageListViewModel;
 import com.vit.mychat.presentation.feature.message.SendMessageViewModel;
+import com.vit.mychat.presentation.feature.message.SendSecretMessageViewModel;
 import com.vit.mychat.presentation.feature.news.GetNewsListViewModel;
 import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
 import com.vit.mychat.presentation.feature.user.GetUserByIdViewModel;
@@ -84,6 +85,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SendMessageViewModel.class)
     abstract ViewModel bindSendMessageViewModel(SendMessageViewModel sendMessageViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SendSecretMessageViewModel.class)
+    abstract ViewModel bindSendSecretMessageViewModel(SendSecretMessageViewModel sendMessageViewModel);
 
     /**
      * chat

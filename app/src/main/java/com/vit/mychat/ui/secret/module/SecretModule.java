@@ -14,7 +14,7 @@ public abstract class SecretModule {
 
     @Binds
     @PerFragment
-    abstract Fragment botFragment(SecretFragment secretFragment);
+    abstract Fragment secretFragment(SecretFragment secretFragment);
 
 
 }

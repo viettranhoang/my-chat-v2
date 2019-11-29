@@ -5,7 +5,12 @@ import android.util.Log
 import com.vit.mychat.cache.common.getString
 import com.vit.mychat.cache.common.toPrivateKey
 import com.vit.mychat.cache.common.toPublicKey
-import com.vit.mychat.data.secret_message.source.SecretMessageCache
+import com.vit.mychat.domain.usecase.secret.repository.SecretRepository
+import io.reactivex.SingleObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.security.Key
 import java.security.KeyPair
 import java.security.KeyPairGenerator
@@ -21,33 +26,46 @@ import kotlin.system.exitProcess
 class DiffieHellman @Inject constructor() {
 
     @Inject
-    lateinit var secretMessageCache: SecretMessageCache
+    lateinit var secretRepository: SecretRepository
 
     val keyAgreement: KeyAgreement = KeyAgreement.getInstance("ECDH")
 
     var sharedSecret: ByteArray? = null
 
-    fun setReceiverPublicKey(publicKeyString: String) {
-        initKeyAgreement()
+    val compositeDisposable = CompositeDisposable()
 
+    fun setReceiverPublicKey(publicKeyString: String) {
         keyAgreement.doPhase(publicKeyString.toPublicKey(), true)
         sharedSecret = keyAgreement.generateSecret()
     }
 
-    private fun initKeyAgreement() {
-        if (secretMessageCache.getCurrentUserPrivateKey().isEmpty()) {
+    fun init(receiverUserId: String) {
+
+        if (secretRepository.getCurrentUserPrivateKey().isEmpty()) {
             val pair = generatePairKey()
-            secretMessageCache.saveCurrentUserPrivateKey(pair.private.getString())
-            secretMessageCache.saveCurrentUserPublicKey(pair.public.getString())
+            secretRepository.saveCurrentUserPrivateKey(pair.private.getString())
+            compositeDisposable.add(secretRepository.saveCurrentUserPublicKey(pair.public.getString()).subscribe())
             keyAgreement.init(pair.private)
-            Log.i("DiffieHellman", "initKeyAgreement: ${pair.public.getString()}")
-            Log.i("DiffieHellman", "initKeyAgreement: ${secretMessageCache.getCurrentUserPublicKey()}")
-
-            Log.i("DiffieHellman", "initKeyAgreement: ${pair.private.getString() == secretMessageCache.getCurrentUserPrivateKey()}")
-
         } else {
-            keyAgreement.init(secretMessageCache.getCurrentUserPrivateKey().toPrivateKey())
+            keyAgreement.init(secretRepository.getCurrentUserPrivateKey().toPrivateKey())
         }
+
+        secretRepository.getPublicKey(receiverUserId)
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : SingleObserver<String> {
+                    override fun onSubscribe(d: Disposable) {
+                        compositeDisposable.add(d)
+                    }
+
+                    override fun onSuccess(s: String) {
+                        setReceiverPublicKey(s)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Log.e("DiffieHellman", "onError: get public key", e)
+                    }
+                })
     }
 
     fun encrypt(msg: String): String {
@@ -94,6 +112,10 @@ class DiffieHellman @Inject constructor() {
         val kpg = KeyPairGenerator.getInstance("EC")
         kpg.initialize(256)
         return kpg.generateKeyPair()
+    }
+
+    fun dispose() {
+        compositeDisposable.dispose()
     }
 
     companion object {

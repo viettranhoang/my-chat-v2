@@ -9,6 +9,7 @@ public class Constants {
     public static final String TABLE_GROUP = "groups";
     public static final String TABLE_IMAGE = "images";
     public static final String TABLE_SECRET_MESSSAGE = "secret_messages";
+    public static final String TABLE_PUBLIC_KEY = "public_keys";
 
 
     public static final String ROW_MEMBERS = "members";

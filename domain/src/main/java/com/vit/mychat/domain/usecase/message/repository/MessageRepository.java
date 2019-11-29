@@ -13,5 +13,7 @@ public interface MessageRepository {
 
     Completable sendMessage(String userId, String message, String type);
 
+    Completable sendSecretMessage(String userId, String message, String type);
+
 
 }

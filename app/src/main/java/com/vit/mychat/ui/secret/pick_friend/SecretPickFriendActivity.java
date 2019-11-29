@@ -14,7 +14,7 @@ import com.vit.mychat.presentation.feature.user.GetFriendListViewModel;
 import com.vit.mychat.presentation.feature.user.config.UserRelationshipConfig;
 import com.vit.mychat.presentation.feature.user.model.UserViewData;
 import com.vit.mychat.ui.base.BaseActivity;
-import com.vit.mychat.ui.message.MessageActivity;
+import com.vit.mychat.ui.message_secret.MessageSecretActivity;
 import com.vit.mychat.ui.profile.ProfileActivity;
 import com.vit.mychat.ui.secret.pick_friend.adapter.SecretPickFriendAdapter;
 import com.vit.mychat.ui.secret.pick_friend.listener.OnClickSecretItemListener;
@@ -101,7 +101,7 @@ public class SecretPickFriendActivity extends BaseActivity implements OnClickSec
 
     @Override
     public void onClickSearchItem(UserViewData userViewData) {
-        MessageActivity.moveMessageActivity(this, userViewData);
+        MessageSecretActivity.moveMessageSecretActivity(this, userViewData);
     }
 
     @Override
