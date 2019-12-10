@@ -8,6 +8,8 @@
     <string name="bot">Tin nhắn bí mật</string>
 
     <string name="tim_kiem">Tìm kiếm</string>
+
+    <string name="error">Đã có lỗi xảy ra, vui lòng thử lại sau</string>
     
     // Login
     <string name="dang_nhap">Đăng nhập</string>

@@ -3,7 +3,6 @@ package com.vit.mychat.ui.auth;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -141,6 +140,12 @@ public class AuthActivity extends BaseActivity {
         String email = mInputEmail.getText().toString();
         String password = mInputPassword.getText().toString();
 
+        String errorInform = validInput(email, password, null);
+        if (errorInform != null) {
+            showToast(errorInform);
+            return;
+        }
+
         authViewModel.login(email, password)
                 .observe(this, resource -> {
                     switch (resource.getStatus()) {
@@ -156,7 +161,8 @@ public class AuthActivity extends BaseActivity {
 
                         case ERROR:
                             dismissHUD();
-                            showToast(resource.getThrowable().getMessage());
+                            Log.e(TAG, "onClickLogin: ", resource.getThrowable());
+                            showToast(R.string.error);
                             break;
                     }
                 });
@@ -189,7 +195,8 @@ public class AuthActivity extends BaseActivity {
 
                                 case ERROR:
                                     dismissHUD();
-                                    showToast(resource.getThrowable().getMessage());
+                                    Log.e(TAG, "onClickRegister: ", resource.getThrowable());
+                                    showToast(R.string.error);
                                     break;
                             }
                         });
@@ -222,7 +229,7 @@ public class AuthActivity extends BaseActivity {
 
     @OnTextChanged({R.id.input_email, R.id.input_password})
     void onTextChanged() {
-        if (validInput(mInputEmail.getText().toString(), mInputPassword.getText().toString(), null) == null) {
+        /*if (validInput(mInputEmail.getText().toString(), mInputPassword.getText().toString(), null) == null) {
             mButtonLogin.setBackgroundResource(R.drawable.round_corner_blue_16);
             mButtonLogin.setTextColor(Color.WHITE);
             mButtonLogin.setClickable(true);
@@ -230,7 +237,7 @@ public class AuthActivity extends BaseActivity {
             mButtonLogin.setBackgroundResource(R.drawable.round_corner_gray_16);
             mButtonLogin.setTextColor(getResources().getColor(R.color.black20));
             mButtonLogin.setClickable(false);
-        }
+        }*/
     }
 
     private void switchRegisterUi(boolean isRegister) {

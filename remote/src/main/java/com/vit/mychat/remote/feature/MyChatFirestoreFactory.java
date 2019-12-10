@@ -65,7 +65,6 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     private DatabaseReference groupDatabase;
     private DatabaseReference database;
     private FirebaseAuth auth;
-    private String currentUserId;
 
     @Inject
     public MyChatFirestoreFactory() {
@@ -79,7 +78,6 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
         secretMessageDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(Constants.TABLE_SECRET_MESSSAGE);
         groupDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(TABLE_GROUP);
         publicKeyDatabase = FirebaseDatabase.getInstance().getReference(Constants.TABLE_DATABASE).child(TABLE_PUBLIC_KEY);
-        currentUserId = auth.getUid();
 
         userDatabase.keepSynced(true);
         friendDatabase.keepSynced(true);
@@ -173,7 +171,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<UserModel> listUser = new ArrayList<>();
 
-                        for (DataSnapshot data : dataSnapshot.child(TABLE_FRIEND).child(currentUserId).getChildren()) {
+                        for (DataSnapshot data : dataSnapshot.child(TABLE_FRIEND).child(auth.getUid()).getChildren()) {
 
                             if (data.getValue(String.class).contains(type)) {
                                 String idFriend = data.getKey();
@@ -193,7 +191,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 
     @Override
     public void setOnline(boolean isOnline) {
-        userDatabase.child(currentUserId).child("online").setValue(isOnline ? 1 : System.currentTimeMillis());
+        userDatabase.child(auth.getUid()).child("online").setValue(isOnline ? 1 : System.currentTimeMillis());
     }
 
 
@@ -234,11 +232,11 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     @Override
     public Observable<List<MessageModel>> getMessageList(String userId) {
         //set last message seen true
-        messageDatabase.child(currentUserId).child(userId).limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+        messageDatabase.child(auth.getUid()).child(userId).limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    messageDatabase.child(currentUserId).child(userId).child(data.getKey()).child("seen").setValue(true);
+                    messageDatabase.child(auth.getUid()).child(userId).child(data.getKey()).child("seen").setValue(true);
                 }
             }
 
@@ -246,20 +244,20 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        return RxFirebase.getList(messageDatabase.child(currentUserId).child(userId), MessageModel.class);
+        return RxFirebase.getList(messageDatabase.child(auth.getUid()).child(userId), MessageModel.class);
     }
 
     @Override
     public Completable sendMessage(String userId, String message, String type) {
         return Completable.create(emitter -> {
-            MessageModel messageModel = new MessageModel(message, currentUserId, false, System.currentTimeMillis(), type, CURRENT_USER_AVATAR);
-            String key = messageDatabase.child(currentUserId).child(userId).push().getKey();
+            MessageModel messageModel = new MessageModel(message, auth.getUid(), false, System.currentTimeMillis(), type, CURRENT_USER_AVATAR);
+            String key = messageDatabase.child(auth.getUid()).child(userId).push().getKey();
 
             Map<String, Object> map = new HashMap<>();
 
             if (!userId.contains(GROUP_ID)) {
-                map.put(String.format(Constants.CHILDREN, currentUserId, userId, key), messageModel.toMap());
-                map.put(String.format(Constants.CHILDREN, userId, currentUserId, key), messageModel.toMap());
+                map.put(String.format(Constants.CHILDREN, auth.getUid(), userId, key), messageModel.toMap());
+                map.put(String.format(Constants.CHILDREN, userId, auth.getUid(), key), messageModel.toMap());
 
                 messageDatabase.updateChildren(map, (databaseError, databaseReference) -> {
                     if (!emitter.isDisposed()) {
@@ -301,14 +299,14 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     @Override
     public Completable sendSecretMessage(String userId, String message, String type) {
         return Completable.create(emitter -> {
-                    MessageModel messageModel = new MessageModel(message, currentUserId, false, System.currentTimeMillis(), type, CURRENT_USER_AVATAR);
-                    String key = secretMessageDatabase.child(currentUserId).child(userId).push().getKey();
+                    MessageModel messageModel = new MessageModel(message, auth.getUid(), false, System.currentTimeMillis(), type, CURRENT_USER_AVATAR);
+                    String key = secretMessageDatabase.child(auth.getUid()).child(userId).push().getKey();
 
                     Map<String, Object> map = new HashMap<>();
 
                     if (!userId.contains(GROUP_ID)) {
-                        map.put(String.format(Constants.CHILDREN, currentUserId, userId, key), messageModel.toMap());
-                        map.put(String.format(Constants.CHILDREN, userId, currentUserId, key), messageModel.toMap());
+                        map.put(String.format(Constants.CHILDREN, auth.getUid(), userId, key), messageModel.toMap());
+                        map.put(String.format(Constants.CHILDREN, userId, auth.getUid(), key), messageModel.toMap());
 
                         secretMessageDatabase.updateChildren(map, (databaseError, databaseReference) -> {
                             if (!emitter.isDisposed()) {
@@ -325,7 +323,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
 
     @Override
     public Observable<List<MessageModel>> getSecretMessageList(String userId) {
-        return RxFirebase.getList(secretMessageDatabase.child(currentUserId).child(userId), MessageModel.class);
+        return RxFirebase.getList(secretMessageDatabase.child(auth.getUid()).child(userId), MessageModel.class);
     }
 
 
@@ -340,8 +338,8 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<ChatModel> listChat = new ArrayList<>();
 
-                        if (currentUserId != null) {
-                            for (DataSnapshot data : dataSnapshot.child(TABLE_MESSAGE).child(currentUserId).getChildren()) {
+                        if (auth.getUid() != null) {
+                            for (DataSnapshot data : dataSnapshot.child(TABLE_MESSAGE).child(auth.getUid()).getChildren()) {
 
                                 ChatModel chatModel = new ChatModel();
 
@@ -386,8 +384,8 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<ChatModel> listChat = new ArrayList<>();
 
-                        if (currentUserId != null) {
-                            for (DataSnapshot data : dataSnapshot.child(TABLE_SECRET_MESSSAGE).child(currentUserId).getChildren()) {
+                        if (auth.getUid() != null) {
+                            for (DataSnapshot data : dataSnapshot.child(TABLE_SECRET_MESSSAGE).child(auth.getUid()).getChildren()) {
 
                                 ChatModel chatModel = new ChatModel();
 
@@ -434,7 +432,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<String> list = new ArrayList<>();
 
-                        for (DataSnapshot data : dataSnapshot.child(TABLE_FRIEND).child(currentUserId).getChildren()) {
+                        for (DataSnapshot data : dataSnapshot.child(TABLE_FRIEND).child(auth.getUid()).getChildren()) {
 
                             if (data.getValue(String.class).contains(FRIEND_TYPE)) {
                                 String idFriend = data.getKey();
@@ -474,8 +472,8 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                 }
             });
 
-            MessageModel messageModel = new MessageModel("Hi", currentUserId, true, System.currentTimeMillis(), "text", CURRENT_USER_AVATAR);
-            String key = messageDatabase.child(currentUserId).child(groupModel.getId()).push().getKey();
+            MessageModel messageModel = new MessageModel("Hi", auth.getUid(), true, System.currentTimeMillis(), "text", CURRENT_USER_AVATAR);
+            String key = messageDatabase.child(auth.getUid()).child(groupModel.getId()).push().getKey();
             Map<String, Object> map = new HashMap<>();
             for (String member : groupModel.getMembers()) {
                 map.put(String.format(Constants.CHILDREN, member, groupModel.getId(), key), messageModel.toMap());
@@ -505,7 +503,7 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     @Override
     public Single<String> updateImage(File image, String type) {
         return Single.create(emitter -> {
-            StorageReference filePath = storage.child(TABLE_IMAGE).child(currentUserId).child(type)
+            StorageReference filePath = storage.child(TABLE_IMAGE).child(auth.getUid()).child(type)
                     .child(Utils.getRandomString() + JPG_IMAGE);
 
             filePath.putFile(Uri.fromFile(image))

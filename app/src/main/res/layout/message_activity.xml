@@ -49,6 +49,7 @@
         <ImageView
             android:id="@+id/image_mic"
             style="@style/MessageImageItem"
+            android:visibility="gone"
             android:layout_marginLeft="@dimen/_15dp"
             android:layout_marginBottom="@dimen/_13dp"
             android:layout_toRightOf="@+id/image_picture"

@@ -47,10 +47,9 @@
         android:id="@+id/button_login"
         style="@style/ButtonMain"
         android:layout_marginTop="@dimen/_8dp"
-        android:background="@drawable/round_corner_gray_16"
+        android:background="@drawable/round_corner_blue_16"
         android:text="@string/dang_nhap"
-        android:clickable="false"
-        android:textColor="@color/black20" />
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/button_register"
@@ -94,6 +93,7 @@
 
     <TextView
         android:id="@+id/text_forget_password"
+        android:visibility="gone"
         style="@style/TextTitle"
         android:layout_marginBottom="@dimen/margin_secondary"
         android:text="@string/quen_mat_khau"

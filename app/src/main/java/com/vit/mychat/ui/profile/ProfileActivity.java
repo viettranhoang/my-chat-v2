@@ -28,6 +28,7 @@ import com.vit.mychat.ui.auth.AuthActivity;
 import com.vit.mychat.ui.base.BaseActivity;
 import com.vit.mychat.ui.base.module.GlideApp;
 import com.vit.mychat.ui.message.MessageActivity;
+import com.vit.mychat.ui.message_secret.MessageSecretActivity;
 import com.vit.mychat.util.RoundedCornersTransformation;
 
 import java.io.File;
@@ -64,7 +65,7 @@ public class ProfileActivity extends BaseActivity {
     @BindView(R.id.image_background)
     ImageView mImageBackground;
 
-    @BindView(R.id.image_call)
+    @BindView(R.id.image_secret_chat)
     ImageView mImageCall;
 
     @BindView(R.id.text_call)
@@ -248,6 +249,11 @@ public class ProfileActivity extends BaseActivity {
         MessageActivity.moveMessageActivity(this, mUserViewData);
     }
 
+    @OnClick(R.id.image_secret_chat)
+    void onClickSecretMessage() {
+        MessageSecretActivity.moveMessageSecretActivity(this, mUserViewData);
+    }
+
     private void getRelationship() {
         getUserRelationshipViewModel.getUserRelationship(authViewModel.getCurrentUserId(), mUserId).observe(this, resource -> {
             switch (resource.getStatus()) {
@@ -334,10 +340,9 @@ public class ProfileActivity extends BaseActivity {
                 case SUCCESS:
                     dismissHUD();
                     String imageUrl = (String) resource.getData();
-                    if (mImageType == ImageTypeConfig.AVATAR) {
+                    if (mImageType.equals(ImageTypeConfig.AVATAR)) {
                         mUserViewData.setAvatar(imageUrl);
-                    }
-                    mUserViewData.setCover(imageUrl);
+                    } else mUserViewData.setCover(imageUrl);
                     updateUserViewModel.updateUser(mUserViewData);
                     break;
                 case ERROR:

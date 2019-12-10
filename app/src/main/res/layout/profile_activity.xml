@@ -139,10 +139,10 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/image_call"
+                    android:id="@+id/image_secret_chat"
                     style="@style/ProfileImageItem"
                     android:padding="@dimen/_9dp"
-                    android:src="@drawable/ic_call" />
+                    android:src="@drawable/ic_message_lock" />
 
                 <ImageView
                     android:id="@+id/image_logout"
@@ -154,7 +154,7 @@
                 <TextView
                     android:id="@+id/text_call"
                     style="@style/TextTitle"
-                    android:text="Gọi"
+                    android:text="Tin nhắn bí mật"
                     android:textSize="@dimen/text_min" />
             </LinearLayout>
         </LinearLayout>
