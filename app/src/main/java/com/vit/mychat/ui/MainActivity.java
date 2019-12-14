@@ -158,7 +158,7 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 case R.id.menu_chat:
                     switchFragment(ChatFragment.newInstance(), ChatFragment.TAG, false, false);
-                    setUpScreen(R.string.chat, View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
+                    setUpScreen(R.string.chat, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                     return true;
 
                 case R.id.menu_friends:

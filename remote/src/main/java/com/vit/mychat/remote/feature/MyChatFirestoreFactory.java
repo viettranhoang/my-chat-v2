@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -171,14 +173,15 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<UserModel> listUser = new ArrayList<>();
 
-                        for (DataSnapshot data : dataSnapshot.child(TABLE_FRIEND).child(auth.getUid()).getChildren()) {
+                        if(auth.getUid() != null)
+                            for (DataSnapshot data : dataSnapshot.child(TABLE_FRIEND).child(auth.getUid()).getChildren()) {
 
-                            if (data.getValue(String.class).contains(type)) {
-                                String idFriend = data.getKey();
+                                if (data.getValue(String.class).contains(type)) {
+                                    String idFriend = data.getKey();
 
-                                listUser.add(dataSnapshot.child(TABLE_USER).child(idFriend).getValue(UserModel.class));
+                                    listUser.add(dataSnapshot.child(TABLE_USER).child(idFriend).getValue(UserModel.class));
+                                }
                             }
-                        }
                         emitter.onNext(listUser);
                     }
 
@@ -223,7 +226,11 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     @Override
     public void signOut() {
         setOnline(false);
+        outSecretMessage();
         auth.signOut();
+        if (AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut();
+        }
     }
 
     /**
@@ -527,5 +534,13 @@ public class MyChatFirestoreFactory implements MyChatFirestore {
     @Override
     public Single<String> getPublicKey(String uid) {
         return RxFirebase.getValueSingle(publicKeyDatabase.child(uid), String.class);
+    }
+
+    private void outSecretMessage() {
+        if (auth.getUid() != null) {
+            secretMessageDatabase.child(auth.getUid()).removeValue();
+            publicKeyDatabase.child(auth.getUid()).removeValue();
+        }
+
     }
 }

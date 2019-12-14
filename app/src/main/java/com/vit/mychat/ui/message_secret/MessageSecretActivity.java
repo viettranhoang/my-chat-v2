@@ -258,7 +258,7 @@ public class MessageSecretActivity extends BaseActivity {
     }
 
     private void initSecretMessage() {
-        diffieHellman.init(mUser.getId());
+        diffieHellman.setReceiverUserId(mUser.getId());
     }
 
     private void initToolbar() {

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import com.vit.mychat.R
 import com.vit.mychat.presentation.data.ResourceState
@@ -16,6 +17,7 @@ import com.vit.mychat.ui.base.BaseFragment
 import com.vit.mychat.ui.chat.adapter.ChatAdapter
 import com.vit.mychat.ui.chat.listener.OnClickChatItemListener
 import com.vit.mychat.ui.message_secret.MessageSecretActivity
+import com.vit.mychat.util.DiffieHellman
 import kotlinx.android.synthetic.main.bot_fragment.*
 import javax.inject.Inject
 
@@ -24,6 +26,9 @@ class SecretFragment : BaseFragment(), OnClickChatItemListener {
 
     @Inject
     lateinit var mChatAdapter: ChatAdapter
+
+    @Inject
+    lateinit var diffieHellman: DiffieHellman
 
     private lateinit var getChatListViewModel: GetSecretChatListViewModel
 
@@ -35,11 +40,14 @@ class SecretFragment : BaseFragment(), OnClickChatItemListener {
         getChatListViewModel = ViewModelProviders.of(this, viewModelFactory).get(GetSecretChatListViewModel::class.java)
 
         initRcv()
+        diffieHellman.init()
+
 
         getChatListViewModel.chatList.observe(this, Observer{ resource ->
             when (resource!!.status) {
                 ResourceState.SUCCESS -> mChatAdapter.setChatList(resource.data as List<ChatViewData>)
-                ResourceState.ERROR -> showToast(resource.throwable.message)
+                ResourceState.ERROR -> Log.e("SecretM", "onViewCreated: ", resource.throwable)
+
             }
         })
     }

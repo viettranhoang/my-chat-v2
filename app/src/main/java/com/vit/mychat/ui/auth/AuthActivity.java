@@ -209,12 +209,14 @@ public class AuthActivity extends BaseActivity {
     void onClickGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
+        showHUD();
     }
 
     @OnClick(R.id.image_facebook)
     void onClickFacebook() {
         LoginManager.getInstance().logInWithReadPermissions(this,
                 Arrays.asList("public_profile"));
+        showHUD();
     }
 
     @OnFocusChange({R.id.input_password_confirm, R.id.input_password, R.id.input_email})
@@ -279,7 +281,8 @@ public class AuthActivity extends BaseActivity {
 
             @Override
             public void onError(FacebookException error) {
-                Log.e(TAG, "onError: Login failed");
+                dismissHUD();
+                Log.e(TAG, "onError: Login failed", error);
             }
         });
     }
@@ -288,6 +291,8 @@ public class AuthActivity extends BaseActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        dismissHUD();
+
                         authViewModel.setCurrentUserId(mAuth.getUid());
                         if (task.getResult().getAdditionalUserInfo().isNewUser()) {
                             registerInfoNewUser(mAuth.getUid());

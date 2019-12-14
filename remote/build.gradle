@@ -50,6 +50,7 @@ dependencies {
     implementation remoteDependencies.googleAuth
     implementation remoteDependencies.firebaseFirestore
     implementation remoteDependencies.firebaseStorage
+    implementation remoteDependencies.facebookSdk
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 

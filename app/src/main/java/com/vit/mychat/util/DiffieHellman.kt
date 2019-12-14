@@ -39,8 +39,7 @@ class DiffieHellman @Inject constructor() {
         sharedSecret = keyAgreement.generateSecret()
     }
 
-    fun init(receiverUserId: String) {
-
+    fun init() {
         if (secretRepository.getCurrentUserPrivateKey().isEmpty()) {
             val pair = generatePairKey()
             secretRepository.saveCurrentUserPrivateKey(pair.private.getString())
@@ -49,6 +48,9 @@ class DiffieHellman @Inject constructor() {
         } else {
             keyAgreement.init(secretRepository.getCurrentUserPrivateKey().toPrivateKey())
         }
+    }
+
+    fun setReceiverUserId(receiverUserId: String) {
 
         secretRepository.getPublicKey(receiverUserId)
                 .observeOn(Schedulers.io())
@@ -105,6 +107,7 @@ class DiffieHellman @Inject constructor() {
     }
 
     private fun generateKey(): Key {
+
         return SecretKeySpec(sharedSecret, ALGO)
     }
 

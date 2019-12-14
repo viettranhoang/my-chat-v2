@@ -136,7 +136,6 @@ public class RequestReceiveActivity extends BaseActivity implements OnClickReque
                     break;
                 case ERROR:
                     dismissHUD();
-                    showToast(resource.getThrowable().getMessage());
                     break;
             }
         });

@@ -26,6 +26,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
 
 @PerFragment
 public class FriendNewsAdapter extends RecyclerView.Adapter<FriendNewsAdapter.FriendNewsViewHolder> {
@@ -43,7 +44,11 @@ public class FriendNewsAdapter extends RecyclerView.Adapter<FriendNewsAdapter.Fr
 
     public void setList(List<UserViewData> listFriendNews) {
         listFriendNews.add(0, Constants.CURRENT_USER);
-        this.mListFriendNews = listFriendNews;
+
+        this.mListFriendNews = Observable.fromIterable(listFriendNews)
+                .filter(userViewData -> !userViewData.getNews().isEmpty())
+                .toList()
+                .blockingGet();
         notifyDataSetChanged();
     }
 

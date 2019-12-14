@@ -69,6 +69,11 @@ dependencies {
     annotationProcessor uiDependencies.parcelerProcessor
     implementation uiDependencies.photoView
     implementation uiDependencies.imagePicker
+    implementation uiDependencies.firebaseCore
+    implementation uiDependencies.firebaseDatabase
+    implementation uiDependencies.firebaseAuth
+    implementation uiDependencies.googleAuth
+    implementation uiDependencies.facebookSdk
 
 
     testImplementation testDependencies.junit
@@ -85,13 +90,8 @@ dependencies {
 
 
 // Firebase
-    implementation "com.google.firebase:firebase-core:$rootProject.firebaseCoreVersion"
-    implementation "com.google.firebase:firebase-database:$rootProject.firebaseDatabaseVersion"
-    implementation "com.google.firebase:firebase-auth:$rootProject.firebaseAuthVersion"
-    implementation "com.google.android.gms:play-services-auth:$rootProject.googleAuthVersion"
     implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.3.0'
     implementation 'com.google.firebase:firebase-messaging:17.6.0'
-    implementation 'com.facebook.android:facebook-login:[4,5)'
 
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

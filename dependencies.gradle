@@ -41,7 +41,7 @@ ext {
     firebaseFirestoreVersion = '18.2.0'
     firebaseUiAuthVersion = '4.3.1'
     firebaseStorageVersion = '16.1.0'
-    facebookSdkVersion = '4.41.0'
+    facebookSdkVersion = '[5,6)'
     kProgressHUDVersion = '1.2.0'
     materialDialogsVersion = '0.9.6.0'
     parcelerVersion = '1.1.11'
@@ -136,7 +136,12 @@ ext {
             parceler              : "org.parceler:parceler-api:${parcelerVersion}",
             parcelerProcessor     : "org.parceler:parceler:${parcelerVersion}",
             photoView             : "com.github.chrisbanes:PhotoView:${photoViewVersion}",
-            imagePicker           : "com.github.dhaval2404:imagepicker-support:${imagePickerVersion}"
+            imagePicker           : "com.github.dhaval2404:imagepicker-support:${imagePickerVersion}",
+            firebaseCore         : "com.google.firebase:firebase-core:${firebaseCoreVersion}",
+            firebaseDatabase     : "com.google.firebase:firebase-database:${firebaseDatabaseVersion}",
+            firebaseAuth         : "com.google.firebase:firebase-auth:${firebaseAuthVersion}",
+            googleAuth           : "com.google.android.gms:play-services-auth:${googleAuthVersion}",
+            facebookSdk          : "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}"
     ]
 
     testDependencies = [
